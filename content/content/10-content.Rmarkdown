@@ -1,0 +1,41 @@
+---
+title: "Análisis de Senderos I"
+linktitle: "10: Análisis de Senderos I"
+date: "2024-06-10"
+start_date: "2024-06-10"
+end_date: "2024-06-10"
+menu:
+  content:
+    parent: Contenido
+    weight: 10
+type: docs
+toc: true
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+slides: "Clase PA"
+---
+
+```{r slides-videos, echo=FALSE, include=FALSE}
+source(here::here("R", "slide-tabs.R"))
+
+slide_details <- tibble::tribble(
+  ~title, ~slide, ~active,
+  "Análisis de Senderos I", "1", TRUE,
+   "", "14", FALSE,
+   "", "29", FALSE
+)
+```
+
+# Slides
+
+`r blogdown::shortcode("slide-buttons")`
+
+```{r show-slide-tabs, echo=FALSE, results="asis"}
+slide_tabs(slide_details, "/slides/Clase PA.html")
+```
+
+{{% div fyi %}}
+**¿Cómo ocupar**: Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver los comandos específicos para navegar en ellas.
+{{% /div %}}
+
+

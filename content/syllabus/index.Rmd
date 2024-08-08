@@ -36,12 +36,18 @@ Lunes 10:00-11:20 // Taller grupo 1
 Lunes 11:30-12:50 // Taller grupo 2
 
 
-**Sala:** Plenaria: Sala 202, Ejército 233
-Talleres: Laboratorio de computación 2do piso, Facultad de CCSS, Ejército 333
+**Sala:**  
+Plenaria: Sala 603, Ejército 233 
+Talleres: Laboratorio de computación 2do piso, Facultad de CCSS, Ejército 333 
+
+**Ayudantías:** 
+
+Sección 1: Lunes 14:30- 15:50 Lab. Computación piso 3 
+Sección 2: Lunes 14:30-15:50 Lab. Computación piso 2 
 
 **Asistencia:** 	Obligatoria (70%) 
 
-**Docente:** Profesor: Gabriel
+**Docente:** Profesor: Gabriel Sotomayor
 [gabriel.sotomayor\@mail.udp.cl](gabriel.sotomayor@mail.udp.cl)
 
 **Ayudantes:** Patricio Alarcón

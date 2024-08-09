@@ -6,8 +6,20 @@ $link-color: #42affa;
 
 /*-- scss:rules --*/
 
-.reveal .slide blockquote {
-  border-left: 3px solid $text-muted;
-  padding-left: 0.5em;
+.reveal .slides section {
+  text-align: justify;
 }
 
+.reveal .slides h1, 
+.reveal .slides h2, 
+.reveal .slides h3, 
+.reveal .slides h4, 
+.reveal .slides h5, 
+.reveal .slides h6 {
+  text-align: left; /* Para que los encabezados no se justifiquen */
+}
+
+/* Aplica el color morado a los títulos h2 en diapositivas claras */
+.reveal .slides section:not(.dark-background) h2 {
+  color: #a050a0;
+}

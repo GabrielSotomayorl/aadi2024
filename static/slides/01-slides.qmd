@@ -10,12 +10,11 @@ format:
 editor: visual
 ---
 
-
 ## Presentación {background-color="white"}
 
-El curso aborda las principales técnicas para establecer relaciones entre variables. Se enfatizan la comprensión de procedimientos e interpretación de resultados, así como el uso de herramientas computacionales, en particular **R y RStudio**. El curso requiere de una formación básica previa en el análisis de datos estadísticos, tiene una orientación aplicada al análisis de datos multivariados en ciencias sociales.
+El curso aborda las principales técnicas para establecer relaciones entre variables. Se enfatizan la comprensión de procedimientos e interpretación de resultados, así como el uso de herramientas computacionales, en particular [**R y RStudio**]{style="color:#a050a0;"}. El curso requiere de una formación básica previa en el análisis de datos estadísticos, tiene una orientación aplicada al análisis de datos multivariados en ciencias sociales.
 
-## Resultados de Aprendizaje {.smaller background-color="white"}
+## Resultados de Aprendizaje{.smaller background-color="white"}
 
 **Resultado general:** Entregar herramientas para que las personas puedan abordar el análisis de datos tanto de dependencia como de interdependencia v desde la estadística multivariante, elaborando y probando hipótesis y desarrollando modelos explicativos de determinados fenómenos de estudio. Las personas estudiantes aprenderán los métodos de análisis de datos más habituales, y realizarán prácticas en programas estadísticos, principalmente R.
 
@@ -29,7 +28,7 @@ El enfoque del curso será aplicado e irá dirigido a la utilización crítica d
 -   Identificar las situaciones en que se utilizan cada una las técnicas estadísticas multivariadas, justificar el uso de éstas y ser capaz de analizar e interpretar los resultados obtenidos.
 -   Demostrar una lectura crítica del análisis multivariado de datos en ciencias sociales.
 
-## Contenidos {.smaller}
+## Contenidos {.smaller .dark-background}
 
 +---------------------------------------------------------+----------------------------------------------------+
 | **1) Uso de modelos estadísticos en Ciencias Sociales** |                                                    |
@@ -44,7 +43,7 @@ El enfoque del curso será aplicado e irá dirigido a la utilización crítica d
 |                                                         |                                                    |
 |                                                         | Cálculo de la mejor ecuación de regresión múltiple |
 |                                                         |                                                    |
-|                                                         | Coeficientes “beta” estandarizados                 |
+|                                                         | Coeficientes "beta" estandarizados                 |
 |                                                         |                                                    |
 |                                                         | Variables ficticias o dummy                        |
 |                                                         |                                                    |
@@ -57,7 +56,7 @@ El enfoque del curso será aplicado e irá dirigido a la utilización crítica d
 |                                                         | Interpretaciones                                   |
 +---------------------------------------------------------+----------------------------------------------------+
 
-## Contenidos {.smaller}
+## Contenidos {.smaller .dark-background}
 
 +-----------------------------------------------+-----------------------------------------------------+
 | **3) Modelos de Regresión Logística Binaria** | · Introducción                                      |
@@ -77,7 +76,7 @@ El enfoque del curso será aplicado e irá dirigido a la utilización crítica d
 |                                               | · Interpretaciones                                  |
 +-----------------------------------------------+-----------------------------------------------------+
 
-## Contenidos {.smaller}
+## Contenidos {.smaller .dark-background}
 
 +--------------------------------------------+--------------------------------------------+
 | **4) Análisis de Conglomerados**           | · ¿Qué es un conglomerado?                 |
@@ -105,7 +104,7 @@ El enfoque del curso será aplicado e irá dirigido a la utilización crítica d
 
 ## Bibliografía {.smaller background-color="white"}
 
--   Cea D’Ancona, M. (2002). Análisis multivariable: teoría y práctica de la investigación Social. Madrid: Editorial Síntesis Sociológica.
+-   Cea D'Ancona, M. (2002). Análisis multivariable: teoría y práctica de la investigación Social. Madrid: Editorial Síntesis Sociológica.
 -   Camarero (2017). Regresión Logística: Fundamentos y aplicación a la investigación sociológica
 -   Darlington, R. B., & Hayes, A. F. (2017). Regression analysis and linear models: concepts, applications, and implementation. Guilford Press
 -   Hair, J., Anderson, R., Tatham, R., & Black, W. (1999). Análisis multivariante. Madrid: Editorial Prentice Hall.
@@ -115,7 +114,7 @@ El enfoque del curso será aplicado e irá dirigido a la utilización crítica d
 -   Wooldridge, J. M. (2008). Introducción a la econometría: un enfoque moderno. Paraninfo Cengage Learning.
 -   Wickham, H. (2017). R para Ciencia de Datos https://es.r4ds.hadley.nz/index.html
 
-## Evaluaciones
+## Evaluaciones {.smaller .dark-background}
 
 -   2 pruebas solemnes (15% y 25% c/u, 40% total).\
 -   2 reportes de investigación (20% c/u, 40% total).\
@@ -144,7 +143,7 @@ Están disponibles para responder las dudas que puedan tener a lo largo del curs
 
 ![](img/01/pagina.png)
 
-## Delegado/a de curso
+## Delegado/a de curso {.dark-background}
 
 Las comunicaciones del curso con el equipo docente para temas colectivos deberán gestionarse de manera centralizada mediante un/a delegado/a, especialmente considerando que hay estudiante de distintas generaciones. Esto es particularmente relevante para solicitudes respecto a evaluaciones.
 
@@ -153,4 +152,3 @@ Las comunicaciones del curso con el equipo docente para temas colectivos deberá
 ## Objetivo de la sesión {.center background-color="white"}
 
 Reflexionar sobre el sentido del uso de estadística (multivariada) y modelos en Ciencias Sociales
-

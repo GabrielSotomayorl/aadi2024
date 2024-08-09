@@ -1,9 +1,9 @@
 ---
-title: "Introducción al curso Análisis avanzado de datos II"
-linktitle: "1: Introducción al curso Análisis avanzado de datos II"
-date: "2022-03-14"
-start_date: "2022-03-14"
-end_date: "2022-03-18"
+title: "Introducción al curso Análisis avanzado de datos"
+linktitle: "1: Introducción al curso Análisis avanzado de datos"
+date: "2024-08-12"
+start_date: "2024-08-12"
+end_date: "2024-08-12"
 menu:
   content:
     parent: Contenido
@@ -20,7 +20,7 @@ source(here::here("R", "slide-tabs.R"))
 
 slide_details <- tibble::tribble(
   ~title, ~slide, ~active,
-  "Introducción al curso Análisis avanzado de datos II", "1", TRUE
+  "Introducción al curso Análisis avanzado de datos", "0", TRUE
 )
 ```
 
@@ -32,18 +32,8 @@ slide_details <- tibble::tribble(
 slide_tabs(slide_details, "/slides/01-slides.html")
 ```
 
-{{% div fyi %}}
-**¿Cómo ocupar**: Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver los comandos específicos para navegar en ellas.
-{{% /div %}}
+{{% div fyi %}} **¿Cómo ocupar**: Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver los comandos específicos para navegar en ellas. {{% /div %}}
 
 # Materiales de la clase
 
-- [<i class="fas fa-laptop-code"></i> Práctico](https://aadii2023.netlify.app/example/01-practico/)
-
-
-# Recomendaciones 
-
-- <i class="fas fa-book"></i> Hadley Wickham, ["Data Science: How is it Different To Statistics?"](http://bulletin.imstat.org/2014/09/data-science-how-is-it-different-to-statistics%E2%80%89/) 
-
-
-
+-   [<i class="fas fa-laptop-code"></i> Práctico](https://aadi2024.netlify.app/example/01-practico/)

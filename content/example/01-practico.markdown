@@ -1,11 +1,11 @@
 ---
-title: "2. Uso de bases de datos en R, estadística descriptiva y visualización"
-linktitle: "2. Uso de bases de datos en R, estadística descriptiva y visualización"
-date: "2024-03-18"
+title: "1. Uso de bases de datos en R, estadística descriptiva y visualización"
+linktitle: "1. Uso de bases de datos en R, estadística descriptiva y visualización"
+date: "2024-08-12"
 menu:
   example:
     parent: Ejemplos
-    weight: 2
+    weight: 1
 type: docs
 toc: true
 editor_options:
@@ -23,7 +23,8 @@ Cuando descargamos e instalamos R este contiene una cantidad limitada de funcion
 
 En la siguiente práctica queremos usar la base de datos de CASEN, la cuál está disponible en formato .sav (SPPS) y .dta (STATA), formatos que no son soportados por la versión base de R. Para poder cargar la base de datos como un objeto en R usaremos el paquete **haven**, el cual incluye funciones para cargar datos a R en diversos formatos.  
 
-```{r}
+
+```r
 # install.packages("haven") 
 #este comando nos permite instalar paquetes alojados en CRAN 
 library(haven) #Este comando nos permite ejecutar el paquete
@@ -31,7 +32,8 @@ library(haven) #Este comando nos permite ejecutar el paquete
 
 Una vez cargado el paquete debemos descargar la base de datos y ubicarla en nuestro computador para poder cargarla con la función **read_spss()**. Para esto debemos establecer un **directorio de trabajo**, es decir, la carpeta raíz a partir de la cual R buscará los archivos que queremos cargar en nuestro espacio de trabajo, y donde guardará los output de nuestros análisis.
 
-```{r, eval = FALSE }
+
+```r
 #La sigueitne función nos permite dentificar el irectorio de trabajo actual
 getwd()
 
@@ -43,13 +45,15 @@ setwd("C:/Users/Gabriel/Desktop/Directorio R")
 
 Una vez que hemos fijado nuestro directorio de trabajo podemos cargar nuestra base de datos y asignarla como objeto, para que se guarde en el ambiente y poder usarla posteriormente en nuestros análisis.
 
-```{r, eval = FALSE}
+
+```r
 casen <- read_spss("Base de datos Casen 2022 SPSS.sav")
 ```
 
 Una forma alternativa de realizar este proceso es descargar directamente los datos mediante el uso de código. Esto ofrece la ventaja de que nos permite ejecutar el código en otros computadores y obtener automáticamente los datos. Un posible problema de esta forma de cargar los datos es que cuando usamos archivos de gran tamaño puede ser muy poco eficiente.  
 
-```{r load}
+
+```r
 temp <- tempfile() #Creamos un archivo temporal
 download.file("https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2022/Base%20de%20datos%20Casen%202022%20SPSS.sav.zip",temp) #descargamos los datos
 casen <- haven::read_sav(unz(temp, "Base de datos Casen 2022 SPSS.sav")) #cargamos los datos
@@ -65,7 +69,8 @@ En las funciones de dplyr el primer argumento siempre es un DataFrame, los argum
 Para seleccionar solo las variables que necesitamos de una base de datos podemos utilizar R base a partir de los nombres o índices de las variables (su posición dentro de la base de datos). En dplyr podemos usar la función select.
 
 ## 2.1 Seleccionar Variables
-```{r,message=FALSE,warning=F}
+
+```r
 #Seleccionar variables
 
 #R base
@@ -80,14 +85,14 @@ library(tidyverse)
 
 casen1<-select(casen, folio, orden = id_persona #podemos cambiar el nobmre a una variable al seleccionarla con al forma nombre_nuevo = nombre_original
               , area, edad, sexo, pobreza) #dplyr
-
 ```
 
 ## 2.2 Filtrar casos
 
 Para filtrar casos de acuerdo a ciertas características podemos usar condiciones lógicas a partir de r base utilizando la estructura base[filas,columnas] para hacer un subset de la base de datos, o utilizar la función filter de dplyr.
 
-```{r}
+
+```r
 #Filtrar casos
 
 #R base
@@ -95,7 +100,6 @@ casen1a<-casen1[casen1$area == 1 & casen1$sexo == 1,] #seleccionar casos urbanos
 
 #dplyr
 casen1b<- filter(casen1, area == 1 & sexo == 1 ) #dplyr
-
 ```
 
 ## Uso del pipeline
@@ -104,8 +108,8 @@ El "pipeline" o tubería en R, especialmente al trabajar con el paquete dplyr de
 
 A continuación podemos comparar un código en que no se usa un pipeline y uno que si. Aquí, cada paso del análisis se separa claramente con el operador %>%, lo que hace que el flujo de trabajo sea fácil de leer de arriba a abajo, casi como una serie de instrucciones.
 
-```{r}
 
+```r
 casen3 <- filter(
   select(casen, folio, id_persona,pobreza,sexo),
   pobreza %in% 1:2 & sexo == 1)
@@ -126,8 +130,8 @@ La función ifelse(test, yes, no) es una función vectorizada que evalúa una co
 ### case_when
 La función case_when permite definir múltiples condiciones y resultados en una sola llamada. Cada condición se verifica en orden, y el primer resultado verdadero es el que se asigna. Esto la hace particularmente útil para recodificaciones más complejas con múltiples categorías o condiciones. Además, case_when mejora la legibilidad del código y es más fácil de mantener que múltiples llamadas anidadas a ifelse.
 
-```{r,message=FALSE,warning=F}
 
+```r
 #Recodificar/crear varibles
 
 #Rbase
@@ -146,7 +150,12 @@ casen <- casen %>%
   ))
 
 table(casen$edadt == casen$edadt2)
+```
 
+```
+## 
+##   TRUE 
+## 202231
 ```
 
 ## 2.4 Agrupar y Resumir Datos
@@ -161,15 +170,39 @@ Por ejemplo si queremos obtener la tasa de pobreza por región en CASEN, primero
 ### summarize
 Tras agrupar los datos con group_by, summarize se utiliza para calcular estadísticas resumidas para cada grupo. Puedes usar cualquier función de resumen en summarize, como mean, sum, min, max, y muchas otras.
 
-```{r}
+
+```r
 casen %>% 
   group_by(region) %>% 
   summarize(pobreza = mean(pobrezad))
 ```
 
+```
+## # A tibble: 16 × 2
+##    region                                                 pobreza
+##    <dbl+lbl>                                                <dbl>
+##  1  1 [Región de Tarapacá]                                 0.102 
+##  2  2 [Región de Antofagasta]                              0.0805
+##  3  3 [Región de Atacama]                                  0.0840
+##  4  4 [Región de Coquimbo]                                 0.0818
+##  5  5 [Región de Valparaíso]                               0.0654
+##  6  6 [Región del Libertador Gral. Bernardo O'Higgins]     0.0709
+##  7  7 [Región del Maule]                                   0.0884
+##  8  8 [Región del Biobío]                                  0.0833
+##  9  9 [Región de La Araucanía]                             0.124 
+## 10 10 [Región de Los Lagos]                                0.0705
+## 11 11 [Región de Aysén del Gral. Carlos Ibáñez del Campo]  0.0384
+## 12 12 [Región de Magallanes y de la Antártica Chilena]     0.0300
+## 13 13 [Región Metropolitana de Santiago]                   0.0474
+## 14 14 [Región de Los Ríos]                                 0.0640
+## 15 15 [Región de Arica y Parinacota]                       0.0914
+## 16 16 [Región de Ñuble]                                    0.119
+```
+
 También podemos usar group_by para crear nuevas variables a partir de ciertos grupos utilizando mutate. Por ejemplo, podemos crear el promedio de edad de cada hogar y guardarlo como una variable nueva.
 
-```{r}
+
+```r
 casen %>% 
   group_by(folio) %>% #folio identifica cada hogar en CASEN 
   mutate(edad_media = mean(edad)) %>% 
@@ -178,43 +211,176 @@ casen %>%
   head(20) #vemos los primeros 20 casos
 ```
 
+```
+## # A tibble: 20 × 4
+##        folio id_persona  edad edad_media
+##        <dbl>      <dbl> <dbl>      <dbl>
+##  1 100090101          1    72       59.7
+##  2 100090101          2    67       59.7
+##  3 100090101          3    40       59.7
+##  4 100090201          1    56       35.8
+##  5 100090201          2    25       35.8
+##  6 100090201          3     2       35.8
+##  7 100090201          4    60       35.8
+##  8 100090301          1    84       60.3
+##  9 100090301          2    67       60.3
+## 10 100090301          3    30       60.3
+## 11 100090401          1    64       63  
+## 12 100090401          2    62       63  
+## 13 100090501          1    59       59  
+## 14 100090601          1    34       20.2
+## 15 100090601          2    30       20.2
+## 16 100090601          3    13       20.2
+## 17 100090601          4     4       20.2
+## 18 100090701          1    73       70  
+## 19 100090701          2    67       70  
+## 20 100090801          1    68       66
+```
+
 
 # 3. Estadística Descriptiva  
 
 Para obtener estadísticos descriptivos en R, tales como la media, la mediana o la desviación estándar debemos usar las funciones incluidas para esto en R. Para esto utilizaremos la variable "ytotcorh” que corresponde al ingresos total corregidos de los hogares.  
 
-```{r}
+
+```r
 #media
 mean(casen$ytotcorh) #nos devuelve NA dado que hay casos perdidos
+```
+
+```
+## [1] NA
+```
+
+```r
 mean(casen$ytotcorh,na.rm=T) #debemos agregar un argumento indicando que no considere los casos perdidos
+```
+
+```
+## [1] 1476989
+```
+
+```r
 #mediana
 median(casen$ytotcorh,na.rm=T) 
+```
+
+```
+## [1] 1121667
+```
+
+```r
 #Varianza y desviación estandar
 var(casen$ytotcorh,na.rm=T) 
+```
+
+```
+## [1] 2.112431e+12
+```
+
+```r
 sd(casen$ytotcorh,na.rm=T) 
+```
+
+```
+## [1] 1453421
+```
+
+```r
 #Cuantiles
 quantile(casen$ytotcorh, probs = c(0.25,0.50,0.75,0.9),na.rm = TRUE) #percetniles
+```
+
+```
+##     25%     50%     75%     90% 
+##  750000 1121667 1728370 2676053
+```
+
+```r
 #minimo
 min(casen$ytotcorh,na.rm = TRUE) 
+```
+
+```
+## [1] 0
+```
+
+```r
 #máximo
 max(casen$ytotcorh,na.rm = TRUE)
+```
+
+```
+## [1] 77300000
+```
+
+```r
 #summary nos entrega un resumen de la variable
 summary(casen$ytotcorh) 
 ```
 
+```
+##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's 
+##        0   750000  1121667  1476989  1728370 77300000      120
+```
+
 Del mismo modo podemos obtener tablas de frecuencia absoluta y relativa.
 
-```{r}
+
+```r
 table(casen$sexo)
+```
+
+```
+## 
+##      1      2 
+##  95656 106575
+```
+
+```r
 #Para usar las etiquetas de las variables cargadas en e formato spss podemos usar el comando as_factor()
 table(as_factor(casen$sexo))
+```
+
+```
+## 
+## 1. Hombre  2. Mujer 
+##     95656    106575
+```
+
+```r
 #prop.table nos da una tabla de proporciones a partir de una tabla
 prop.table(table(as_factor(casen$sexo)))
+```
 
+```
+## 
+## 1. Hombre  2. Mujer 
+## 0.4730036 0.5269964
+```
+
+```r
 #El comando table también nos permite obtener tablas cruzadas
 table(as_factor(casen$sexo),as_factor(casen$pobreza))
+```
+
+```
+##            
+##             Pobreza extrema Pobreza no extrema No pobreza
+##   1. Hombre            2112               4754      88783
+##   2. Mujer             2545               5862      98055
+```
+
+```r
 #si añadimos el argumento 1 nos dará porcentajes fila y 2 nos dará porcentajes columna
 prop.table(table(as_factor(casen$sexo),as_factor(casen$pobreza)),1)
+```
+
+```
+##            
+##             Pobreza extrema Pobreza no extrema No pobreza
+##   1. Hombre      0.02208073         0.04970256 0.92821671
+##   2. Mujer       0.02390524         0.05506190 0.92103286
 ```
 
 
@@ -222,18 +388,29 @@ prop.table(table(as_factor(casen$sexo),as_factor(casen$pobreza)),1)
 
 R entrega una serie de herramientas para la visualización de datos. En este caso revisaremos brevemente las herramientas básicas de visualización de datos que trae R base.  
 
-```{r,message=FALSE,warning=F}
+
+```r
 #Gráfico de barras
 plot(as_factor(casen$pobreza), main="Situación de pobreza", xlab="Pobreza",ylab="Frequencias",
      col=2)
+```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+
+```r
 #Histogramas
 hist(casen$edad,main="Edad de los encuestados", xlab="Años",ylab="Frequencia")
+```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-12-2.png" width="672" />
+
+```r
 #boxplot
 boxplot(casen$edad, main = "Gráfico de cajas edad",
         outline = TRUE)
 ```
+
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-12-3.png" width="672" />
 
 # 5. Visualización de datos con ggplot2
 
@@ -243,7 +420,8 @@ En primer lugar, debemos asegurarnos de tener instalado y cargado el paquete ggp
 
 En primer lugar tenemos que seleccionar un conjunto de datos sobre el que trabajaremos. Podemos hacer esto de manera integrada con el flujo de trabajo del pipeline que vimos para dplyr. 
 
-```{r,message=FALSE,warning=F}
+
+```r
 #install.packages("ggplot2")
 library(ggplot2)
 
@@ -251,24 +429,32 @@ casen %>%
   ggplot() 
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+
 El resultado de entregar solo una base de datos a ggplot será un gráfico vació, sin información en sus ejes, ni representaciones gráficas de los datos. El siguiente paso es definir la estética o aesthetics, mediante la función aes(), en la cual indicaremos cuales son las variables que constituirán los ejes de nuestro gráfico. En este caso construiremos un gráfico con una sola variable, por lo que pondremos la edad en el eje x. 
 
 Cada capa adicional que vayamos agregando a nuestro gráfico en ggplot 2 debe agregarse mediante un "+". No confundir con el trabajo con el pipeline. 
 
-```{r,message=FALSE,warning=F}
+
+```r
 casen %>% 
   ggplot() + 
   aes(x = edad)
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+
 Por último, necesitamos decirle a ggplot como representar nuestros datos en el eje señalado mediante un geom, es decir, el objeto geométrico que se utilizará para representar los datos. Para esto hay múltiple funciones que empiezan con "geom_", como geom_bar, geom_point o geom_line. En este caso queremos contruir un histograma así que usaremos geom_histogram. 
 
-```{r,message=FALSE,warning=F}
+
+```r
 casen %>% 
   ggplot() + 
   aes(x = edad) +
   geom_histogram()
 ```
+
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
 Ya tenemos una visualización básica. Ahora introduciremos algunos elementos adicionales para mejorar la apariencia de nuestro gráfico.
 
@@ -284,7 +470,8 @@ theme(): Se personalizan varios elementos del gráfico, incluyendo el estilo del
 
 - theme(): Se personalizan varios elementos del gráfico, incluyendo el estilo del título, subtítulo, nota al pie, y el tamaño del texto de los ejes y las etiquetas de los ejes. Esto mejora la legibilidad y la presentación visual del gráfico.
 
-```{r,message=FALSE,warning=F}
+
+```r
 casen %>%
   ggplot() + 
   aes(x = edad) +
@@ -302,10 +489,13 @@ casen %>%
         axis.text = element_text(size = 12))   #Tamaño del texto de las etiquetas de los ejes
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
 Ahora veamos el ejemplo de un gráfico bivariado. para esto debemos fijar una varaible en cada eje para las aesthetics. En este caso veremos la relación entre años de escolaridad y ingresos del trabajo. Para esto usaremos un scatterplot, construido a partir de geom_point().
 Filtraremos la base de datos a la Región de Valparaíso para reducir la cantidad de datos a graficar, y limitaremos los datos hasta 5 millones de peso para evitar valores muy extremos que dificulten la visualización.  
 
-```{r,message=FALSE,warning=F}
+
+```r
 casen %>%
   filter(region == 5, ytrabajocor <= 5000000) %>%
   ggplot() + 
@@ -313,9 +503,12 @@ casen %>%
   geom_point()
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+
 Como vemos el gráfico tiene la escolaridad en el eje x, y los ingresos en el eje y. sin embargo, dada la gran cantidad de puntos, la relación entre ambas variables no resulta tan clara. Para mejorar lo anterior haremos dos cambios, aplicaremos una transparencia a cada punto apra poder observar la densidad de los puntos en cada parte del gráfico, y añadiremos una linea de tendencia lineal con la función geom_smooth().
 
-```{r,message=FALSE,warning=F}
+
+```r
 casen %>%
   filter(region == 5, ytrabajocor <= 5000000) %>%
   ggplot() + 
@@ -325,9 +518,12 @@ casen %>%
   theme_bw()
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+
 Ahora podemos observar de mejor manera que hay una relación positiva entre ambas variables, es decir que, a más escolaridad, en promedio los ingresos del trabajo son más altos. 
 
-```{r,message=FALSE,warning=F}
+
+```r
 casen %>%
   filter(region == 5, ytrabajocor <= 5000000) %>%
   ggplot(aes(x = esc, y = ytrabajocor)) + 
@@ -342,12 +538,14 @@ casen %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotar las etiquetas del eje X para mejorar la legibilidad
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+
 Por último agregamos las etiquetas del gráfico y otros elementos estéticos para mejorar su presentación.
 
 Ahora veremos como hacer gráficos de barras para variables categóricas a partir de la variable sexo. Para esto usaremos geom_bar().
 
-```{r,message=FALSE,warning=F}
 
+```r
 casen %>% 
 ggplot(aes(x = as_factor(sexo))) +
   geom_bar(width = 0.4,  fill=rgb(0.1,1,0.5,0.7)) + 
@@ -358,10 +556,12 @@ ggplot(aes(x = as_factor(sexo))) +
   theme_bw()
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+
 Para cambiar a frecuencias relativas, se modifica la definición de la estética y dentro de geom_bar() para calcular el porcentaje que cada barra representa del total. Esto se hace dividiendo el conteo de cada grupo (..count..) por la suma de todos los conteos (sum(..count..)), lo convierte las frecuencias absolutas en relativas:
 
-```{r,message=FALSE,warning=F}
 
+```r
 casen %>% 
 ggplot(aes(x = as_factor(sexo))) +
   geom_bar(width = 0.4,  fill= rgb(0.1,0.3,0.5,0.7), aes(y = (..count..)/sum(..count..))) + 
@@ -372,6 +572,8 @@ ggplot(aes(x = as_factor(sexo))) +
   theme_bw()
 ```
 
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+
 A continuación haremos un gráfico de linea, que exprese la proporción de pobres según edad. Para esto tendremos que modificar los datos y agruparlos por edad previamente a construir el gráfico. Preparamos los datos con las siguientes operaciones: 
 - mutate(pobreza1 = ifelse(pobreza %in% 1:2, 1, 0)): Crea una nueva columna "pobreza1" donde los individuos considerados pobres (con valores de "pobreza" de 1 o 2) se marcan con un 1, y los no pobres (valor de "pobreza" 3) con un 0.
 - filter(edad < 90): Filtra para incluir solo a individuos con edad menor a 90 años.
@@ -380,8 +582,8 @@ A continuación haremos un gráfico de linea, que exprese la proporción de pobr
 
 Luego a partir de esta base de datos contruimos el gráfico, ocupando dos geom, geom_point() y geom_line(), para dibujar una línea y puntos en cada edad, para visualizar la tendencia de la pobreza con la edad.
 
-```{r,message=FALSE,warning=F}
 
+```r
 casen_pob <- casen %>%
   mutate(pobreza1 = ifelse(pobreza %in% 1:2, 1, 0)) %>%
   filter(edad < 90) %>%
@@ -389,7 +591,21 @@ casen_pob <- casen %>%
   summarize(pob = mean(pobreza1, na.rm = TRUE) * 100)
 
 head(casen_pob)
+```
 
+```
+## # A tibble: 6 × 2
+##    edad   pob
+##   <dbl> <dbl>
+## 1     0  16.0
+## 2     1  15.2
+## 3     2  13.8
+## 4     3  14.0
+## 5     4  12.7
+## 6     5  12.7
+```
+
+```r
 casen_pob %>%
   ggplot(aes(x = edad, y = pob)) +
   geom_line(color = "#40E0D0") +
@@ -400,15 +616,16 @@ casen_pob %>%
   labs(title = "Porcentaje de pobreza según edad",
        caption = "Fuente: Encuesta Casen 2022") + 
   theme_bw()
-
 ```
+
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-22-1.png" width="672" />
 
 Por útlimo veremos una posibilidad muy útil que ofrece ggplot que es segemtnar le gráfico a partir de una variable adicional. facet_wrap es una función de ggplot2 que permite dividir un gráfico en múltiples paneles basados en los niveles de una variable, organizando los paneles en una matriz que, por defecto, está orientada por filas. Esto facilita la comparación directa de subconjuntos de datos dentro de la misma área de visualización, manteniendo las mismas escalas y ejes en todos los paneles.
 
 Para esto al calcular el porcentaje de pobreza para cada grupo de edad segmentaremos adicionalmente por área urbana y rural. Luego usaremos esta variable para segmentar el gráfico en facet_wrap.
 
-```{r,message=FALSE,warning=F}
 
+```r
 casen_pob_a <- casen %>%
   mutate(pobreza1 = ifelse(pobreza %in% 1:2, 1, 0)) %>%
   filter(edad < 90) %>%
@@ -416,7 +633,22 @@ casen_pob_a <- casen %>%
   summarize(pob = mean(pobreza1, na.rm = TRUE) * 100)
 
 head(casen_pob_a)
+```
 
+```
+## # A tibble: 6 × 3
+## # Groups:   edad [3]
+##    edad area         pob
+##   <dbl> <dbl+lbl>  <dbl>
+## 1     0 1 [Urbano]  14.4
+## 2     0 2 [Rural]   22.6
+## 3     1 1 [Urbano]  14.3
+## 4     1 2 [Rural]   19.6
+## 5     2 1 [Urbano]  12.9
+## 6     2 2 [Rural]   17.5
+```
+
+```r
 casen_pob_a %>% 
   ggplot(aes(x = edad, y = pob)) +
   geom_line(color = "#40E0D0") +
@@ -428,8 +660,9 @@ casen_pob_a %>%
        caption = "Fuente: Encuesta Casen 2022") + 
   theme_bw() +
   facet_wrap(as_factor(casen_pob_a$area))
-
 ```
+
+<img src="/example/01-practico_files/figure-html/unnamed-chunk-23-1.png" width="672" />
 
 
 Para ver material adicional pueden revisar la siguiente [Introducción al uso del paquete ggplot2](https://bookdown.org/gboccardo/manual-ED-UCH/construccion-de-graficos-usando-rstudio-funcionalidades-basicas-y-uso-del-paquete-ggplot2.html#introduccion-al-uso-del-paquete-ggplot2). Para una revisión más profunda pueden revisar los capítulos 3 y 28 del libro [R para ciencia de datos](https://es.r4ds.hadley.nz/visualizaci%C3%B3n-de-datos.html)

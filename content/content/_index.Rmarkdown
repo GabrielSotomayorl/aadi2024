@@ -15,7 +15,5 @@ weight: 1
 
 La presentación también se puede ver directamente desde el sitio web del curso. Puedes presionar estas presentaciones y puedes navegar en ellas con <kbd>←</kbd> y <kbd>→</kbd>. Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver una lista de comandos que te permitirán interactuar con ellos (por ejemplo, <kbd>f</kbd> sirve para ver en pantalla completa. También <kbd>p</kbd> modo presentador si quieres ver las notas. El lápiz en la esquina derecha te permite dejar tus **propias notas**).
 
-- **Video** de la grabación de la clase, que además estará disponible en la nube de Zoom
-
 - **Material** asociado a la clase, lo que incluye los ejemplos [**prácticos**](/example/) y contenido adicional que puede potenciar sus aprendizajes. 
 

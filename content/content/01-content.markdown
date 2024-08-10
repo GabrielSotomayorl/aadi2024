@@ -45,3 +45,8 @@ slides: "01-slides"
 # Materiales de la clase
 
 - [<i class="fas fa-laptop-code"></i> Práctico](https://aadi2024.netlify.app/example/01-practico/)
+
+# Bibliografía
+
+- [Esser 2010 Sociología de las Variables](../bib/Esser%202010%20Sociología%20de%20las%20Variables.pdf/)  
+- [Lizon 2006 Estadistica y causalidad en sociologia](../bib/Lizon%202006%20Estadistica%20y%20causalidad%20en%20sociologia.pdf/)

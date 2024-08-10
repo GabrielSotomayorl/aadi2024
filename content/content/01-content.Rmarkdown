@@ -35,5 +35,8 @@ slide_tabs(slide_details, "/slides/01-slides.html")
 {{% div fyi %}} **¿Cómo ocupar**: Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver los comandos específicos para navegar en ellas. {{% /div %}}
 
 # Materiales de la clase
-
 -   [<i class="fas fa-laptop-code"></i> Práctico](https://aadi2024.netlify.app/example/01-practico/)
+
+# Bibliografía
+- [Esser 2010 Sociología de las Variables](../bib/Esser 2010 Sociología de las Variables.pdf/)  
+- [Lizon 2006 Estadistica y causalidad en sociologia](../bib/Lizon 2006 Estadistica y causalidad en sociologia.pdf/)

@@ -11,8 +11,8 @@ lessons:
   - title: '• Introducción y Uso de modelos en ciencias sociales'
     session: "Sesión 1"
     date: "12 agosto"
-    # content: "01-content"
-    # example: "01-practico"
+    content: "01-content"
+    example: "01-practico"
     bg: 1
 
   - title: '• Continuación de uso de modelos en ciencias sociales y estadística bivariada'

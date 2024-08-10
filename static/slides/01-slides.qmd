@@ -7,6 +7,7 @@ format:
     theme: [dark, custom.scss]
     slide-number: true
     auto-fit: true
+    logo: images/logo.png
 editor: visual
 ---
 
@@ -14,7 +15,7 @@ editor: visual
 
 El curso aborda las principales técnicas para establecer relaciones entre variables. Se enfatizan la comprensión de procedimientos e interpretación de resultados, así como el uso de herramientas computacionales, en particular [**R y RStudio**]{style="color:#a050a0;"}. El curso requiere de una formación básica previa en el análisis de datos estadísticos, tiene una orientación aplicada al análisis de datos multivariados en ciencias sociales.
 
-## Resultados de Aprendizaje{.smaller background-color="white"}
+## Resultados de Aprendizaje {.smaller background-color="white"}
 
 **Resultado general:** Entregar herramientas para que las personas puedan abordar el análisis de datos tanto de dependencia como de interdependencia v desde la estadística multivariante, elaborando y probando hipótesis y desarrollando modelos explicativos de determinados fenómenos de estudio. Las personas estudiantes aprenderán los métodos de análisis de datos más habituales, y realizarán prácticas en programas estadísticos, principalmente R.
 
@@ -152,3 +153,70 @@ Las comunicaciones del curso con el equipo docente para temas colectivos deberá
 ## Objetivo de la sesión {.center background-color="white"}
 
 Reflexionar sobre el sentido del uso de estadística (multivariada) y modelos en Ciencias Sociales
+
+# ¿Porqué usamos estadística en Ciencias Sociales?
+
+## ¿Porque usar modelo (multivariados) en ciencias sociales? {.smaller background-color="white"}
+
+Los modelos son formalismos lógicos o matemáticos que buscan describir la realidad.\
+Nos permiten simultáneamente capturar la complejidad de la realidad social (y los datos con que contamos) y reducirla, de manera de hacerla inteligible: **producir conocimiento (vincular nuestros datos a un contexto teórico mayor)**.
+
+Permiten:
+
+<div>
+
+-   Formalizar, dando precisión y permitiendo poner teorías a prueba.
+
+-   Develar relaciones entre variables y mecanismo causales
+
+-   Predecir
+
+-   Simular
+
+</div>
+
+## Sociología de las variables {.smaller background-color="white"}
+
+Cuando utilizamos estadística, en particular multivariada caemos en la tentación de centrarnos en la técnica estadística por sobre la explicación sociológica.
+
+Esser (2010) formaliza este problema llamandolo la [**sociología de las variables**]{style="color:#a050a0;"}, en la cual se identifica una **variable dependiente (explanandum)** y se propone un conjunto de **variables independientes (explanans)** que podrían influir en ella. La explicación se considera lograda cuando se puede atribuir la **varianza** de la variable dependiente a los efectos de las variables independientes
+
+## Problemas de la Sociología de las Variables {.smaller background-color="white"}
+
+**Incompletitud:** Las relaciones entre variables establecidas en un contexto pueden no ser aplicables en otros, revelando la falta de leyes sociológicas generales y estables. La SV, al intentar explicar fenómenos sociales, frecuentemente se queda en explicaciones ad hoc, lo que limita su alcance y efectividad.
+
+**Significado Variable:** Las variables estructurales pueden tener significados diferentes según el contexto cultural o social. Este problema de equivalencia funcional implica que las mismas variables no siempre tienen el mismo impacto en diferentes escenarios, lo que dificulta la creación de explicaciones universales.
+
+## Problemas de la Sociología de las Variables {.smaller background-color="white"}
+
+**Interdependencia:** Las estructuras sociales son procesos dinámicos donde las interacciones entre individuos y procesos son complejas. La SV no aborda adecuadamente cómo estas interdependencias afectan los resultados sociales, limitando la capacidad de la SV para explicar fenómenos complejos.
+
+**Falta de Sentido:** La SV ignora el sentido subjetivo de las acciones individuales, centrándose solo en relaciones entre variables. Esto deja de lado la dimensión interpretativa crucial para una explicación sociológica completa, que considera las decisiones conscientes de los individuos.
+
+**Reduccionismo:** Al reducir fenómenos sociales a simples relaciones entre variables, la SV pierde de vista la complejidad de las decisiones individuales y colectivas, y cómo estas influyen en los resultados sociales.
+
+## Explicación teórica y modelos estadísticos {.center background-color="white"}
+
+"La consecuencia más importante de los problemas apuntados es una inversión de la perspectiva: los «modelos causales» sobre relaciones entre variables y la varianza «explicada» no son la explicación teórica que buscamos, sino, más bien, solo el explanandum de la «auténtica» explicación teórica conductual." (Esser, 2010, p. 204).
+
+Esto implica que se necesita contar con una [**teoría de la acción social**]{style="color:#a050a0;"}.
+
+## Ejemplo del divorcio {.smaller .center background-color="white"}
+
+::: columns
+::: {.column width="40%"}
+En este caso vemos que hay una relación con forma de "hoz" del riesgo de divorciarse. Lo importante no es describir dicha relación, sino que poder plantear un mecanismo teórico relacionado con el comportamiento de los individuos que la explicque.
+:::
+
+::: {.column width="60%"}
+![](https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs13524-013-0278-1/MediaObjects/13524_2013_278_Fig2_HTML.gif){fig-align="center" width="600"}
+:::
+:::
+
+## ¿Cómo se relacionan la SV con la tradición teórica sociológica? {.smaller .center background-color="white"}
+
+Los fundamentos de la sociología de las variables se pueden encontrar, por ejemplo, en las ideas de Emile Durkheim (u otras tradiciones teóricas holistas), quien propuso tratar los "hechos sociales" como entidades independientes de las acciones individuales, buscando estabilidad en las estructuras y ambientes sociales (lo cual puede argumentarse que va perdiendo eficacia históricamente).
+
+Giddens, en su rechazo al modelo de Durkheim, enfatizó la importancia de la agencia humana y la producción activa de la sociedad por sus miembros. Esto subraya un cambio hacia el análisis de las condiciones subjetivas y las decisiones individuales, lo que cuestiona las explicaciones puramente estructurales de la SV.
+
+Es una forma en que aparece el problema de la relación entre [**agencia y estructura**]{style="color:#a050a0;"}.

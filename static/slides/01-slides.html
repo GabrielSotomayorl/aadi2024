@@ -8,7 +8,7 @@
 <link href="01-slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="01-slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="01-slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Gabriel Sotomayor">
   <title>Clase 1: Introducción y uso de modelos en CS</title>
@@ -489,7 +489,68 @@ Prueba 1: 9 de Septiembre</p>
 <section id="objetivo-de-la-sesión" class="slide level2 center" data-background-color="white">
 <h2>Objetivo de la sesión</h2>
 <p>Reflexionar sobre el sentido del uso de estadística (multivariada) y modelos en Ciencias Sociales</p>
-<div class="footer footer-default">
+</section></section>
+<section>
+<section id="porqué-usamos-estadística-en-ciencias-sociales" class="title-slide slide level1 center">
+<h1>¿Porqué usamos estadística en Ciencias Sociales?</h1>
+
+</section>
+<section id="porque-usar-modelo-multivariados-en-ciencias-sociales" class="slide level2 smaller" data-background-color="white">
+<h2>¿Porque usar modelo (multivariados) en ciencias sociales?</h2>
+<p>Los modelos son formalismos lógicos o matemáticos que buscan describir la realidad.<br>
+Nos permiten simultáneamente capturar la complejidad de la realidad social (y los datos con que contamos) y reducirla, de manera de hacerla inteligible: <strong>producir conocimiento (vincular nuestros datos a un contexto teórico mayor)</strong>.</p>
+<p>Permiten:</p>
+<div>
+<ul>
+<li><p>Formalizar, dando precisión y permitiendo poner teorías a prueba.</p></li>
+<li><p>Develar relaciones entre variables y mecanismo causales</p></li>
+<li><p>Predecir</p></li>
+<li><p>Simular</p></li>
+</ul>
+</div>
+</section>
+<section id="sociología-de-las-variables" class="slide level2 smaller" data-background-color="white">
+<h2>Sociología de las variables</h2>
+<p>Cuando utilizamos estadística, en particular multivariada caemos en la tentación de centrarnos en la técnica estadística por sobre la explicación sociológica.</p>
+<p>Esser (2010) formaliza este problema llamandolo la <span style="color:#a050a0;"><strong>sociología de las variables</strong></span>, en la cual se identifica una <strong>variable dependiente (explanandum)</strong> y se propone un conjunto de <strong>variables independientes (explanans)</strong> que podrían influir en ella. La explicación se considera lograda cuando se puede atribuir la <strong>varianza</strong> de la variable dependiente a los efectos de las variables independientes</p>
+</section>
+<section id="problemas-de-la-sociología-de-las-variables" class="slide level2 smaller" data-background-color="white">
+<h2>Problemas de la Sociología de las Variables</h2>
+<p><strong>Incompletitud:</strong> Las relaciones entre variables establecidas en un contexto pueden no ser aplicables en otros, revelando la falta de leyes sociológicas generales y estables. La SV, al intentar explicar fenómenos sociales, frecuentemente se queda en explicaciones ad hoc, lo que limita su alcance y efectividad.</p>
+<p><strong>Significado Variable:</strong> Las variables estructurales pueden tener significados diferentes según el contexto cultural o social. Este problema de equivalencia funcional implica que las mismas variables no siempre tienen el mismo impacto en diferentes escenarios, lo que dificulta la creación de explicaciones universales.</p>
+</section>
+<section id="problemas-de-la-sociología-de-las-variables-1" class="slide level2 smaller" data-background-color="white">
+<h2>Problemas de la Sociología de las Variables</h2>
+<p><strong>Interdependencia:</strong> Las estructuras sociales son procesos dinámicos donde las interacciones entre individuos y procesos son complejas. La SV no aborda adecuadamente cómo estas interdependencias afectan los resultados sociales, limitando la capacidad de la SV para explicar fenómenos complejos.</p>
+<p><strong>Falta de Sentido:</strong> La SV ignora el sentido subjetivo de las acciones individuales, centrándose solo en relaciones entre variables. Esto deja de lado la dimensión interpretativa crucial para una explicación sociológica completa, que considera las decisiones conscientes de los individuos.</p>
+<p><strong>Reduccionismo:</strong> Al reducir fenómenos sociales a simples relaciones entre variables, la SV pierde de vista la complejidad de las decisiones individuales y colectivas, y cómo estas influyen en los resultados sociales.</p>
+</section>
+<section id="explicación-teórica-y-modelos-estadísticos" class="slide level2 center" data-background-color="white">
+<h2>Explicación teórica y modelos estadísticos</h2>
+<p>“La consecuencia más importante de los problemas apuntados es una inversión de la perspectiva: los «modelos causales» sobre relaciones entre variables y la varianza «explicada» no son la explicación teórica que buscamos, sino, más bien, solo el explanandum de la «auténtica» explicación teórica conductual.” (Esser, 2010, p.&nbsp;204).</p>
+<p>Esto implica que se necesita contar con una <span style="color:#a050a0;"><strong>teoría de la acción social</strong></span>.</p>
+</section>
+<section id="ejemplo-del-divorcio" class="slide level2 smaller center" data-background-color="white">
+<h2>Ejemplo del divorcio</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>En este caso vemos que hay una relación con forma de “hoz” del riesgo de divorciarse. Lo importante no es describir dicha relación, sino que poder plantear un mecanismo teórico relacionado con el comportamiento de los individuos que la explicque.</p>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://media.springernature.com/lw685/springer-static/image/art%3A10.1007%2Fs13524-013-0278-1/MediaObjects/13524_2013_278_Fig2_HTML.gif" width="600"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="cómo-se-relacionan-la-sv-con-la-tradición-teórica-sociológica" class="slide level2 smaller center" data-background-color="white">
+<h2>¿Cómo se relacionan la SV con la tradición teórica sociológica?</h2>
+<p>Los fundamentos de la sociología de las variables se pueden encontrar, por ejemplo, en las ideas de Emile Durkheim (u otras tradiciones teóricas holistas), quien propuso tratar los “hechos sociales” como entidades independientes de las acciones individuales, buscando estabilidad en las estructuras y ambientes sociales (lo cual puede argumentarse que va perdiendo eficacia históricamente).</p>
+<p>Giddens, en su rechazo al modelo de Durkheim, enfatizó la importancia de la agencia humana y la producción activa de la sociedad por sus miembros. Esto subraya un cambio hacia el análisis de las condiciones subjetivas y las decisiones individuales, lo que cuestiona las explicaciones puramente estructurales de la SV.</p>
+<p>Es una forma en que aparece el problema de la relación entre <span style="color:#a050a0;"><strong>agencia y estructura</strong></span>.</p>
+
+<img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 
 </div>
 </section></section>

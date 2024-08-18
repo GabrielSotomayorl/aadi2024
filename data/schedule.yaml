@@ -18,7 +18,7 @@ lessons:
   - title: '• Continuación de uso de modelos en ciencias sociales y estadística bivariada'
     session: "Sesión 2"
     date: "19 agosto"
-    # content: "02-content"
+    content: "02-content"
     # example: "02-practico"
     bg: 1
     bottomborder: True

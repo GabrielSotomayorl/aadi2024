@@ -6,6 +6,14 @@ $link-color: #42affa;
 
 /*-- scss:rules --*/
 
+/* Fondo blanco para chunks de código */
+.reveal .slides pre code {
+  background-color: #ffffff; /* Fondo blanco */
+  color: #000000; /* Texto negro para asegurar legibilidad */
+  padding: 10px; /* Opcional: añade un poco de padding para mayor legibilidad */
+  border-radius: 5px; /* Opcional: esquinas redondeadas */
+}
+
 .reveal .slides section {
   text-align: justify;
 }

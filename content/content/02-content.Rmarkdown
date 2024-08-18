@@ -1,9 +1,9 @@
 ---
-title: "2. Visualización de datos en R"
-linktitle: "2. Visualización de datos en R"
-date: "2024-03-24"
-start_date: "2024-03-24"
-end_date: "2024-03-24"
+title: "2. Estadística bivariada"
+linktitle: "2. Estadística bivariada"
+date: "2024-08-19"
+start_date: "2024-08-19"
+end_date: "2024-08-19"
 menu:
   content:
     parent: Contenido
@@ -20,7 +20,7 @@ source(here::here("R", "slide-tabs.R"))
 
 slide_details <- tibble::tribble(
   ~title, ~slide, ~active,
-  "Herramientas para el uso de R", "1", TRUE
+  "Estadística Bivariada", "0", TRUE
 )
 ```
 

@@ -77,6 +77,10 @@ print(resumen, headings = FALSE)
 
 Para presentar estadísticas descriptivas de las variables numéricas de manera clara y mejorada visualmente, puedes utilizar kable junto con kableExtra.
 
+kable: Es una función del paquete knitr que permite crear tablas básicas en formatos como HTML, LaTeX, y Markdown. Es ideal para convertir data frames y matrices en tablas legibles y presentables en documentos.  
+
+kableExtra: Es un paquete adicional que extiende las capacidades de kable. Proporciona herramientas avanzadas para estilizar tablas, añadiendo opciones de diseño como colores, bordes, líneas, y otras características visuales que mejoran significativamente la apariencia de las tablas en informes y presentaciones.  
+
 ```{r, message=FALSE}
 # Instalar y cargar knitr y kableExtra si no están ya instalados
 # install.packages("knitr")
@@ -221,8 +225,6 @@ Por último agregamos las etiquetas del gráfico y otros elementos estéticos pa
 ## Estadística descriptiva y bivariada
 
 ### Varianza
-Para el análisis de la relación entre dos variables 
-
 La varianza mide la dispersión de los datos respecto a la media. Se calcula usando la siguiente fórmula:
 
 $$

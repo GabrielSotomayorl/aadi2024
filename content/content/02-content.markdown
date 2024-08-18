@@ -43,3 +43,7 @@ slides: "02-slides"
 {{% div fyi %}}
 **¿Cómo ocupar**: Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver los comandos específicos para navegar en ellas.
 {{% /div %}}
+
+# Bibliografía
+
+- [Moore Cap 2](../bib/David%20S.%20Moore%20-%20Estadística%20aplicada%20básica,%20cap%202.pdf/)

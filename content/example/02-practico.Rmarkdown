@@ -73,6 +73,8 @@ library(summarytools)
 resumen <- dfSummary(datos)
 print(resumen, headings = FALSE)
 
+#Esta linea permite obtener una versión html del resumen en el navegador
+#print(resumen, headings = FALSE, method = "browser")
 ```
 
 Para presentar estadísticas descriptivas de las variables numéricas de manera clara y mejorada visualmente, puedes utilizar kable junto con kableExtra.

@@ -23,7 +23,7 @@ El objetivo de este práctico es introducir el uso de ggplot para la construcci�
 Para esto usaremos datos comunales de registros administrativos y del Censo sobre salarios, educación y ruralidad para analizar las diferencias territoriales de la brecha salarial de género. Los datos de registros administrativos en diversos ámbitos pueden encontrarse en el siguiente enlace <https://observatorio.ministeriodesarrollosocial.gob.cl/rraa-2023>
 
 
-```r
+``` r
 pacman::p_load(dplyr, ggplot2)
 
 datos <- readRDS(url("https://github.com/GabrielSotomayorl/aadi2024/raw/main/content/example/input/data/datos.rds"))  %>% 
@@ -59,7 +59,7 @@ Esto significa que, en esta comuna, las mujeres ganan en promedio un 25% menos q
 Ahora calcularemos esta variable para cada una de las comunas en nuestra base de datos integrando la fórmula en el cálculo de una nueva variable con mutate.
 
 
-```r
+``` r
 datos <- datos %>% 
   mutate(brecha = (ing_prom_hombre - ing_prom_mujer)/ing_prom_hombre*100)
 ```
@@ -69,11 +69,17 @@ datos <- datos %>%
 Para obtener una visión general completa de los datos, podemos utilizar la función dfSummary del paquete summarytools. Esta función genera un resumen detallado de cada variable en la base de datos, con estad´siticos descritpivos y una visualición simple.
 
 
-```r
+``` r
 # Instalar y cargar summarytools si no está ya instalado
 #install.packages("summarytools")
 library(summarytools)
+```
 
+```
+## Warning: package 'summarytools' was built under R version 4.3.1
+```
+
+``` r
 # Crear el resumen de los datos y renderizarlo en HTML
 resumen <- dfSummary(datos)
 print(resumen, headings = FALSE)
@@ -128,6 +134,11 @@ print(resumen, headings = FALSE)
 ## -------------------------------------------------------------------------------------------------------------------------
 ```
 
+``` r
+#Esta linea permite obtener una versión html del resumen en el navegador
+#print(resumen, headings = FALSE, method = "browser")
+```
+
 Para presentar estadísticas descriptivas de las variables numéricas de manera clara y mejorada visualmente, puedes utilizar kable junto con kableExtra.
 
 kable: Es una función del paquete knitr que permite crear tablas básicas en formatos como HTML, LaTeX, y Markdown. Es ideal para convertir data frames y matrices en tablas legibles y presentables en documentos.  
@@ -135,13 +146,26 @@ kable: Es una función del paquete knitr que permite crear tablas básicas en fo
 kableExtra: Es un paquete adicional que extiende las capacidades de kable. Proporciona herramientas avanzadas para estilizar tablas, añadiendo opciones de diseño como colores, bordes, líneas, y otras características visuales que mejoran significativamente la apariencia de las tablas en informes y presentaciones.  
 
 
-```r
+``` r
 # Instalar y cargar knitr y kableExtra si no están ya instalados
 # install.packages("knitr")
 # install.packages("kableExtra")
 library(knitr)
-library(kableExtra)
+```
 
+```
+## Warning: package 'knitr' was built under R version 4.3.3
+```
+
+``` r
+library(kableExtra)
+```
+
+```
+## Warning: package 'kableExtra' was built under R version 4.3.1
+```
+
+``` r
 # Calcular estadísticas descriptivas
 descriptivas <- datos %>%
   summarise(
@@ -189,7 +213,7 @@ descriptivas %>%
 Ahora podemos ver como se agrupan las comunas en distintos niveles de brecha salarial. Para crear una tabla de frecuencias basada en la variable brecha, primero necesitamos recodificar la variable de manera categórica.
 
 
-```r
+``` r
 datos <- datos %>%
   mutate(brecha_recodificada = cut(brecha, breaks = c(-12.8, 0, 12, 24, 36.5),
                                    labels = c("-13% - 0%", "0% - 12%", "12% - 24%", "24% - 36.5%")))
@@ -254,7 +278,7 @@ Veremos los elementos básicos para poder hacer uso del paquete más adelante en
 En primer lugar tenemos que seleccionar un conjunto de datos sobre el que trabajaremos. Podemos hacer esto de manera integrada con el flujo de trabajo del pipeline que vimos para dplyr. 
 
 
-```r
+``` r
 #install.packages("ggplot2")
 library(ggplot2)
 
@@ -269,7 +293,7 @@ El resultado de entregar solo una base de datos a ggplot será un gráfico vaciO
 Cada capa adicional que vayamos agregando a nuestro gráfico en ggplot 2 debe agregarse mediante un "+". No confundir con el trabajo con el pipeline. 
 
 
-```r
+``` r
 datos %>% 
   ggplot() + 
   aes(x = brecha)
@@ -280,7 +304,7 @@ datos %>%
 Por último, necesitamos decirle a ggplot como representar nuestros datos en el eje señalado mediante un geom, es decir, el objeto geométrico que se utilizará para representar los datos. Para esto hay múltiple funciones que empiezan con "geom_", como geom_bar, geom_point o geom_line. En este caso queremos contruir un histograma así que usaremos geom_histogram. 
 
 
-```r
+``` r
 datos %>% 
   ggplot() + 
   aes(x = brecha) +
@@ -300,7 +324,7 @@ theme_minimal(): Se aplica un tema minimalista al gráfico para un aspecto limpi
 - Al final utilizamos geom_vline para añadir una linea roja punteada que indique la media de la variable. Ojo que esta tiene su propio aes que no corresponde al del resto del gráfico. 
 
 
-```r
+``` r
 ggplot(datos, aes(x = brecha)) +
   geom_histogram(
     binwidth = 5,                    # Ajusta el ancho de las barras
@@ -327,7 +351,7 @@ ggplot(datos, aes(x = brecha)) +
 Ahora veamos el ejemplo de un gráfico bivariado. para esto debemos fijar una varaible en cada eje para las aesthetics. En este caso veremos la relación entre la brecha salarial de género y el los años de escolaridad promedio de una comuna. Para esto usaremos un gráfiuco de dispersión, construido a partir de geom_point().
 
 
-```r
+``` r
 datos %>% 
 ggplot(aes(x = brecha, y = prom_esc)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7)
@@ -338,7 +362,7 @@ ggplot(aes(x = brecha, y = prom_esc)) +
 Como vemos el gráfico tiene los años de escolaridad promedio en el eje x, y la brecha salarial de género media en el eje y.
 
 
-```r
+``` r
 ggplot(datos, aes(x = brecha, y = prom_esc)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
  # geom_smooth(method = "lm", color = "red", linetype = "dashed", se = FALSE) +  # Línea de tendencia con estilo
@@ -371,7 +395,7 @@ Donde:
 Vamos a calcular la varianza de la variable brecha:
 
 
-```r
+``` r
 # Media de la variable
 media_brecha <- mean(datos$brecha, na.rm = TRUE)
 
@@ -384,7 +408,7 @@ varianza_manual
 ## [1] 89.94141
 ```
 
-```r
+``` r
 var(datos$brecha, na.rm = TRUE)
 ```
 
@@ -401,7 +425,7 @@ $$
 Vamos a calcular manualmente la correlación entre la variable brecha y promedio de escolaridad:
 
 
-```r
+``` r
 # Media de las variables
 media_brecha <- mean(datos$brecha, na.rm = TRUE)
 media_esc <- mean(datos$prom_esc, na.rm = TRUE)
@@ -430,7 +454,7 @@ correlacion_manual
 ## [1] 0.4435958
 ```
 
-```r
+``` r
 cor(datos$brecha, datos$prom_esc)
 ```
 
@@ -441,7 +465,7 @@ cor(datos$brecha, datos$prom_esc)
 Para analizar la relación entre todas las variables numéricas de la base de datos (exceptuando la variable comuna), podemos construir una matriz de correlaciones:
 
 
-```r
+``` r
 matriz_correlacion <- cor(datos[,-c(1,7)], use = "complete.obs")
 matriz_correlacion
 ```
@@ -464,11 +488,17 @@ matriz_correlacion
 Por último, podemos usar el paquete corrplot para obtener una visualiación rápida de las correlaciones en un conjunto de variables.   
 
 
-```r
+``` r
 # Instalar y cargar el paquete necesario
 # install.packages("corrplot")
 library(corrplot)
+```
 
+```
+## Warning: package 'corrplot' was built under R version 4.3.1
+```
+
+``` r
 # Crear el correlograma
 corrplot(matriz_correlacion, method = "number", tl.srt = 45, type = "upper")
 ```

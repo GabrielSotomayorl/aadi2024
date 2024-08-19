@@ -353,7 +353,7 @@ Ahora veamos el ejemplo de un gráfico bivariado. para esto debemos fijar una va
 
 ``` r
 datos %>% 
-ggplot(aes(x = brecha, y = prom_esc)) +
+ggplot( aes(x =  prom_esc, y =brecha)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7)
 ```
 
@@ -363,12 +363,12 @@ Como vemos el gráfico tiene los años de escolaridad promedio en el eje x, y la
 
 
 ``` r
-ggplot(datos, aes(x = brecha, y = prom_esc)) +
+ggplot(datos, aes(x =  prom_esc, y =brecha)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
  # geom_smooth(method = "lm", color = "red", linetype = "dashed", se = FALSE) +  # Línea de tendencia con estilo
   labs(
-    x = "Brecha Salarial de Género (%)",
-    y = "Promedio de Años de Escolaridad (2017)",
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
     title = "Relación entre Brecha Salarial de Género y Promedio de Años de Escolaridad"
   ) +
   theme_minimal()  # Tamaño base de letra aumentado

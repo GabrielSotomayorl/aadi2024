@@ -204,12 +204,12 @@ Ojo: si bien lo términos pueden sugerir causalidad esto no necesariamente es as
 ## Gráfico de dispersión {background-color="white"}
 
 ```{r echo=F}
-ggplot(datos, aes(x = brecha, y = promedio_anios_escolaridad25_2017)) +
+ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
  # geom_smooth(method = "lm", color = "red", linetype = "dashed", se = FALSE) +  # Línea de tendencia con estilo
   labs(
-    x = "Brecha Salarial de Género (%)",
-    y = "Promedio de Años de Escolaridad (2017)",
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
     title = "Relación entre Brecha Salarial de Género y Promedio de Años de Escolaridad"
   ) +
   theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
@@ -241,15 +241,15 @@ Dos variables están asociadas **negativamente** cuando valores superiores a la 
 ## Gráfico de dispersión {background-color="white"}
 
 ```{r echo=F}
-ggplot(datos, aes(x = brecha, y = promedio_anios_escolaridad25_2017)) +
+ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
 #  geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
-  geom_vline(xintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
-  geom_hline(yintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_vline(xintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
   labs(
-    x = "Brecha Salarial de Género (%)",
-    y = "Promedio de Años de Escolaridad (2017)",
-    title = "Relación entre Brecha Salarial de Género y Promedio de Años de Escolaridad"
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
   ) +
   theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
   theme(
@@ -275,15 +275,15 @@ $$
 ## Gráfico de correlación {background-color="white"}
 
 ```{r echo=F}
-ggplot(datos, aes(x = brecha, y = promedio_anios_escolaridad25_2017)) +
+ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
   geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
-  geom_vline(xintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
-  geom_hline(yintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_vline(xintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
   labs(
-    x = "Brecha Salarial de Género (%)",
-    y = "Promedio de Años de Escolaridad (2017)",
-    title = "Relación entre Brecha Salarial de Género y Promedio de Años de Escolaridad"
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
   ) +
   theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
   theme(
@@ -293,7 +293,6 @@ ggplot(datos, aes(x = brecha, y = promedio_anios_escolaridad25_2017)) +
     panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
     panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
   )
-
 ```
 
 ## Ejemplo de cálculo {background-color="white"}

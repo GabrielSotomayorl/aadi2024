@@ -1,9 +1,9 @@
 ---
-title: "Introducción a los modelos multivariados"
-linktitle: "3. Introducción a los modelos multivariados"
-date: "2023-03-27"
-start_date: "2024-04-08"
-end_date: "2024-04-08"
+title: "Regresión Lineal Simple I"
+linktitle: "3. Regresión Lineal Simple I"
+date: "2024-08-26"
+start_date: "2024-08-26"
+end_date: "2024-08-26"
 menu:
   content:
     parent: Contenido
@@ -20,7 +20,7 @@ source(here::here("R", "slide-tabs.R"))
 
 slide_details <- tibble::tribble(
   ~title, ~slide, ~active,
-  "Regersión Lineal Múltiple", "1", TRUE
+  "Regersión Lineal", "0", TRUE
 )
 ```
 
@@ -35,6 +35,10 @@ slide_tabs(slide_details, "/slides/03-slides.html")
 {{% div fyi %}}
 **¿Cómo ocupar**: Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver los comandos específicos para navegar en ellas.
 {{% /div %}}
+
+
+# Bibliografía
+- [Moore Cap 2](../bib/David S. Moore - Estadística aplicada básica, cap 2.pdf/) 
 
 
 

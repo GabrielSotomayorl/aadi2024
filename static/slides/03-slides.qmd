@@ -1,0 +1,342 @@
+---
+title: "Clase 3 <br> Regresión Lineal Simple"
+subtitle: "Análisis Avanzado de Datos"
+author: "Gabriel Sotomayor"
+format: 
+  revealjs:
+    theme: [dark, custom.scss]
+    slide-number: true
+    auto-fit: true
+    logo: images/logo.png
+editor: visual
+---
+
+# Recordatorio de la clase anterior
+
+## Correlación {background-color="white"}
+
+La correlación mide la fuerza y la dirección de la relación lineal entre dos variables cuantitativas. La correlación se simboliza con la letra r.
+
+Si tenemos datos de dos variables x e y para n individuos. Los valores para el primer individuo son x₁ e y₁, para el segundo son x₂ e y₂, etc. Las medias y las desviaciones típicas de las dos variables son x̄ y sₓ para los valores de x, e ȳ y sᵧ para los valores de y. La correlación r entre x e y es:
+
+$$
+r = \frac{1}{n-1} \sum \left( \frac{x_i - \bar{x}}{s_x} \right) \left( \frac{y_i - \bar{y}}{s_y} \right)
+$$
+
+## Características de la correlación (I) {.smaller background-color="white"}
+
+**Simetría en las Variables:** La correlación no distingue entre variables explicativas y respuesta; es indiferente cuál se llame x o y.\
+**Requisito Cuantitativo:** Las dos variables deben ser cuantitativas para que los cálculos de la correlación tengan sentido. No se puede calcular la correlación entre una variable cuantitativa y una categórica.\
+**Independencia de Unidades:** Como la correlación utiliza valores estandarizados, no cambia si se modifican las unidades de medida de las variables. La correlación es un valor sin unidades.\
+**Significado del Signo:**\
+- Correlación positiva: Indica una asociación positiva entre las variables.\
+- Correlación negativa: Indica una asociación negativa.
+
+## Características de la correlación (II) {.smaller background-color="white"}
+
+**Rango de la Correlación:** La correlación siempre toma valores entre −1 y 1.\
+- Cercanía a 0: Indica una relación lineal débil.\
+- Cercanía a ±1: Indica una relación lineal fuerte. Un valor de ±1 indica una relación lineal perfecta.\
+**Limitación a Relaciones Lineales:** La correlación sólo mide la fuerza de relaciones lineales, no describe adecuadamente las relaciones curvilíneas, aunque estas sean fuertes.\
+**Sensibilidad a Observaciones Atípicas:** La correlación puede verse fuertemente afectada por valores atípicos, lo que puede distorsionar la percepción de la relación entre las variables. Es importante utilizar la correlación con precaución cuando se detectan atípicos.
+
+## Graficos de dispersión y correlación {background-color="white"}
+
+```{r echo=F}
+library(gridExtra)
+library(ggplot2)
+library(dplyr)
+# Función para crear un conjunto de datos con una correlación específica
+crear_datos <- function(n, cor) {
+  x <- rnorm(n)
+  y <- cor * x + sqrt(1 - cor^2) * rnorm(n)
+  data.frame(x = x, y = y)
+}
+
+# Crear seis conjuntos de datos con diferentes correlaciones
+set.seed(42)
+datos_0 <- crear_datos(100, 0)
+datos_neg03 <- crear_datos(100, -0.3)
+datos_pos05 <- crear_datos(100, 0.5)
+datos_neg07 <- crear_datos(100, -0.7)
+datos_pos09 <- crear_datos(100, 0.9)
+datos_neg099 <- crear_datos(100, -0.99)
+
+# Función para crear gráficos con líneas de la media
+crear_grafico <- function(data, title) {
+  ggplot(data, aes(x = x, y = y)) + 
+    geom_point() + 
+    geom_vline(xintercept = mean(data$x), color = "red", linetype = "dotted") +  # Línea vertical para la media de x
+    geom_hline(yintercept = mean(data$y), color = "red", linetype = "dotted") +  # Línea horizontal para la media de y
+    labs(title = title) + 
+    theme_minimal()
+}
+
+# Crear los gráficos individuales con líneas de la media
+g0 <- crear_grafico(datos_0, "Correlación r = 0")
+g_neg03 <- crear_grafico(datos_neg03, "Correlación r = -0.3")
+g_pos05 <- crear_grafico(datos_pos05, "Correlación r = 0.5")
+g_neg07 <- crear_grafico(datos_neg07, "Correlación r = -0.7")
+g_pos09 <- crear_grafico(datos_pos09, "Correlación r = 0.9")
+g_neg099 <- crear_grafico(datos_neg099, "Correlación r = -0.99")
+
+# Organizar los gráficos en una cuadrícula 2x3
+grid.arrange(g0,g_pos05, g_pos09,g_neg03, g_neg07, g_neg099, ncol = 3)
+
+```
+
+## Evaluaciones {.dark-background}
+
+**Tarea 1: 2 de septiembre (la pauta se subirá hoy)**\
+- Gestión de datos\
+- Estadística bivariada\
+**Prueba 1: 9 de Septiembre**\
+- Uso de modelos en ciencias sociales\
+- Estadística bivariada\
+- Regresión lineal simple
+
+## Objetivo de la sesión {.center background-color="white"}
+
+Introducir y aplicar la regresión lineal simple para entender la relación entre una variable explicativa y una de respuesta.
+
+## Concepto de Regresión Lineal Simple {background-color="white"}
+
+La regresión lineal simple se utiliza para describir la relación entre dos variables, una independiente (explicativa) y una dependiente (respuesta), mediante una recta de regresión. A diferencia de la correlación si asume una direccionalidad.
+
+### Ejemplo: Brecha Salarial de Género y Años de Escolaridad
+
+Consideremos el ejemplo de la brecha salarial de género de una comuna y cómo podría estar influenciada por el promedio de años de escolaridad de la población. La idea es entender cómo varía la brecha salarial en función de los años de escolaridad a través de una recta de regresión.
+
+## Medias condicionales {background-color="white"}
+
+```{r}
+# Crear categorías de escolaridad para calcular medias condicionales
+datos <- readRDS("data/datos.rds") %>% 
+  filter(brecha<40 & brecha > -20 & !is.na(brecha))
+datos <- datos %>%
+  mutate(escolaridad_cat = cut(promedio_anios_escolaridad25_2017, 
+                               breaks = seq(floor(min(promedio_anios_escolaridad25_2017, na.rm = TRUE)), 
+                                            ceiling(max(promedio_anios_escolaridad25_2017, na.rm = TRUE)), 
+                                            by = 1), 
+                               include.lowest = TRUE))
+
+# Calcular medias condicionales
+medias_condicionales <- datos %>%
+  group_by(escolaridad_cat) %>%
+  summarize(
+    media_brecha = mean(brecha, na.rm = TRUE),
+    media_escolaridad = mean(promedio_anios_escolaridad25_2017, na.rm = TRUE)
+  )
+
+# Graficar la relación entre escolaridad y brecha salarial con medias condicionales
+ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+ # geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
+  geom_vline(xintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
+  geom_point(data = medias_condicionales, aes(x = media_escolaridad, y = media_brecha), 
+             color = "darkorange", size = 4, shape = 17) +  # Medias condicionales en color naranja y con forma de triángulo
+  geom_line(data = medias_condicionales, aes(x = media_escolaridad, y = media_brecha), 
+            color = "darkorange", linetype = "dashed", size = 1) +  # Línea que une las medias condicionales
+  labs(
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+
+```
+
+## Gráfico de regresión {background-color="white"}
+
+```{r echo=F}
+
+mean_brecha <- mean(datos$brecha, na.rm = TRUE)
+
+ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+  geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
+  geom_vline(xintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
+  labs(
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+```
+
+## Recta de Regresión Mínimo-Cuadrática {.smaller background-color="white"}
+
+La recta de regresión mínimo-cuadrática de $y$ con relación a $x$ es la recta que hace que la suma de los cuadrados de las distancias verticales de los puntos observados a la recta sea lo más pequeña posible.
+
+#### Fórmula General  {background-color="white"}
+
+La recta de regresión se expresa como: 
+$$
+\hat{y} = a + bx
+$$
+
+**Pendiente 𝑏:** Indica el cambio promedio en la variable respuesta𝑦por cada unidad de cambio en la variable explicativa 𝑥.\
+**Ordenada en el origen 𝑎:** Representa el valor predicho de𝑦cuando 𝑥= 0. Sólo tiene significado estadístico cuando x toma valores cercanos
+a 0.
+
+## Estimación de mínimos cuadrados {background-color="white"}
+
+Para cada observación, halla la distancia vertical de cada punto del diagrama de dispersión a la recta. La regresión mínimo-cuadrática hace que la suma de los cuadrados de estas distancias sea lo más pequeña posible.
+
+Ninguna recta podrá pasar exactamente por todos los puntos del diagrama de dispersión (a no ser que haya correlación perfecta). Queremos que las distancias verticales de los puntos a la recta sean lo más pequeñas posible.
+
+## Visualización de la distancia entre la recta y los casos  {background-color="white"}
+
+![](img/03/resid.jpg){fig-align="center"}
+
+## Cálculo de la Pendiente y Ordenada {background-color="white"}
+
+Para calcular la pendiente 𝑏y la ordenada en el origen 𝑎, se utilizan las siguientes fórmulas: 
+$$
+b = r \frac{s_y}{s_x}
+$$
+
+$$
+a = \bar{y} - b \bar{x}
+$$ 
+Donde:
+
+$r$ es la correlación entre $x$ y $y$.
+
+$s_x$ y $s_y$ son las desviaciones estándar de $x$ y $y$.
+
+$\bar{x}$ y $\bar{y}$ son las medias de $x$ y $y$, respectivamente.
+
+## Ejemplo con Datos de Brecha Salarial y Escolaridad {.smaller background-color="white"}
+
+```{r, echo=T}
+# Cálculo de la pendiente y ordenada
+r <- cor(datos$brecha, datos$promedio_anios_escolaridad25_2017)
+sx <- sd(datos$promedio_anios_escolaridad25_2017)
+sy <- sd(datos$brecha)
+mean_x <- mean(datos$promedio_anios_escolaridad25_2017)
+mean_y <- mean(datos$brecha)
+
+b <- r * (sy / sx)
+a <- mean_y - b * mean_x
+
+paste("Pendiente:", round(b, 2), "| Ordenada:", round(a, 2))
+```
+
+Considerando que en las comunas tenemos una correlación de entre la brecha salarial de género y los años de escolaridad, con una desviación estándar de sy = `r round(sy, 2)` para la brecha salarial y de sx = `r round(sx, 2)` para los años de escolaridad, y medias de mean_y = `r round(mean_y, 2)`% y mean_x = `r round(mean_x, 2)` años respectivamente, la pendiente y la ordenada se calculan como b = `r round(b, 2)` y a = `r round(a, 2)`.
+
+
+## Gráfico de regresión {background-color="white"}
+
+```{r echo=F}
+
+mean_brecha <- mean(datos$brecha, na.rm = TRUE)
+
+ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+  geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
+  geom_vline(xintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
+  labs(
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+```
+
+$$
+\hat{brecha} = -16.451 + 2.852 * escolaridad
+$$
+
+## Gráfico de regresión {background-color="white"}
+
+```{r echo=F}
+mean_brecha <- mean(datos$brecha, na.rm = TRUE)
+
+ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+  geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE, fullrange = TRUE) +  # Línea de tendencia en negro que se extiende al rango completo
+  geom_vline(xintercept = mean(datos$promedio_anios_escolaridad25_2017, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'promedio_anios_escolaridad25_2017'
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea roja punteada en la media de 'brecha'
+  geom_hline(yintercept = 0, color = "black", linetype = "solid", size = 0.8) +  # Línea negra en y = 0
+  geom_vline(xintercept = 0, color = "black", linetype = "solid", size = 0.8) +  # Línea negra en x = 0
+  labs(
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
+  ) +
+  xlim(-1, NA) +  # Extiende el eje x hasta -1
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+
+
+```
+
+$$
+\hat{brecha} = -16.451 + 2.852 * escolaridad
+$$
+
+
+## Características de la Regresión {.smaller background-color="white"}
+
+- **Distinción entre variable explicativa y variable respuesta**:
+  - La regresión mínimo-cuadrática considera sólo las distancias verticales de los puntos a la recta.
+  - Cambiar los papeles de las dos variables resulta en una recta de regresión distinta.
+
+**Conexión entre correlación y regresión**:
+  - La pendiente de la recta de regresión mínimo-cuadrática se calcula como:
+  
+$$
+  b = r \frac{s_y}{s_x}
+$$
+
+- A lo largo de la recta de regresión:
+  - Un cambio de una desviación típica en x provoca un cambio de r desviaciones típicas en y.
+  - Cuando r = 1 o r = −1, el cambio en y predicho es igual al cambio en x.
+  - Si −1 ≤ r ≤ 1, el cambio en y es menor que el cambio en x.
+  - A menor correlación, menor es la predicción de y en respuesta a x.
+  
+## Características de la Regresión {.smaller background-color="white"}
+
+- **Punto de paso de la recta de regresión**:
+  - La recta de regresión mínimo-cuadrática siempre pasa por el punto $(\bar{x}, \bar{y})$.
+  - La recta de regresión se describe completamente con $\bar{x}$, $s_x$, $\bar{y}$, $s_y$ y $r$.
+  
+  - **Correlación r y la fuerza de la relación lineal**:
+  - El cuadrado de la correlación, $r^2$, indica la fracción de la variación de $y$ explicada por la recta de regresión.
+  - $r^2$ se utiliza para medir la calidad de la predicción proporcionada por la regresión.
+
+- **Relación entre r y $r^2$**:
+  - Una correlación perfecta ($r = \pm1$) implica que $r^2 = 1$, lo que significa que toda la variación de $y$ se explica por la relación lineal con $x$.
+  - Si $r = \pm0.7$, entonces $r^2 = 0.49$, indicando que aproximadamente la mitad de la variación se explica con la relación lineal.
+

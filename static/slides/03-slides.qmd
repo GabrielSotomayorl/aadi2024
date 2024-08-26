@@ -184,16 +184,14 @@ ggplot(datos, aes(x = promedio_anios_escolaridad25_2017, y = brecha)) +
 
 La recta de regresión mínimo-cuadrática de $y$ con relación a $x$ es la recta que hace que la suma de los cuadrados de las distancias verticales de los puntos observados a la recta sea lo más pequeña posible.
 
-#### Fórmula General  {background-color="white"}
+#### Fórmula General {background-color="white"}
 
-La recta de regresión se expresa como: 
-$$
+La recta de regresión se expresa como: $$
 \hat{y} = a + bx
 $$
 
 **Pendiente 𝑏:** Indica el cambio promedio en la variable respuesta𝑦por cada unidad de cambio en la variable explicativa 𝑥.\
-**Ordenada en el origen 𝑎:** Representa el valor predicho de𝑦cuando 𝑥= 0. Sólo tiene significado estadístico cuando x toma valores cercanos
-a 0.
+**Ordenada en el origen 𝑎:** Representa el valor predicho de𝑦cuando 𝑥= 0. Sólo tiene significado estadístico cuando x toma valores cercanos a 0.
 
 ## Estimación de mínimos cuadrados {background-color="white"}
 
@@ -201,21 +199,19 @@ Para cada observación, halla la distancia vertical de cada punto del diagrama d
 
 Ninguna recta podrá pasar exactamente por todos los puntos del diagrama de dispersión (a no ser que haya correlación perfecta). Queremos que las distancias verticales de los puntos a la recta sean lo más pequeñas posible.
 
-## Visualización de la distancia entre la recta y los casos  {background-color="white"}
+## Visualización de la distancia entre la recta y los casos {background-color="white"}
 
 ![](img/03/resid.jpg){fig-align="center"}
 
 ## Cálculo de la Pendiente y Ordenada {background-color="white"}
 
-Para calcular la pendiente 𝑏y la ordenada en el origen 𝑎, se utilizan las siguientes fórmulas: 
-$$
+Para calcular la pendiente 𝑏y la ordenada en el origen 𝑎, se utilizan las siguientes fórmulas: $$
 b = r \frac{s_y}{s_x}
 $$
 
 $$
 a = \bar{y} - b \bar{x}
-$$ 
-Donde:
+$$ Donde:
 
 $r$ es la correlación entre $x$ y $y$.
 
@@ -239,8 +235,7 @@ a <- mean_y - b * mean_x
 paste("Pendiente:", round(b, 2), "| Ordenada:", round(a, 2))
 ```
 
-Considerando que en las comunas tenemos una correlación de entre la brecha salarial de género y los años de escolaridad, con una desviación estándar de sy = `r round(sy, 2)` para la brecha salarial y de sx = `r round(sx, 2)` para los años de escolaridad, y medias de mean_y = `r round(mean_y, 2)`% y mean_x = `r round(mean_x, 2)` años respectivamente, la pendiente y la ordenada se calculan como b = `r round(b, 2)` y a = `r round(a, 2)`.
-
+Considerando que en las comunas tenemos una correlación de `r round(r, 2)` entre la brecha salarial de género y los años de escolaridad, con una desviación estándar de sy = `r round(sy, 2)` para la brecha salarial y de sx = `r round(sx, 2)` para los años de escolaridad, y medias de mean_y = `r round(mean_y, 2)`% y mean_x = `r round(mean_x, 2)` años respectivamente, la pendiente y la ordenada se calculan como b = `r round(b, 2)` y a = `r round(a, 2)`.
 
 ## Gráfico de regresión {background-color="white"}
 
@@ -306,37 +301,36 @@ $$
 \hat{brecha} = -16.451 + 2.852 * escolaridad
 $$
 
-
 ## Características de la Regresión {.smaller background-color="white"}
 
-- **Distinción entre variable explicativa y variable respuesta**:
-  - La regresión mínimo-cuadrática considera sólo las distancias verticales de los puntos a la recta.
-  - Cambiar los papeles de las dos variables resulta en una recta de regresión distinta.
+-   **Distinción entre variable explicativa y variable respuesta**:
+    -   La regresión mínimo-cuadrática considera sólo las distancias verticales de los puntos a la recta.
+    -   Cambiar los papeles de las dos variables resulta en una recta de regresión distinta.
 
-**Conexión entre correlación y regresión**:
-  - La pendiente de la recta de regresión mínimo-cuadrática se calcula como:
-  
+**Conexión entre correlación y regresión**: - La pendiente de la recta de regresión mínimo-cuadrática se calcula como:
+
 $$
   b = r \frac{s_y}{s_x}
 $$
 
-- A lo largo de la recta de regresión:
-  - Un cambio de una desviación típica en x provoca un cambio de r desviaciones típicas en y.
-  - Cuando r = 1 o r = −1, el cambio en y predicho es igual al cambio en x.
-  - Si −1 ≤ r ≤ 1, el cambio en y es menor que el cambio en x.
-  - A menor correlación, menor es la predicción de y en respuesta a x.
-  
+-   A lo largo de la recta de regresión:
+    -   Un cambio de una desviación típica en x provoca un cambio de r desviaciones típicas en y.
+    -   Cuando r = 1 o r = −1, el cambio en y predicho es igual al cambio en x.
+    -   Si −1 ≤ r ≤ 1, el cambio en y es menor que el cambio en x.
+    -   A menor correlación, menor es la predicción de y en respuesta a x.
+
 ## Características de la Regresión {.smaller background-color="white"}
 
-- **Punto de paso de la recta de regresión**:
-  - La recta de regresión mínimo-cuadrática siempre pasa por el punto $(\bar{x}, \bar{y})$.
-  - La recta de regresión se describe completamente con $\bar{x}$, $s_x$, $\bar{y}$, $s_y$ y $r$.
-  
-  - **Correlación r y la fuerza de la relación lineal**:
-  - El cuadrado de la correlación, $r^2$, indica la fracción de la variación de $y$ explicada por la recta de regresión.
-  - $r^2$ se utiliza para medir la calidad de la predicción proporcionada por la regresión.
+-   **Punto de paso de la recta de regresión**:
+    -   La recta de regresión mínimo-cuadrática siempre pasa por el punto $(\bar{x}, \bar{y})$.
 
-- **Relación entre r y $r^2$**:
-  - Una correlación perfecta ($r = \pm1$) implica que $r^2 = 1$, lo que significa que toda la variación de $y$ se explica por la relación lineal con $x$.
-  - Si $r = \pm0.7$, entonces $r^2 = 0.49$, indicando que aproximadamente la mitad de la variación se explica con la relación lineal.
+    -   La recta de regresión se describe completamente con $\bar{x}$, $s_x$, $\bar{y}$, $s_y$ y $r$.
 
+    -   **Correlación r y la fuerza de la relación lineal**:
+
+    -   El cuadrado de la correlación, $r^2$, indica la fracción de la variación de $y$ explicada por la recta de regresión.
+
+    -   $r^2$ se utiliza para medir la calidad de la predicción proporcionada por la regresión.
+-   **Relación entre r y** $r^2$:
+    -   Una correlación perfecta ($r = \pm1$) implica que $r^2 = 1$, lo que significa que toda la variación de $y$ se explica por la relación lineal con $x$.
+    -   Si $r = \pm0.7$, entonces $r^2 = 0.49$, indicando que aproximadamente la mitad de la variación se explica con la relación lineal.

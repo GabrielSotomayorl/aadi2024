@@ -1,0 +1,78 @@
+---
+title: "Clase 4 <br> Regresión Lineal Simple II"
+subtitle: "Análisis Avanzado de Datos"
+author: "Gabriel Sotomayor"
+format: 
+  revealjs:
+    theme: [dark, custom.scss]
+    slide-number: true
+    auto-fit: true
+    logo: images/logo.png
+editor: visual
+---
+
+# Recordatorio de la clase anterior
+
+## Recta de Regresión Mínimo-Cuadrática {.smaller background-color="white"}
+
+La regresión lineal simple se utiliza para describir la relación entre dos variables, una independiente (explicativa) y una dependiente (respuesta), mediante una recta de regresión. A diferencia de la correlación si asume una direccionalidad.  
+
+#### Fórmula General {background-color="white"}
+
+La recta de regresión se expresa como: 
+$$
+\hat{y} = a + bx
+$$
+
+**Pendiente 𝑏:** Indica el cambio promedio en la variable respuesta𝑦por cada unidad de cambio en la variable explicativa 𝑥.\
+**Ordenada en el origen 𝑎:** Representa el valor predicho de𝑦cuando 𝑥= 0. Sólo tiene significado estadístico cuando x toma valores cercanos a 0.
+
+## Características de la Regresión {.smaller background-color="white"}
+
+-   **Distinción entre variable explicativa y variable respuesta**:
+    -   La regresión mínimo-cuadrática considera sólo las distancias verticales de los puntos a la recta.
+    -   Cambiar los papeles de las dos variables resulta en una recta de regresión distinta.
+
+**Conexión entre correlación y regresión**: - La pendiente de la recta de regresión mínimo-cuadrática se calcula como:
+
+$$
+  b = r \frac{s_y}{s_x}
+$$
+
+-   A lo largo de la recta de regresión:
+    -   Un cambio de una desviación típica en x provoca un cambio de r desviaciones típicas en y.
+    -   Cuando r = 1 o r = −1, el cambio en y predicho es igual al cambio en x.
+    -   Si −1 ≤ r ≤ 1, el cambio en y es menor que el cambio en x.
+    -   A menor correlación, menor es la predicción de y en respuesta a x.
+
+## Características de la Regresión {.smaller background-color="white"}
+
+-   **Punto de paso de la recta de regresión**:
+    -   La recta de regresión mínimo-cuadrática siempre pasa por el punto $(\bar{x}, \bar{y})$.
+
+    -   La recta de regresión se describe completamente con $\bar{x}$, $s_x$, $\bar{y}$, $s_y$ y $r$.
+
+    -   **Correlación r y la fuerza de la relación lineal**:
+
+    -   El cuadrado de la correlación, $r^2$, indica la fracción de la variación de $y$ explicada por la recta de regresión.
+
+    -   $r^2$ se utiliza para medir la calidad de la predicción proporcionada por la regresión.
+-   **Relación entre r y** $r^2$:
+    -   Una correlación perfecta ($r = \pm1$) implica que $r^2 = 1$, lo que significa que toda la variación de $y$ se explica por la relación lineal con $x$.
+    -   Si $r = \pm0.7$, entonces $r^2 = 0.49$, indicando que aproximadamente la mitad de la variación se explica con la relación lineal.
+
+
+## Evaluaciones {.dark-background}
+
+**Tarea 1: 2 de septiembre (la pauta se subirá hoy)**\
+- Gestión de datos\
+- Estadística bivariada\
+**Prueba 1: 9 de Septiembre**\
+- Uso de modelos en ciencias sociales\
+- Estadística bivariada\
+- Regresión lineal simple
+
+## Objetivo de la sesión {.center background-color="white"}
+
+Profundizar en la interpretación de la regresión lineal simple y el análisis de los residuos.
+

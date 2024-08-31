@@ -286,6 +286,20 @@ ggplot(datos, aes(x = predicciones, y = residuos)) +
   - **Varianza Residual:** Es la varianza de los residuos, es decir, la parte de $Y$ que no es explicada por $X$.
   - **Varianza Total de $Y$:** Es la varianza de los valores observados de $Y$.
 
+## Coeficiente de Determinación $R^2$ y suma de cuadrados {.smaller background-color="white"}
+
+Otra forma de expresar el $R^2$ es la siguiente:
+
+- Se calcula como:
+  $$
+  R^2 = \frac{\text{SSR}}{\text{SST}} = 1 - \frac{\text{SSE}}{\text{SST}}
+  $$
+  Donde:
+  - **SSR (Sum of Squares Regression):** Es la suma de los cuadrados de las diferencias entre los valores predichos $\hat{Y}$ y la media $\bar{Y}$.
+  - **SSE (Sum of Squares Error):** Es la suma de los cuadrados de los residuos, es decir, la parte de $Y$ que no es explicada por $X$.
+  - **SST (Sum of Squares Total):** Es la suma de los cuadrados de las diferencias entre los valores observados $Y$ y la media $\bar{Y}$.
+
+
 ## Descomposición de $Y$: Relación con $R^2$ {.smaller background-color="white"}
 - Cuando descomponemos \(Y_i\) en sus componentes, tenemos:
 $$

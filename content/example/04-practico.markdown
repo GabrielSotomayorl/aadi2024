@@ -11,6 +11,10 @@ toc: true
 editor_options:
   chunk_output_type: console
 ---
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 # 0. Objetivo del práctico
 
@@ -121,8 +125,6 @@ htmlreg(modelo,
 
 
 ## Residuos 
-
-## Residuos
 
 ### ¿Qué son los Residuos?
 
@@ -295,3 +297,194 @@ Interpretación del `\(R^2\)`
 Valor de `\(R^2\)`: El valor calculado de `\(R^2\)` indica la proporción de la variabilidad total en `\(Y\)` que es explicada por `\(X\)` en el modelo. Un `\(R^2\)` cercano a 1 sugiere que el modelo explica una gran parte de la variabilidad de los datos, mientras que un `\(R^2\)` cercano a 0 indica que el modelo no captura bien la relación entre las variables.
 
 Ejemplo de interpretación: Si obtienes un `\(R^2 = 0.20\)`, significa que el 19% de la variabilidad en la brecha salarial de género se explica por las diferencias en el promedio de años de escolaridad, según el modelo ajustado. El 81% restante se debe a factores no capturados por el modelo.
+
+## Ejercicio: Obtención de un modelo de regresión simple a partir de encuestas.
+
+En este ejercicio, vamos a explorar cómo varía el nivel de acuerdo con el matrimonio igualitario según la edad de las personas encuestadas, utilizando los datos de la *Encuesta CEP 82 (Oct-Nov 2018)*. El objetivo es aplicar una regresión lineal simple para analizar la relación entre estas dos variables: el *nivel de acuerdo con el matrimonio igualitario* y la *edad de los encuestados*.
+
+### Paso 1: Carga de datos
+Primero, cargamos los datos de la encuesta desde una fuente en línea y limpiamos los nombres de las variables para facilitar su uso en R.
+
+
+```r
+# Cargar el paquete haven
+pacman::p_load(haven,janitor,kableExtra)
+
+# URL del archivo .sav
+url <- "https://github.com/GabrielSotomayorl/aadi2024/raw/main/public/data/Encuesta%20CEP%2082%20Oct-Nov%202018%20v1.sav"
+
+# Cargar los datos directamente desde la URL
+datos_cep <- read_sav(url) %>% 
+  janitor::clean_names()
+```
+
+### Paso 2: Exploración de la variable de interés
+Vamos a generar una tabla de frecuencias que nos muestre cómo se distribuyen las respuestas sobre el nivel de acuerdo con el matrimonio igualitario (variable rel_47). Ojo con los casos perdidos.
+ 
+
+```r
+# Generar tabla de frecuencias
+frecuencias <- datos_cep %>%
+  group_by(rel_47,as_factor(rel_47)) %>%
+  summarise(Frecuencia = n()) %>%
+  ungroup() %>% 
+  mutate(Porcentaje = round((Frecuencia / sum(Frecuencia)) * 100, 2))
+```
+
+```
+## `summarise()` has grouped output by 'rel_47'. You can override using the
+## `.groups` argument.
+```
+
+```r
+# Mostrar la tabla con kable y kableExtra
+frecuencias %>%
+  kable("html", caption = "Tabla de Frecuencias de acuerdo con el matrimonio entre personas del mismo sexo") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+```
+
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<caption><span id="tab:unnamed-chunk-11"></span>Table 1: Tabla de Frecuencias de acuerdo con el matrimonio entre personas del mismo sexo</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> rel_47 </th>
+   <th style="text-align:left;"> as_factor(rel_47) </th>
+   <th style="text-align:right;"> Frecuencia </th>
+   <th style="text-align:right;"> Porcentaje </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Muy de acuerdo </td>
+   <td style="text-align:right;"> 204 </td>
+   <td style="text-align:right;"> 14.55 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> De acuerdo </td>
+   <td style="text-align:right;"> 338 </td>
+   <td style="text-align:right;"> 24.11 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:left;"> Ni de acuerdo ni en desacuerdo </td>
+   <td style="text-align:right;"> 240 </td>
+   <td style="text-align:right;"> 17.12 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:left;"> En desacuerdo </td>
+   <td style="text-align:right;"> 290 </td>
+   <td style="text-align:right;"> 20.68 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:left;"> Muy en desacuerdo </td>
+   <td style="text-align:right;"> 290 </td>
+   <td style="text-align:right;"> 20.68 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:left;"> No sabe </td>
+   <td style="text-align:right;"> 29 </td>
+   <td style="text-align:right;"> 2.07 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:left;"> No contesta </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 0.78 </td>
+  </tr>
+</tbody>
+</table>
+
+Ahora, vamos a calcular algunas estadísticas descriptivas de la edad de los encuestados (ds_p2_exacta). Estas estadísticas nos ayudarán a entender la distribución de la edad en la muestra.  
+
+
+```r
+descriptivas <- datos_cep %>%
+  summarise(
+    Minimo = min(ds_p2_exacta, na.rm = TRUE),
+    Q1 = quantile(ds_p2_exacta, 0.25, na.rm = TRUE),
+    Media = mean(ds_p2_exacta, na.rm = TRUE),
+    Mediana = median(ds_p2_exacta, na.rm = TRUE),
+    Q3 = quantile(ds_p2_exacta, 0.75, na.rm = TRUE),
+    Maximo = max(ds_p2_exacta, na.rm = TRUE),
+    DesviacionEstandar = sd(ds_p2_exacta, na.rm = TRUE)
+  )
+
+# Mostrar la tabla con kable y kableExtra
+descriptivas %>%
+  kable("html", caption = "Estadísticas Descriptivas de edad") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<caption><span id="tab:unnamed-chunk-12"></span>Table 2: Estadísticas Descriptivas de edad</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> Minimo </th>
+   <th style="text-align:right;"> Q1 </th>
+   <th style="text-align:right;"> Media </th>
+   <th style="text-align:right;"> Mediana </th>
+   <th style="text-align:right;"> Q3 </th>
+   <th style="text-align:right;"> Maximo </th>
+   <th style="text-align:right;"> DesviacionEstandar </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 48.59629 </td>
+   <td style="text-align:right;"> 48 </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 93 </td>
+   <td style="text-align:right;"> 17.34183 </td>
+  </tr>
+</tbody>
+</table>
+
+### Paso 4: Asignación de valores para casos perdidos
+Instrucción: Completa el sigueinte código para asignar NA a los valores 8 y 9 de la variable rel_47. Esta limpieza es crucial antes de proceder con el análisis. 
+
+
+```r
+datos_cep <- datos_cep %>% 
+  mutate(rel_47 = ifelse())
+```
+
+### Paso 5: Modelo de regresión lineal simple
+Vamos a crear un modelo de regresión lineal simple donde intentaremos predecir el nivel de acuerdo con el matrimonio igualitario (rel_47) a partir de la edad (ds_p2_exacta).
+
+
+```r
+# Ajustar un modelo de regresión lineal simple
+modelocep <- lm()
+
+# Mostrar un resumen del modelo
+summary(modelocep)
+texreg()
+```
+
+Interprete los coeficientes del modelo.
+
+## Paso 6: Visualización del modelo
+
+Finalmente, vamos a visualizar la relación entre la edad y el nivel de acuerdo con el matrimonio igualitario mediante un gráfico de dispersión, añadiendo la línea de regresión. Dado que estamos trabajando con una gran cantidad de casos, y con variables con pocos niveles, es importante que asignemos un valor de transparencia bajo a los puntos para que el gráfico de dispersión sea informativo. 
+
+
+```r
+# Crear un gráfico de dispersión con la línea de regresión
+ggplot(datos_cep, aes(x = , y = )) +
+  geom_point(alpha = 0.1) +
+  geom_smooth() +
+  labs(
+    title = "Relación entre Edad y Nivel de Acuerdo con el Matrimonio Igualitario",
+    x = "Edad",
+    y = "Nivel de Acuerdo"
+  ) %>% 
+  theme_minimal()
+```
+

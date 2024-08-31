@@ -1,0 +1,297 @@
+---
+title: "4. Regresión Lineal Simple II"
+linktitle: "4. Regresión Lineal Simple II"
+date: "2024-09-02"
+menu:
+  example:
+    parent: Ejemplos
+    weight: 4
+type: docs
+toc: true
+editor_options:
+  chunk_output_type: console
+---
+
+# 0. Objetivo del práctico
+
+El objetivo de este práctico es profundizar en el análisis de regresión lineal simple, centrándonos en la interpretación de los residuos y la evaluación del ajuste del modelo. Trabajaremos con datos comunales para analizar cómo la brecha salarial de género está influenciada por el promedio de años de escolaridad y exploraremos cómo los residuos nos informan sobre la calidad del modelo ajustado.
+
+
+```r
+pacman::p_load(dplyr, ggplot2, texreg)
+
+datos <- readRDS(url("https://github.com/GabrielSotomayorl/aadi2024/raw/main/content/example/input/data/datos.rds"))  %>% 
+  select(comuna,ing_prom_hombre, ing_prom_mujer,prom_esc = promedio_anios_escolaridad25_2017, prop_rural_2020, ) %>% 
+  mutate(brecha = (ing_prom_hombre - ing_prom_mujer)/ing_prom_hombre*100)
+```
+
+## Modelo de regresión 
+
+Recordemos nuestro modelo de regresión lineal simple utilizado para analizar la relación entre la amplitud de la brecha salarial de género.
+
+
+```r
+ggplot(datos, aes(x = prom_esc, y = brecha)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+  geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
+   geom_vline(xintercept = mean(datos$prom_esc, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea vertical en la media de prom_esc
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea horizontal en la media de brecha
+  labs(
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+```
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+<img src="/example/04-practico_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+Utilizamos el paquete texreg para presentar la tabla de regresión. El argumento 'file' nos permite guardar la tabla como un archivo, para lo cual debemos poner el nombre del archivo entre comillas, asegurandonos de terminar en ".html".
+
+
+```r
+modelo <- lm(brecha ~ prom_esc, data = datos)
+
+htmlreg(modelo, 
+        #file = "tabla_regresion.html", #Linea para exportar el archivo
+        custom.coef.names = c("Intercepto", "Promedio de años de escolaridad"))
+```
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>Statistical models</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
+<th style="padding-left: 5px;padding-right: 5px;">Model 1</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
+<td style="padding-left: 5px;padding-right: 5px;">-16.45<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(3.18)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Promedio de años de escolaridad</td>
+<td style="padding-left: 5px;padding-right: 5px;">2.85<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.32)</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">R<sup>2</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.20</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Adj. R<sup>2</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.19</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
+<td style="padding-left: 5px;padding-right: 5px;">323</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
+</tr>
+</tfoot>
+</table>
+
+*¿Cómo interpretamos los coeficientes de regresión?* 
+
+
+## Residuos 
+
+## Residuos
+
+### ¿Qué son los Residuos?
+
+Los **residuos** son las diferencias entre los valores observados de la variable dependiente ($Y$) y los valores predichos por el modelo de regresión ($\hat{Y}$). Matemáticamente, se expresan como:
+
+$$
+\text{Residuo} = Y_i - \hat{Y}_i
+$$
+
+Donde:
+
+- `\(Y_i\)` es el valor observado de la variable dependiente.
+- `\(\hat{Y}_i\)` es el valor predicho por el modelo para la misma observación.
+
+Los residuos son fundamentales para evaluar qué tan bien el modelo se ajusta a los datos. Un modelo que ajusta bien debería tener residuos pequeños y distribuidos de manera aleatoria alrededor de cero.
+
+### Cálculo de los Residuos
+
+Utilizaremos la función `resid()` en R para calcular los residuos del modelo ajustado, y `predict()` para obtener los valores ajsutados:
+
+
+```r
+# Calcular los residuos del modelo
+datos$residuos <- resid(modelo)
+#datos$residuos <- modelo$residuals #equivalente
+
+datos$predicciones <- predict(modelo)
+#modelo$fitted.values
+```
+
+## Gráfico de Residuos vs. Valores Predichos
+
+Un *gráfico de residuos vs. valores predichos* nos ayuda a identificar patrones en los residuos que podrían sugerir problemas con el modelo, como la no linealidad, la heterocedasticidad (variabilidad no constante), o la presencia de outliers.
+
+
+
+```r
+# Crear el gráfico de residuos vs valores predichos
+ggplot(datos, aes(x = predicciones, y = residuos)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+  geom_hline(yintercept = 0, color = "red", linetype = "dotted", size = 1) +  # Línea horizontal en y=0
+  labs(
+    x = "Valores Predichos",
+    y = "Residuos",
+    title = "Gráfico de Residuos vs. Valores Predichos"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+```
+
+<img src="/example/04-practico_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+
+### Interpretación del Gráfico de Residuos vs. Valores Predichos
+- Distribución aleatoria: Si los residuos están distribuidos de manera aleatoria alrededor de la línea horizontal en cero, el modelo es adecuado.  
+- Patrones en los residuos: Si se observan patrones (por ejemplo, una curva), esto puede indicar que el modelo no está capturando toda la estructura de los datos, sugiriendo la posibilidad de una relación no lineal.  
+- Heterocedasticidad: Si la dispersión de los residuos aumenta o disminuye con los valores predichos, esto indica heterocedasticidad, lo que puede afectar la validez de las inferencias.
+
+## Histograma de Residuos
+
+Un histograma de residuos es útil para evaluar si los residuos siguen una distribución normal, lo cual es una suposición clave en la regresión lineal simple para ciertas inferencias.  
+
+
+```r
+# Crear el histograma de residuos
+ggplot(datos, aes(x = residuos)) +
+  geom_histogram(binwidth = 1, fill = "#0073C2", color = "black", alpha = 0.7) +  # Histograma con barras azules
+  labs(
+    x = "Residuos",
+    y = "Frecuencia",
+    title = "Histograma de Residuos"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+```
+
+<img src="/example/04-practico_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+
+### Interpretación del Histograma de Residuos
+
+- Distribución normal: Si los residuos se distribuyen de manera simétrica alrededor de cero y tienen una forma aproximadamente de campana, esto apoya la suposición de normalidad.  
+- Asimetrías o colas largas: Si el histograma muestra asimetrías pronunciadas o colas largas, esto puede indicar que los residuos no son normalmente distribuidos, lo que podría sugerir la necesidad de revisar el modelo.  
+
+## Cálculo Manual del `\(R^2\)` y su Interpretación
+
+El coeficiente de determinación \( R^2 \) es una medida clave en la regresión lineal que indica qué proporción de la variabilidad total en la variable dependiente (\( Y \)) es explicada por la variable independiente (\( X \)) en el modelo.
+
+### Definición de `\(R^2\)`
+
+El `\(R^2\)` se define como:
+
+$$
+R^2 = 1 - \frac{\text{Suma de Cuadrados de los Residuos (SSR)}}{\text{Suma Total de Cuadrados (SST)}}
+$$
+
+Donde:
+
+- **SSR** (Suma de Cuadrados de los Residuos): Es la suma de los cuadrados de las diferencias entre los valores observados y los valores predichos. Mide la variabilidad de los residuos o la parte no explicada por el modelo.
+  
+  $$
+  \text{SSR} = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2
+  $$
+
+- **SST** (Suma Total de Cuadrados): Es la suma de los cuadrados de las diferencias entre los valores observados y la media de los valores observados. Mide la variabilidad total en los datos.
+  
+  $$
+  \text{SST} = \sum_{i=1}^{n} (Y_i - \bar{Y})^2
+  $$
+
+### Cálculo Paso a Paso
+
+### Paso 1: Calcular la Suma Total de Cuadrados (SST)
+
+Primero, calculamos la **Suma Total de Cuadrados (SST)**, que representa la variabilidad total en los valores observados de \( Y \):
+
+
+```r
+# Calcular la media de Y
+mean_y <- mean(datos$brecha, na.rm = TRUE)
+
+# Calcular SST
+SST <- sum((datos$brecha - mean_y)^2)
+SST
+```
+
+```
+## [1] 28961.14
+```
+
+### Paso 2: Calcular la Suma de Cuadrados de los Residuos (SSR)
+Luego, calculamos la Suma de Cuadrados de los Residuos (SSR), que mide la variabilidad de los residuos o la parte de `\(Y\)` no explicada por el modelo:
+
+
+```r
+# Calcular SSR
+SSR <- sum((datos$residuos)^2, na.rm = TRUE)
+SSR
+```
+
+```
+## [1] 23262.24
+```
+
+### Paso 3: Calcular `\(R^2\)`
+Finalmente, utilizamos la relación entre SSR y SST para calcular `\(R^2\)`:
+
+
+```r
+# Calcular R^2
+R2_manual <- 1 - (SSR / SST)
+R2_manual
+```
+
+```
+## [1] 0.1967772
+```
+
+Interpretación del `\(R^2\)`
+Valor de `\(R^2\)`: El valor calculado de `\(R^2\)` indica la proporción de la variabilidad total en `\(Y\)` que es explicada por `\(X\)` en el modelo. Un `\(R^2\)` cercano a 1 sugiere que el modelo explica una gran parte de la variabilidad de los datos, mientras que un `\(R^2\)` cercano a 0 indica que el modelo no captura bien la relación entre las variables.
+
+Ejemplo de interpretación: Si obtienes un `\(R^2 = 0.20\)`, significa que el 19% de la variabilidad en la brecha salarial de género se explica por las diferencias en el promedio de años de escolaridad, según el modelo ajustado. El 81% restante se debe a factores no capturados por el modelo.

@@ -41,7 +41,7 @@ Trabajaremos con las siguientes variables:
 4.  Promedio de años de escolaridad de la población mayor de 25 años hasta el año 2017 (Censo 2017).
 5.  Brecha salarial media comunal (Calculada por nosotros).
 
-## Recta de Regresión Mínimo-Cuadrática
+## Recta de Regresión Lineal simple
 
 La recta de regresión mínimo-cuadrática de `\(y\)` con relación a `\(x\)` es la recta que hace que la suma de los cuadrados de las distancias verticales de los puntos observados a la recta sea lo más pequeña posible.
 
@@ -219,7 +219,7 @@ Interpretación de los coeficientes:
 
 - **Beta de regresión:** La pendiente de la regresión (2.8520) indica que por cada año adicional de escolaridad promedio en una comuna, la brecha salarial de género promedio (o predicha por el modelo) se incrementa en un 2.85%. Esto sugiere una relación positiva entre los años de escolaridad y la brecha salarial, donde más años de educación promedio se asocian con una mayor brecha salarial en favor de los hombres.    
 
-- **R-cuadrado:** El R-cuadrado ajustado de 0.1943 indica que aproximadamente el 19.43% de la variabilidad en la brecha salarial puede explicarse por el modelo lineal simple que incluye el promedio de años de escolaridad como predictor. Si bien este no es un valor muy alto, sugiere que existen otros factores importantes que también afectan la brecha salarial de género y no están capturados por este modelo simple
+- **R-cuadrado:** El `\(R^2\)` de 0.1968 indica que aproximadamente el 19.68% de la variabilidad en la brecha salarial puede explicarse por el modelo lineal simple que incluye el promedio de años de escolaridad como predictor. Aunque este valor no es muy alto, sugiere que existen otros factores importantes que también afectan la brecha salarial de género y que no están capturados por este modelo simple.
 
 ## Presentación de resultados con texreg
 
@@ -255,7 +255,9 @@ screenreg(modelo, custom.coef.names = c("Intercepto", "Promedio de años de esco
 
 
 ```r
-htmlreg(modelo, custom.coef.names = c("Intercepto", "Promedio de años de escolaridad")) #  para exportar como tabla html
+htmlreg(modelo, 
+        #file = "tabla_regresion.html", #Linea para exportar el archivo
+        custom.coef.names = c("Intercepto", "Promedio de años de escolaridad"))
 ```
 
 <table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">

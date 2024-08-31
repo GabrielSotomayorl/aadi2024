@@ -361,6 +361,9 @@ Gabriel Sotomayor
 <li>Cambiar los papeles de las dos variables resulta en una recta de regresión distinta.</li>
 </ul></li>
 </ul>
+</section>
+<section id="características-de-la-regresión-1" class="slide level2 smaller" data-background-color="white">
+<h2>Características de la Regresión</h2>
 <p><strong>Conexión entre correlación y regresión</strong>: - La pendiente de la recta de regresión mínimo-cuadrática se calcula como:</p>
 <p><span class="math display">\[
   b = r \frac{s_y}{s_x}
@@ -369,13 +372,13 @@ Gabriel Sotomayor
 <li>A lo largo de la recta de regresión:
 <ul>
 <li>Un cambio de una desviación típica en x provoca un cambio de r desviaciones típicas en y.</li>
-<li>Cuando r = 1 o r = −1, el cambio en y predicho es igual al cambio en x.</li>
+<li>Cuando r = 1 o r = −1, el cambio en y predicho es igual al cambio en x, en términos de desviaciones estándar.</li>
 <li>Si −1 ≤ r ≤ 1, el cambio en y es menor que el cambio en x.</li>
 <li>A menor correlación, menor es la predicción de y en respuesta a x.</li>
 </ul></li>
 </ul>
 </section>
-<section id="características-de-la-regresión-1" class="slide level2 smaller" data-background-color="white">
+<section id="características-de-la-regresión-2" class="slide level2 smaller" data-background-color="white">
 <h2>Características de la Regresión</h2>
 <ul>
 <li><strong>Punto de paso de la recta de regresión</strong>:
@@ -394,11 +397,12 @@ Gabriel Sotomayor
 </ul>
 </section>
 <section id="evaluaciones" class="slide level2 dark-background">
-<h2>Evaluaciones</h2>
-<p><strong>Tarea 1: 2 de septiembre (la pauta se subirá hoy)</strong><br>
+<h2><span style="color:#FFFFFF;">Evaluaciones</span></h2>
+<p><strong>Tarea 1: 4 de septiembre (la pauta está arriba)</strong><br>
 - Gestión de datos<br>
 - Estadística bivariada<br>
-<strong>Prueba 1: 9 de Septiembre</strong><br>
+- Regresión lineal simple</p>
+<p><strong>Prueba 1: 9 de Septiembre</strong><br>
 - Uso de modelos en ciencias sociales<br>
 - Estadística bivariada<br>
 - Regresión lineal simple</p>
@@ -406,6 +410,137 @@ Gabriel Sotomayor
 <section id="objetivo-de-la-sesión" class="slide level2 center" data-background-color="white">
 <h2>Objetivo de la sesión</h2>
 <p>Profundizar en la interpretación de la regresión lineal simple y el análisis de los residuos.</p>
+</section>
+<section id="residuos-definición-y-significado" class="slide level2 smaller" data-background-color="white">
+<h2>Residuos: Definición y Significado</h2>
+<p><em>¿Qué son los Residuos?</em></p>
+<p>Un residuo es la diferencia entre el valor observado de la variable respuesta (Y) y el valor predicho por la recta de regresión (<span class="math inline">\(\hat{y}\)</span>).<br>
+Fórmula: residuo = Y observada − Y predicha = Y − <span class="math inline">\(\hat{y}\)</span>.</p>
+<p><em>Importancia de los Residuos:</em></p>
+<ul>
+<li>Los residuos representan las desviaciones de los datos respecto a la recta de regresión, indicando qué tan bien el modelo captura la relación entre X e Y.<br>
+</li>
+<li>La media de los residuos es siempre cero, lo que significa que, en promedio, los puntos están equidistantes de la recta.</li>
+</ul>
+</section>
+<section id="gráfico-de-dispersión-con-recta-de-regresión" class="slide level2 center" data-background-color="white">
+<h2>Gráfico de dispersión con recta de regresión</h2>
+
+<img data-src="04-slides_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"><p><span class="math display">\[
+\hat{brecha} = -16.451 + 2.852 * escolaridad
+\]</span></p>
+</section>
+<section id="componentes-del-y-observado" class="slide level2 smaller" data-background-color="white">
+<h2>Componentes del Y observado</h2>
+<p>Después de realizar una regresión, podemos descomponer Y en tres componentes:</p>
+<p><span class="math display">\[
+Y_i = \hat{Y} + (\hat{Y}_i − 𝑌̅) + (Y_i − \hat{Y}_i)
+\]</span></p>
+<p>Componentes de Y:</p>
+<ul>
+<li>Media General (<span class="math inline">\(\hat{Y}\)</span>): Constante para todas las observaciones.</li>
+<li>Componente Explicado (<span class="math inline">\(\hat{Y}_i − 𝑌̅\)</span>): La parte de Y explicada por X.</li>
+<li>Componente No Explicado (Residuos, <span class="math inline">\({Y}_i\)</span> 𝑌𝑖 − <span class="math inline">\(\hat{Y}_i\)</span>): La parte de Y que no es explicada por X.</li>
+</ul>
+</section>
+<section id="componentes-del-y-observado-1" class="slide level2 smaller" data-background-color="white">
+<h2>Componentes del Y observado</h2>
+<p>Por ejemplo: La comuna de Sierra Gorda tiene una brecha salarial de género de 31,13%, y una escolaridad de 13,19 años. Para ese caso el modelo predice un valor de -16,451+2,852*13,19 = 21,17. Es decir el residuo es igual a 31,13 - 21,17 = 9,96.<br>
+<span class="math display">\[
+\text{Brecha de Sierra Gorda} = 11,42\% \, (\text{Media General}) \\
++ 9,75\% \, (\text{Componente Explicado}) \\
++ 9,96\% \, (\text{Residuos}) \\
+= 31,13\%
+\]</span></p>
+</section>
+<section id="gráfico-de-componentes-de-y" class="slide level2 center" data-background-color="white">
+<h2>Gráfico de componentes de Y</h2>
+
+<img data-src="04-slides_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<section id="residuos-como-y-ajustado-por-x" class="slide level2 smaller" data-background-color="white">
+<h2>Residuos como Y ajustado por X</h2>
+<p>Cuando se predice Y a partir de X, los residuos pueden interpretarse como una nueva variable: Y ajustado por X.</p>
+<p>Interpretación de los Residuos:</p>
+<ul>
+<li>Si un individuo tiene un residuo positivo, esto indica que su valor de Y es mayor de lo esperado dado su valor de X.<br>
+</li>
+<li>Si un individuo tiene un residuo negativo, esto indica que su valor de Y es mayor de lo esperado dado su valor de X.</li>
+</ul>
+</section>
+<section id="diagrama-de-residuos" class="slide level2 smaller" data-background-color="white">
+<h2>Diagrama de Residuos</h2>
+<p><em>¿Qué es un Diagrama de Residuos?</em></p>
+<p>Un diagrama de residuos es un gráfico de los residuos contra la variable explicativa. Es una herramienta clave para evaluar el ajuste del modelo.</p>
+<p><strong>Interpretación del Diagrama de Residuos:</strong></p>
+<ul>
+<li>Distribución Uniforme: Indica un buen ajuste del modelo. Este caso se denomina homocedasticidad.</li>
+<li>Formas Curvas: Señalan que la relación no es lineal.</li>
+<li>Dispersión Creciente/Decreciente: Indica variabilidad no constante en Y, lo que puede afectar la precisión de las predicciones. Esto se denomina heterocedasticidad.</li>
+</ul>
+</section>
+<section id="digrama-de-residuos" class="slide level2 smaller" data-background-color="white">
+<h2>Digrama de residuos</h2>
+
+<img data-src="04-slides_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section id="diagramas-de-residuos" class="slide level2 smaller" data-background-color="white">
+<h2>Diagramas de residuos</h2>
+<p><img data-src="img/04/residuos.jpg"> {.smaller background-color=“white”}</p>
+</section>
+<section id="coeficiente-de-determinación-r2-y-varianza-residual" class="slide level2 smaller" data-background-color="white">
+<h2>Coeficiente de Determinación <span class="math inline">\(R^2\)</span> y Varianza Residual</h2>
+<p><strong>¿Qué es <span class="math inline">\(R^2\)</span>?</strong> - <strong><span class="math inline">\(R^2\)</span></strong>, conocido como el coeficiente de determinación, es una medida estadística que indica la proporción de la varianza en la variable dependiente <span class="math inline">\(Y\)</span> que es explicada por la variable independiente <span class="math inline">\(X\)</span> en un modelo de regresión.</p>
+<ul>
+<li>Se calcula como: <span class="math display">\[
+R^2 = 1 - \frac{\text{Varianza Residual}}{\text{Varianza Total de } Y}
+\]</span> Donde:
+<ul>
+<li><strong>Varianza Residual:</strong> Es la varianza de los residuos, es decir, la parte de <span class="math inline">\(Y\)</span> que no es explicada por <span class="math inline">\(X\)</span>.</li>
+<li><strong>Varianza Total de <span class="math inline">\(Y\)</span>:</strong> Es la varianza de los valores observados de <span class="math inline">\(Y\)</span>.</li>
+</ul></li>
+</ul>
+</section>
+<section id="descomposición-de-y-relación-con-r2" class="slide level2 smaller" data-background-color="white">
+<h2>Descomposición de <span class="math inline">\(Y\)</span>: Relación con <span class="math inline">\(R^2\)</span></h2>
+<ul>
+<li><p>Cuando descomponemos (Y_i) en sus componentes, tenemos: <span class="math display">\[
+Y_i = \hat{Y} + (\hat{Y}_i − 𝑌̅) + (Y_i − \hat{Y}_i)
+\]</span></p></li>
+<li><p><strong><span class="math inline">\(Y_i\)</span></strong>: Valor observado.</p></li>
+<li><p><strong><span class="math inline">\(\hat{Y}_i − \bar{Y}\)</span></strong>: Componente explicado por <span class="math inline">\(X\)</span>.</p></li>
+<li><p><strong><span class="math inline">\(Y_i − \hat{Y}_i\)</span></strong>: Residuos o componente no explicado por <span class="math inline">\(X\)</span>.</p></li>
+<li><p><strong>Varianza Residual</strong>: Corresponde a la varianza del componente no explicado <span class="math inline">\(Y_i − \hat{Y}_i\)</span>.</p></li>
+</ul>
+</section>
+<section id="r2-como-proporción-explicada" class="slide level2 smaller" data-background-color="white">
+<h2><span class="math inline">\(R^2\)</span> como Proporción Explicada</h2>
+<ul>
+<li><span class="math inline">\(R^2\)</span> indica cuánta de la varianza total de <span class="math inline">\(Y\)</span> es explicada por el modelo.</li>
+<li>Un <span class="math inline">\(R^2\)</span> cercano a 1 sugiere que la mayor parte de la varianza de <span class="math inline">\(Y\)</span> es explicada por <span class="math inline">\(X\)</span>.</li>
+<li>Un <span class="math inline">\(R^2\)</span> cercano a 0 sugiere que el modelo no explica bien la varianza de <span class="math inline">\(Y\)</span>, y la varianza residual es alta.</li>
+</ul>
+<p><strong>Interpretación Práctica de <span class="math inline">\(R^2\)</span>:</strong> - Un <span class="math inline">\(R^2\)</span> de 0.85 indica que el 85% de la varianza en <span class="math inline">\(Y\)</span> es explicada por <span class="math inline">\(X\)</span>, mientras que el 15% restante es debido a factores no capturados por el modelo (varianza residual).</p>
+</section>
+<section id="observacions-atípicas-y-observaciones-influyentes-en-regresión" class="slide level2 smaller" data-background-color="white">
+<h2>Observacions atípicas y observaciones influyentes en regresión</h2>
+<ul>
+<li>Una observación <strong>atípica</strong> es aquélla que queda separada de las restantes observaciones.<br>
+</li>
+<li>Una observación es <strong>influyente</strong> con relación a un cálculo estadístico si al eliminarla cambia el resultado del cálculo. En regresión mínimocuadrática, las observaciones atípicas en la dirección del eje de las abscisas son, en general, observaciones influyentes.</li>
+</ul>
+</section>
+<section id="precauciones-con-la-correlación-y-la-regresión" class="slide level2 smaller" data-background-color="white">
+<h2>Precauciones con la Correlación y la Regresión</h2>
+<p>La correlación y la regresión son herramientas poderosas, pero tienen limitaciones.</p>
+<p>Precauciones:</p>
+<ul>
+<li><em>Extrapolación:</em> Evita predecir fuera del rango de valores utilizados para calcular la recta de regresión, ya que esto puede llevar a resultados no fiables.<br>
+</li>
+<li><em>Medias:</em> Los estudios que usan medias pueden mostrar correlaciones demasiado altas cuando se aplican a individuos.<br>
+</li>
+<li><em>Variables Latentes:</em> Considera la posibilidad de variables no medidas que pueden estar influyendo en la relación observada.<br>
+</li>
+<li><em>Asociación No Implica Causalidad:</em> Una fuerte asociación entre dos variables no garantiza una relación causa-efecto.</li>
+</ul>
 
 <img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 
@@ -622,6 +757,44 @@ Gabriel Sotomayor
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

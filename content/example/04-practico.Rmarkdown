@@ -1,11 +1,11 @@
 ---
-title: "4. Análisis de Regresión Lineal Múltiple"
-linktitle: "4. Análisis de Regresión Lineal Múltiple"
-date: "2023-04-14"
+title: "4. Regresión Lineal Simple II"
+linktitle: "4. Regresión Lineal Simple II"
+date: "2024-09-02"
 menu:
   example:
     parent: Ejemplos
-    weight: 3
+    weight: 4
 type: docs
 toc: true
 editor_options:
@@ -14,207 +14,206 @@ editor_options:
 
 # 0. Objetivo del práctico
 
-El objetivo de este práctico es presentar una introducción al Análisis de Regresión Lineal Múltiple, visualizar sus resultados y evaluar el ajuste de los modelos y el cumplimiento de los supuestos de la técnica.   
+El objetivo de este práctico es profundizar en el análisis de regresión lineal simple, centrándonos en la interpretación de los residuos y la evaluación del ajuste del modelo. Trabajaremos con datos comunales para analizar cómo la brecha salarial de género está influenciada por el promedio de años de escolaridad y exploraremos cómo los residuos nos informan sobre la calidad del modelo ajustado.
 
-Para esto haremos uso de la encuesta [CASEN (2020)](http://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-en-pandemia-2020), la mayor encuesta de hogares realizada en Chile, a cargo del Ministerio de Desarrollo Social, de carácter transversal y multipropósito, es el principal instrumento de medición socioeconómica para el diseño y evaluación de la política social. Permite conocer periódicamente la situación socioeconómica de los hogares y de la población que reside en viviendas particulares, a través de preguntas referidas a composición familiar, educación, salud, vivienda, trabajo e ingresos, entre otros aspectos. 
+```{r}
+pacman::p_load(dplyr, ggplot2, texreg)
 
-## Cargar paquetes a utilizar
-Para iniciar se cargan los paquetes necesarios para realizar el análisis de regresión. Al utilizar la función p_load() del paquete "pacman", si alguno de los paquetes no está instalado, se instalará automáticamente con la función install.packages(). Los paquetes utilizados son:
+datos <- readRDS(url("https://github.com/GabrielSotomayorl/aadi2024/raw/main/content/example/input/data/datos.rds"))  %>% 
+  select(comuna,ing_prom_hombre, ing_prom_mujer,prom_esc = promedio_anios_escolaridad25_2017, prop_rural_2020, ) %>% 
+  mutate(brecha = (ing_prom_hombre - ing_prom_mujer)/ing_prom_hombre*100)
 
-haven: para cargar archivos SPSS en R.
-texreg: para crear tablas de resumen de regresión.
-corrplot: para visualizar las correlaciones entre variables.
-coefplot: para crear gráficos de coeficientes de regresión.
-ggplot2: para crear gráficos.
-sjPlot: para crear tablas de resumen de regresión y gráficos.
-summarytools: para crear resúmenes de variables.
-dplyr: para manipulación de datos.
-lmtest: para pruebas de diagnóstico de regresión.
-sandwich: para estimar errores robustos en regresiones.
+
+```
+
+## Modelo de regresión 
+
+Recordemos nuestro modelo de regresión lineal simple utilizado para analizar la relación entre la amplitud de la brecha salarial de género.
+
+```{r, message=FALSE}
+ggplot(datos, aes(x = prom_esc, y = brecha)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+  geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
+   geom_vline(xintercept = mean(datos$prom_esc, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea vertical en la media de prom_esc
+  geom_hline(yintercept = mean(datos$brecha, na.rm = TRUE), color = "red", linetype = "dotted", size = 1) +  # Línea horizontal en la media de brecha
+  labs(
+    x = "Promedio de Años de Escolaridad (2017)",
+    y = "Brecha Salarial de Género (%)",
+    title = "Relación entre Promedio de Años de Escolaridad y Brecha Salarial de Género"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
+```
+
+Utilizamos el paquete texreg para presentar la tabla de regresión. El argumento 'file' nos permite guardar la tabla como un archivo, para lo cual debemos poner el nombre del archivo entre comillas, asegurandonos de terminar en ".html".
+
+```{r, results='asis'}
+modelo <- lm(brecha ~ prom_esc, data = datos)
+
+htmlreg(modelo, 
+        #file = "tabla_regresion.html", #Linea para exportar el archivo
+        custom.coef.names = c("Intercepto", "Promedio de años de escolaridad"))
+```
+
+*¿Cómo interpretamos los coeficientes de regresión?* 
+
+
+## Residuos 
+
+## Residuos
+
+### ¿Qué son los Residuos?
+
+Los **residuos** son las diferencias entre los valores observados de la variable dependiente ($Y$) y los valores predichos por el modelo de regresión ($\hat{Y}$). Matemáticamente, se expresan como:
+
+$$
+\text{Residuo} = Y_i - \hat{Y}_i
+$$
+
+Donde:
+
+- $Y_i$ es el valor observado de la variable dependiente.
+- $\hat{Y}_i$ es el valor predicho por el modelo para la misma observación.
+
+Los residuos son fundamentales para evaluar qué tan bien el modelo se ajusta a los datos. Un modelo que ajusta bien debería tener residuos pequeños y distribuidos de manera aleatoria alrededor de cero.
+
+### Cálculo de los Residuos
+
+Utilizaremos la función `resid()` en R para calcular los residuos del modelo ajustado, y `predict()` para obtener los valores ajsutados:
+
+```{r}
+# Calcular los residuos del modelo
+datos$residuos <- resid(modelo)
+#datos$residuos <- modelo$residuals #equivalente
+
+datos$predicciones <- predict(modelo)
+#modelo$fitted.values
+```
+
+## Gráfico de Residuos vs. Valores Predichos
+
+Un *gráfico de residuos vs. valores predichos* nos ayuda a identificar patrones en los residuos que podrían sugerir problemas con el modelo, como la no linealidad, la heterocedasticidad (variabilidad no constante), o la presencia de outliers.
 
 
 ```{r}
-# Cargar paquetes a utilizar
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(haven,texreg,corrplot,coefplot,ggplot2,sjPlot,summarytools,dplyr,
-               lmtest,sandwich)
+# Crear el gráfico de residuos vs valores predichos
+ggplot(datos, aes(x = predicciones, y = residuos)) +
+  geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
+  geom_hline(yintercept = 0, color = "red", linetype = "dotted", size = 1) +  # Línea horizontal en y=0
+  labs(
+    x = "Valores Predichos",
+    y = "Residuos",
+    title = "Gráfico de Residuos vs. Valores Predichos"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
 ```
 
-## Importar datos 
-A continuación se carga la base de datos de CASEN 2020. La base de datos se encuentra en la página web del Observatorio Social. La función read_spss() del paquete haven se utiliza para cargar la base de datos.
+### Interpretación del Gráfico de Residuos vs. Valores Predichos
+- Distribución aleatoria: Si los residuos están distribuidos de manera aleatoria alrededor de la línea horizontal en cero, el modelo es adecuado.  
+- Patrones en los residuos: Si se observan patrones (por ejemplo, una curva), esto puede indicar que el modelo no está capturando toda la estructura de los datos, sugiriendo la posibilidad de una relación no lineal.  
+- Heterocedasticidad: Si la dispersión de los residuos aumenta o disminuye con los valores predichos, esto indica heterocedasticidad, lo que puede afectar la validez de las inferencias.
 
-Primero, se descarga un archivo comprimido que contiene la base de datos desde la página web utilizando la función download.file(). Luego, se descomprime el archivo utilizando la función unz() y se carga la base de datos utilizando la función read_sav(). Finalmente, se elimina el archivo temporal que se creó durante el proceso de descarga y descompresión utilizando la función unlink() y remove().
+## Histograma de Residuos
+
+Un histograma de residuos es útil para evaluar si los residuos siguen una distribución normal, lo cual es una suposición clave en la regresión lineal simple para ciertas inferencias.  
 
 ```{r}
-temp <- tempfile() #Creamos un archivo temporal
-download.file("http://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2020/Casen_en_Pandemia_2020_revisada202209.sav.zip",temp) #descargamos los datos
-base <- haven::read_sav(unz(temp, "Casen_en_Pandemia_2020_revisada202209.sav")) #cargamos los datos
-unlink(temp); remove(temp) #eliminamos el archivo temporal
+# Crear el histograma de residuos
+ggplot(datos, aes(x = residuos)) +
+  geom_histogram(binwidth = 1, fill = "#0073C2", color = "black", alpha = 0.7) +  # Histograma con barras azules
+  labs(
+    x = "Residuos",
+    y = "Frecuencia",
+    title = "Histograma de Residuos"
+  ) +
+  theme_minimal(base_size = 16) +  # Tamaño base de letra aumentado
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 18),  # Título centrado, en negrita y más grande
+    axis.title = element_text(face = "bold", size = 14),               # Títulos de los ejes en negrita y más grandes
+    axis.text = element_text(color = "#333333", size = 12),            # Texto de los ejes más grande
+    panel.grid.major = element_line(color = "#e0e0e0"),                # Líneas de la cuadrícula mayor en gris claro
+    panel.grid.minor = element_blank()                                 # Elimina las líneas de la cuadrícula menor
+  )
 ```
 
-## Análisis previos
+### Interpretación del Histograma de Residuos
 
-El análisis de regresión lineal requiere una variable dependiente continua, mientras que las variables independientes pueden corresponder a cualquier nivel de medición. Podemos revisar el tipo de datos de las variables que utilizaremos con la función "class()"
-```{r}
-class(base$yautcor)
-class(base$esc)
-class(base$edad)
-class(as_factor(base$sexo))
-```
+- Distribución normal: Si los residuos se distribuyen de manera simétrica alrededor de cero y tienen una forma aproximadamente de campana, esto apoya la suposición de normalidad.  
+- Asimetrías o colas largas: Si el histograma muestra asimetrías pronunciadas o colas largas, esto puede indicar que los residuos no son normalmente distribuidos, lo que podría sugerir la necesidad de revisar el modelo.  
 
-Se utiliza la función dfSummary() del paquete summarytools para crear un resumen de las variables yautcor, esc, edad y sexo de la base de datos. El resumen incluye estadísticas descriptivas y de frecuencia.
+## Cálculo Manual del $R^2$ y su Interpretación
 
-```{r}
+El coeficiente de determinación \( R^2 \) es una medida clave en la regresión lineal que indica qué proporción de la variabilidad total en la variable dependiente (\( Y \)) es explicada por la variable independiente (\( X \)) en el modelo.
 
-print(dfSummary(base[,c("yautcor","esc","edad","sexo")], headings = FALSE, method = "render"))
-```
+### Definición de $R^2$
 
-Realizamos un análisis de correlaciones bivariadas con el fin de revisar si existe una relación lineal entre la variable dependiente y las variables independientes, además de comprobar que no existan problemas de colinealidad entre estas últimas. Se calcula la matriz de correlaciones entre las variables yautcor, esc, edad y sexo utilizando la función cor(). La opción use="complete.obs" se utiliza para omitir cualquier fila que contenga valores faltantes (NA). Luego, se asigna la matriz de correlaciones al objeto mc.
+El $R^2$ se define como:
 
-```{r}
-#correlaciones
-cor(base[,c("yautcor","esc","edad","sexo")], use="complete.obs")
-mc<-cor(base[,c("yautcor","esc","edad","sexo")], use="complete.obs")
-```
+$$
+R^2 = 1 - \frac{\text{Suma de Cuadrados de los Residuos (SSR)}}{\text{Suma Total de Cuadrados (SST)}}
+$$
 
-Para visualizar las correlaciones de manera más clara, se utiliza la función corrplot() del paquete corrplot. La opción method = 'number' indica que se deben mostrar los valores de correlación en cada celda y type = 'upper' indica que solo se deben mostrar las celdas de la parte superior de la matriz (ya que la matriz es simétrica).
+Donde:
 
-```{r}
-corrplot(mc, method = 'number', type = 'upper')
-```
+- **SSR** (Suma de Cuadrados de los Residuos): Es la suma de los cuadrados de las diferencias entre los valores observados y los valores predichos. Mide la variabilidad de los residuos o la parte no explicada por el modelo.
+  
+  $$
+  \text{SSR} = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2
+  $$
 
-A continuación, usamos el paquete ggplot para obtener un gráfico que nos muestre la distribución del ingreso autónomo de acuerdo con la escolaridad. Dado que el ingreso tiene muchos casos extremos, aplicamos una transformación logarítmica log() para visualizar de mejor manera la relación entre las variables. Este gráfico nos permite observar la existencia de relación lineal entre las variables. Dicha visualización es relevante porque en algunos casos, dos variables pueden tener una baja correlación, pero estar relacionadas de manera no lineal, lo cual puede observarse mediante la visualización. El gráfico muestra que hay una relación lineal positiva entre yautcor y esc.
+- **SST** (Suma Total de Cuadrados): Es la suma de los cuadrados de las diferencias entre los valores observados y la media de los valores observados. Mide la variabilidad total en los datos.
+  
+  $$
+  \text{SST} = \sum_{i=1}^{n} (Y_i - \bar{Y})^2
+  $$
 
-```{r, warning=FALSE}
-g=ggplot(base, aes(x=esc, y=log(yautcor))) +
-  geom_point()+ geom_smooth(method="lm", se=FALSE)
-g
+### Cálculo Paso a Paso
 
-```
+### Paso 1: Calcular la Suma Total de Cuadrados (SST)
 
-## Estimación del modelo
-
-A continuación, se estima un modelo de regresión lineal simple (modelo1) que explique el ingreso autónomo en función de la escolaridad. Se utiliza la función lm() y se asigna el resultado a la variable modelo1. Luego, se utiliza la función summary() para obtener un resumen de los resultados.
-
-Las variables del modelo de regresión deben presentarse como una formula, en que la variable dependiente se separa de las independientes con el caracter "~".
-
-```{r}
-modelo1 <- lm(yautcor~ esc,data = base)
-summary(modelo1)
-```
-
-A continuación se calcula el coeficiente de determinación del modelo (R2).
+Primero, calculamos la **Suma Total de Cuadrados (SST)**, que representa la variabilidad total en los valores observados de \( Y \):
 
 ```{r}
-1-var(modelo1$residuals)/
-  var(base$yautcor[!is.na(base$esc)&!is.na(base$edad)&!is.na(base$sexo)],na.rm=T)
+# Calcular la media de Y
+mean_y <- mean(datos$brecha, na.rm = TRUE)
+
+# Calcular SST
+SST <- sum((datos$brecha - mean_y)^2)
+SST
 ```
 
-Luego estimamos modelos de regresión lineal múltiple. El modelo 2 incluye las variables independientes de escolaridad, edad y sexo codificado como factor. El modelo 3 es idéntico al modelo 2, excepto que se incluyen los factores de expansión de la encuesta.
+### Paso 2: Calcular la Suma de Cuadrados de los Residuos (SSR)
+Luego, calculamos la Suma de Cuadrados de los Residuos (SSR), que mide la variabilidad de los residuos o la parte de $Y$ no explicada por el modelo:
 
 ```{r}
-modelo2 <- lm(yautcor~ esc+ edad+ as_factor(sexo),data = base)
-modelo3 <- lm(yautcor~ esc+ edad+ as_factor(sexo),data = base,weights = expr)
-
+# Calcular SSR
+SSR <- sum((datos$residuos)^2, na.rm = TRUE)
+SSR
 ```
 
-Luego, se utiliza la función htmlreg del paquete "texreg" para mostrar los resultados de los tres modelos en una tabla HTML (al usar esta función en la consola de R **remplace la función htmlreg por screenreg**). En la llamada de la función htmlreg, se especifica una lista de modelos a mostrar como una lista (list(modelo1, modelo2, modelo3)) y un vector de nombres personalizados para los coeficientes de regresión (custom.coef.names = c("Intercepto","Escolaridad","Edad","Sexo (ref. Hombre)"))
-
-```{r,results = 'asis'}
-htmlreg(list(modelo1,modelo2,modelo3), custom.coef.names = c("Intercepto","Escolaridad","Edad","Sexo (ref. Hombre)"))
-
-```
-
-Se presenta a continuación la interpretación de los coeficientes del modelo 3.
-
-- Intercepto: El valor del intercepto (-674540.62) no siempre tiene una interpretación significativa, en tanto indica el valor predicho por el modelo para la variable dependiente cuando todas las variables independientes tienen valor 0.
-
-- Escolaridad: El coeficiente para la variable escolaridad (87210.88) indica que, manteniendo constantes las otras variables del modelo, por cada año adicional de escolaridad, se espera un aumento promedio en los ingresos autónomos de $87210.88.
-
-- Edad: El coeficiente para la variable edad (6726.08) indica que, manteniendo constantes las otras variables del modelo, por cada año adicional de edad, se espera un aumento promedio en los ingresos autónomos de $6726.08.
-
-- Sexo (ref. Hombre): El coeficiente para la variable sexo (ref. Hombre) (-243306.54) indica que, manteniendo constantes las otras variables del modelo, se espera que los ingresos autónomos promedio de una persona del sexo femenino sean en promedio $243306.54 menos que para una persona del sexo masculino en las mismas condiciones.
-
-- R2: El coeficiente de determinación (R2) indica que el modelo explica el 10% de la variabilidad de los ingresos autónomos.
-
-- Adj. R2: El coeficiente de determinación ajustado (Adj. R2) también indica que el modelo explica el 10% de la variabilidad de los ingresos autónomos, teniendo en cuenta el número de variables incluidas en el modelo.
-
-Finalmente, se utiliza la función coefplot del paquete "coefplot" para mostrar un gráfico de los coeficientes del modelo 3. Se especifica una escala de etiquetas para los ejes Y (scale_y_discrete) y se agregan títulos (labs) al gráfico.
-
-```{r coefplot}
-coefplot(modelo3)+scale_y_discrete(labels=c("Intercepto","Escolaridad","Edad","Sexo","Sexo (ref. Hombre)"))+
-  labs(title = "Gráfico de coeficientes",subtitle = "Modelo 3")+ylab("Coeficientes")
-
-```
-
-## Revisión de supuestos 
-
-A continuación se explica como comprobar los supuestos de los modelos de regresión lineal múltiple en R.
-
-### Casos influyentes
-En esta sección se buscan observaciones influyentes utilizando la medida de distancia de Cook's D. Se establece un punto de corte de Cook's D utilizando la fórmula de 4/(n-k-1), donde n es el número de observaciones y k es el número de parámetros del modelo. Se utiliza la función augment_columns del paquete broom para crear una tabla con todas las variables del modelo junto con los residuos estandarizados y la distancia de Cook. Luego, se crea un gráfico de barras que muestra la distancia de Cook para cada observación, y se agrega una línea horizontal en el valor de corte y etiquetas para las observaciones que superan este valor. Finalmente, se filtran las observaciones influyentes utilizando el valor de corte y se crea un nuevo modelo de regresión sin ellas. Se utiliza la función htmlreg del paquete htmlreg para mostrar la tabla comparativa de los modelos original y el nuevo sin las observaciones influyentes.
+### Paso 3: Calcular $R^2$
+Finalmente, utilizamos la relación entre SSR y SST para calcular $R^2$:
 
 ```{r}
-n<- nobs(modelo3) #n de observaciones
-k<- length(coef(modelo3)) # n de parametros
-dcook<- 4/(n-k-1) #punt de corte
-
-
-final <- broom::augment_columns(modelo3,data = base)
-final$id <- as.numeric(row.names(final))
-# identify obs with Cook's D above cutoff
-ggplot(final, aes(id, .cooksd))+
-  geom_bar(stat="identity", position="identity")+
-  xlab("Obs. Number")+ylab("Cook's distance")+
-  geom_hline(yintercept=dcook)+
-  geom_text(aes(label=ifelse((.cooksd>dcook),id,"")),
-            vjust=-0.2, hjust=0.5)
-
-ident<- final %>% filter(.cooksd>dcook)
-base2<- final %>% filter(!(id %in% ident$id))
+# Calcular R^2
+R2_manual <- 1 - (SSR / SST)
+R2_manual
 ```
 
-```{r,results = 'asis'}
-modelo4<-lm(yautcor~ esc+ edad+ as_factor(sexo),data = base2,weights = expr)
-htmlreg(list(modelo3,modelo4), custom.coef.names = c("Intercepto","Escolaridad","Edad","Sexo (ref. Hombre)"))
-```
+Interpretación del $R^2$
+Valor de $R^2$: El valor calculado de $R^2$ indica la proporción de la variabilidad total en $Y$ que es explicada por $X$ en el modelo. Un $R^2$ cercano a 1 sugiere que el modelo explica una gran parte de la variabilidad de los datos, mientras que un $R^2$ cercano a 0 indica que el modelo no captura bien la relación entre las variables.
 
-### Linealidad
-En esta sección se verifica la suposición de linealidad mediante un gráfico de dispersión de los valores ajustados contra los residuos. Se utiliza la función ggplot del paquete ggplot2 para crear el gráfico, y se agregan una línea horizontal en y=0 y una curva suavizada de los residuos estandarizados.
-
-```{r}
-ggplot(modelo4, aes(.fitted, .resid)) +
-  geom_point() +
-  geom_hline(yintercept = 0) +
-  geom_smooth(se = TRUE)
-```
-
-### Homogeneidad de varianza
-En esta sección se verifica la suposición de homogeneidad de varianza mediante el test de Breusch-Pagan. Se utiliza la función ncvTest del paquete car para realizar el test y se muestra el resultado. Luego, se utiliza la función coeftest del paquete lmtest para crear una versión robusta del modelo utilizando la matriz de covarianza de Huber-White y se muestra una tabla comparativa de los coeficientes del modelo original y el modelo robusto utilizando la función htmlreg.
-
-```{r,results = 'asis'}
-car::ncvTest(modelo4)
-
-model_robust<- coeftest(modelo4, vcov=vcovHC)
-htmlreg(list(modelo4,model_robust), custom.coef.names = c("Intercepto","Escolaridad","Edad","Sexo (ref. Hombre)"))
-```
-### Multicolinealidad  
-
-En esta sección se verifica la suposición de multicolinealidad mediante el cálculo del factor de inflación de la varianza (VIF) para cada variable independiente del modelo. 
-
-VIF (variance inflation factor) es una medida de la multicolinealidad en un modelo de regresión. Mide el grado en que los predictores están correlacionados entre sí. Un valor VIF de 1 indica que no hay multicolinealidad, mientras que un valor VIF mayor que 1 indica que los predictores están correlacionados y se inflan los errores estándar de los coeficientes. Los valores comúnmente aceptados para el VIF son menores de 2.5 o 5. Valores mayores a estos pueden indicar problemas de multicolinealidad en el modelo.
-
-```{r}
-
-car::vif(modelo4) #Se espera que no existan valores mayores a 2.5
-
-```
-
-### Normalidad de los residuos
-En esta sección se verifica la suposición de normalidad de los residuos mediante un histograma de los mismos. Se utiliza la función hist de R para crear el histograma.
-
-```{r}
-#Normalidad de los residuos
-hist(modelo4$residuals)
-
-```
+Ejemplo de interpretación: Si obtienes un $R^2 = 0.20$, significa que el 19% de la variabilidad en la brecha salarial de género se explica por las diferencias en el promedio de años de escolaridad, según el modelo ajustado. El 81% restante se debe a factores no capturados por el modelo.

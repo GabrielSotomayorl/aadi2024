@@ -19,9 +19,11 @@ La regresión lineal simple se utiliza para describir la relación entre dos var
 
 #### Fórmula General {background-color="white"}
 
-La recta de regresión se expresa como: $$
+La recta de regresión se expresa como: 
+$$
 \hat{y} = a + bx
 $$
+
 
 **Pendiente 𝑏:** Indica el cambio promedio en la variable respuesta𝑦por cada unidad de cambio en la variable explicativa 𝑥.\
 **Ordenada en el origen 𝑎:** Representa el valor predicho de𝑦cuando 𝑥= 0. Sólo tiene significado estadístico cuando x toma valores cercanos a 0.
@@ -83,7 +85,7 @@ Profundizar en la interpretación de la regresión lineal simple y el análisis 
 *¿Qué son los Residuos?*
 
 Un residuo es la diferencia entre el valor observado de la variable respuesta (Y) y el valor predicho por la recta de regresión ($\hat{y}$).\
-Fórmula: residuo = Y observada − Y predicha = Y − $\hat{y}$.
+Fórmula: residuo = Y observada − Y predicha = $Y$ − $\hat{y}$.
 
 *Importancia de los Residuos:*
 
@@ -132,19 +134,20 @@ $$
 \hat{brecha} = -16.451 + 2.852 * escolaridad
 $$
 
-## Componentes del Y observado {.smaller background-color="white"}
+## Componentes del $Y$ observado {.smaller background-color="white"}
 
-Después de realizar una regresión, podemos descomponer Y en tres componentes:
+Después de realizar una regresión, podemos descomponer $Y_i$ en tres componentes:
 
 $$
-Y_i = \hat{Y} + (\hat{Y}_i − 𝑌̅) + (Y_i − \hat{Y}_i)
+Y_i = \bar{Y} + (\hat{Y}_i − \bar{Y}) + (Y_i − \hat{Y}_i)
 $$
 
-Componentes de Y:
+Donde:
 
--   Media General ($\hat{Y}$): Constante para todas las observaciones.
--   Componente Explicado ($\hat{Y}_i − 𝑌̅$): La parte de Y explicada por X.
--   Componente No Explicado (Residuos, ${Y}_i$ 𝑌𝑖 − $\hat{Y}_i$): La parte de Y que no es explicada por X.
+- **Media General ($\bar{Y}$)**: Es constante para todas las observaciones.
+- **Componente Explicado ($\hat{Y}_i − \bar{Y}$)**: Es la parte de $Y_i$ que es explicada por el modelo a partir de $X$.
+- **Componente No Explicado (Residuos, $Y_i − \hat{Y}_i$)**: Es la parte de $Y_i$ que no es explicada por el modelo, representando el error de predicción.
+
 
 ## Componentes del Y observado {.smaller background-color="white"}
 
@@ -155,6 +158,7 @@ $$
 + 9,96\% \, (\text{Residuos}) \\
 = 31,13\%
 $$
+
 
 ## Gráfico de componentes de Y {.center background-color="white"}
 
@@ -275,57 +279,52 @@ ggplot(datos, aes(x = predicciones, y = residuos)) +
 
 ## Coeficiente de Determinación $R^2$ y Varianza Residual {.smaller background-color="white"}
 
-**¿Qué es $R^2$?**
-- **$R^2$**, conocido como el coeficiente de determinación, es una medida estadística que indica la proporción de la varianza en la variable dependiente $Y$ que es explicada por la variable independiente $X$ en un modelo de regresión.
-  
-- Se calcula como:
-  $$
-  R^2 = 1 - \frac{\text{Varianza Residual}}{\text{Varianza Total de } Y}
-  $$
-  Donde:
-  - **Varianza Residual:** Es la varianza de los residuos, es decir, la parte de $Y$ que no es explicada por $X$.
-  - **Varianza Total de $Y$:** Es la varianza de los valores observados de $Y$.
+**¿Qué es** $R^2$? - $R^2$, conocido como el coeficiente de determinación, es una medida estadística que indica la proporción de la varianza en la variable dependiente $Y$ que es explicada por la variable independiente $X$ en un modelo de regresión.
+
+-   Se calcula como: $$
+    R^2 = 1 - \frac{\text{Varianza Residual}}{\text{Varianza Total de } Y}
+    $$ Donde:
+    -   **Varianza Residual:** Es la varianza de los residuos, es decir, la parte de $Y$ que no es explicada por $X$.
+    -   **Varianza Total de** $Y$: Es la varianza de los valores observados de $Y$.
 
 ## Coeficiente de Determinación $R^2$ y suma de cuadrados {.smaller background-color="white"}
 
 Otra forma de expresar el $R^2$ es la siguiente:
 
-- Se calcula como:
-  $$
-  R^2 = \frac{\text{SSR}}{\text{SST}} = 1 - \frac{\text{SSE}}{\text{SST}}
-  $$
-  Donde:
-  - **SSR (Sum of Squares Regression):** Es la suma de los cuadrados de las diferencias entre los valores predichos $\hat{Y}$ y la media $\bar{Y}$.
-  - **SSE (Sum of Squares Error):** Es la suma de los cuadrados de los residuos, es decir, la parte de $Y$ que no es explicada por $X$.
-  - **SST (Sum of Squares Total):** Es la suma de los cuadrados de las diferencias entre los valores observados $Y$ y la media $\bar{Y}$.
-
+-   Se calcula como: $$
+    R^2 = \frac{\text{SSR}}{\text{SST}} = 1 - \frac{\text{SSE}}{\text{SST}}
+    $$ Donde:
+    -   **SSR (Sum of Squares Regression):** Es la suma de los cuadrados de las diferencias entre los valores predichos $\hat{Y}$ y la media $\bar{Y}$.
+    -   **SSE (Sum of Squares Error):** Es la suma de los cuadrados de los residuos, es decir, la parte de $Y$ que no es explicada por $X$.
+    -   **SST (Sum of Squares Total):** Es la suma de los cuadrados de las diferencias entre los valores observados $Y$ y la media $\bar{Y}$.
 
 ## Descomposición de $Y$: Relación con $R^2$ {.smaller background-color="white"}
-- Cuando descomponemos \(Y_i\) en sus componentes, tenemos:
-$$
-  Y_i = \hat{Y} + (\hat{Y}_i − 𝑌̅) + (Y_i − \hat{Y}_i)
-$$
-  
- - **$Y_i$**: Valor observado.
-- **$\hat{Y}_i − \bar{Y}$**: Componente explicado por $X$.
-- **$Y_i − \hat{Y}_i$**: Residuos o componente no explicado por $X$.
 
-- **Varianza Residual**: Corresponde a la varianza del componente no explicado $Y_i − \hat{Y}_i$.
+-   Cuando descomponemos $Y_i$ en sus componentes, tenemos:
+    $$
+    Y_i = \bar{Y} + (\hat{Y}_i − \bar{Y}) + (Y_i − \hat{Y}_i)
+    $$
 
-## $R^2$ como Proporción Explicada {.smaller background-color="white"} 
-- $R^2$ indica cuánta de la varianza total de $Y$ es explicada por el modelo.
-- Un $R^2$ cercano a 1 sugiere que la mayor parte de la varianza de $Y$ es explicada por $X$.
-- Un $R^2$ cercano a 0 sugiere que el modelo no explica bien la varianza de $Y$, y la varianza residual es alta.
+-   $Y_i$: Valor observado.
 
-**Interpretación Práctica de $R^2$:**
-- Un $R^2$ de 0.85 indica que el 85% de la varianza en $Y$ es explicada por $X$, mientras que el 15% restante es debido a factores no capturados por el modelo (varianza residual).  
+-   $\hat{Y}_i − \bar{Y}$: Componente explicado por $X$.
+
+-   $Y_i − \hat{Y}_i$: Residuos o componente no explicado por $X$.
+
+-   **Varianza Residual**: Corresponde a la varianza del componente no explicado $Y_i − \hat{Y}_i$.
+
+## $R^2$ como Proporción Explicada {.smaller background-color="white"}
+
+-   $R^2$ indica cuánta de la varianza total de $Y$ es explicada por el modelo.
+-   Un $R^2$ cercano a 1 sugiere que la mayor parte de la varianza de $Y$ es explicada por $X$.
+-   Un $R^2$ cercano a 0 sugiere que el modelo no explica bien la varianza de $Y$, y la varianza residual es alta.
+
+**Interpretación Práctica de** $R^2$: - Un $R^2$ de 0.18 indica que el 19% de la varianza en $Y$ es explicada por $X$, mientras que el 81% restante es debido a factores no capturados por el modelo (varianza residual).
 
 ## Observacions atípicas y observaciones influyentes en regresión {.smaller background-color="white"}
 
-- Una observación **atípica** es aquélla que queda separada de las restantes
-observaciones.  
-- Una observación es **influyente** con relación a un cálculo estadístico si al eliminarla cambia el resultado del cálculo. En regresión mínimocuadrática, las observaciones atípicas en la dirección del eje de las abscisas son, en general, observaciones influyentes.
-
+-   Una observación **atípica** es aquélla que queda separada de las restantes observaciones.\
+-   Una observación es **influyente** con relación a un cálculo estadístico si al eliminarla cambia el resultado del cálculo. En regresión mínimocuadrática, las observaciones atípicas en la dirección del eje de las abscisas son, en general, observaciones influyentes.
 
 ## Precauciones con la Correlación y la Regresión {.smaller background-color="white"}
 

@@ -273,7 +273,7 @@ descriptivas %>%
 ```
 
 ### Paso 4: Asignación de valores para casos perdidos
-Instrucción: Completa el sigueinte código para asignar NA a los valores 8 y 9 de la variable rel_47. Esta limpieza es crucial antes de proceder con el análisis. 
+Instrucción: Completa el siguiente código para asignar NA a los valores 8 y 9 de la variable rel_47. Esta limpieza es crucial antes de proceder con el análisis. 
 
 ```{r, eval=F}
 datos_cep <- datos_cep %>% 
@@ -290,7 +290,7 @@ modelocep <- lm()
 
 # Mostrar un resumen del modelo
 summary(modelocep)
-texreg()
+screenreg()
 ```
 
 Interprete los coeficientes del modelo.
@@ -307,9 +307,60 @@ ggplot(datos_cep, aes(x = , y = )) +
   labs(
     title = "Relación entre Edad y Nivel de Acuerdo con el Matrimonio Igualitario",
     x = "Edad",
-    y = "Nivel de Acuerdo"
-  ) %>% 
+    y = "Nivel de Desacuerdo"
+  ) +
   theme_minimal()
 
 ```
 
+# Versión resuelta del código 
+
+### Paso 4: Asignación de valores para casos perdidos
+Instrucción: Completa el sigueinte código para asignar NA a los valores 8 y 9 de la variable rel_47. Esta limpieza es crucial antes de proceder con el análisis. 
+
+```{r, eval=T}
+datos_cep <- datos_cep %>% 
+  mutate(rel_47 = ifelse(rel_47 %in% 8:9, NA, rel_47))
+
+```
+
+### Paso 5: Modelo de regresión lineal simple
+Vamos a crear un modelo de regresión lineal simple donde intentaremos predecir el nivel de acuerdo con el matrimonio igualitario (rel_47) a partir de la edad (ds_p2_exacta).
+
+```{r, eval = T, results='asis'}
+# Ajustar un modelo de regresión lineal simple
+modelocep <- lm(rel_47~ ds_p2_exacta, data = datos_cep)
+
+# Mostrar un resumen del modelo
+#summary(modelocep)
+#screenreg(modelocep, custom.coef.names = c("Interpecto", "Edad"))
+htmlreg(modelocep,
+        custom.coef.names = c("Interpecto", "Edad"))
+
+
+```
+
+**Intercepto**: El valor del intercepto es 2.07. Este valor, en teoría, representaría el nivel de desacuerdo predicho para una persona cuya edad es 0 años. Sin embargo, dado que en la práctica no existen personas con edad cercana a 0 en el contexto del estudio, el intercepto carece de una interpretación sustantiva real. Es más útil como un parámetro técnico necesario para el ajuste del modelo.
+
+**Coeficiente de Edad**: El coeficiente para la edad es 0.02. Esto indica que, en promedio, por cada año adicional de edad, el nivel de desacuerdo con el matrimonio igualitario aumenta en 0.02 puntos. Es decir, las personas mayores tienden a estar ligeramente más en desacuerdo con el matrimonio igualitario en comparación con las personas más jóvenes. Esta relación es pequeña, pero positiva, sugiriendo que, a medida que las personas envejecen, hay una tendencia a moverse hacia un mayor desacuerdo.
+
+**$R^2$**: El valor de es 0.07, lo que significa que la edad explica el 7% de la variabilidad en el nivel de desacuerdo con el matrimonio igualitario. Aunque esto indica que la edad tiene algún efecto, la mayor parte de las diferencias en las actitudes hacia el matrimonio igualitario no se explican por la edad, lo que sugiere que otros factores son más importantes.
+
+## Paso 6: Visualización del modelo
+
+Finalmente, vamos a visualizar la relación entre la edad y el nivel de acuerdo con el matrimonio igualitario mediante un gráfico de dispersión, añadiendo la línea de regresión. Dado que estamos trabajando con una gran cantidad de casos, y con variables con pocos niveles, es importante que asignemos un valor de transparencia bajo a los puntos para que el gráfico de dispersión sea informativo. 
+Debemos especificar 'method = "lm"' en geom_smooth, para que la linea graficada corresponda a una recta de regresión lineal. 
+
+```{r, eval=T, warning=FALSE, mesage = F}
+# Crear un gráfico de dispersión con la línea de regresión
+ggplot(datos_cep, aes(x = ds_p2_exacta, y = rel_47)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Relación entre Edad y Nivel de Acuerdo con el Matrimonio Igualitario",
+    x = "Edad",
+    y = "Nivel de Desacuerdo"
+  ) +
+  theme_minimal()
+
+```

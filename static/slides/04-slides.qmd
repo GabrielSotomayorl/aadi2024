@@ -233,7 +233,7 @@ Interpretación de los Residuos:
 
 *¿Qué es un Diagrama de Residuos?*
 
-Un diagrama de residuos es un gráfico de los residuos contra la variable explicativa. Es una herramienta clave para evaluar el ajuste del modelo.
+Un diagrama de residuos es un gráfico de los residuos contra los valores predichos de la variable dependiente. Es una herramienta clave para evaluar el ajuste del modelo.
 
 **Interpretación del Diagrama de Residuos:**
 

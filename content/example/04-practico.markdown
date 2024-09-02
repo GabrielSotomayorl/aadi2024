@@ -21,7 +21,7 @@ editor_options:
 El objetivo de este práctico es profundizar en el análisis de regresión lineal simple, centrándonos en la interpretación de los residuos y la evaluación del ajuste del modelo. Trabajaremos con datos comunales para analizar cómo la brecha salarial de género está influenciada por el promedio de años de escolaridad y exploraremos cómo los residuos nos informan sobre la calidad del modelo ajustado.
 
 
-```r
+``` r
 pacman::p_load(dplyr, ggplot2, texreg)
 
 datos <- readRDS(url("https://github.com/GabrielSotomayorl/aadi2024/raw/main/content/example/input/data/datos.rds"))  %>% 
@@ -34,7 +34,7 @@ datos <- readRDS(url("https://github.com/GabrielSotomayorl/aadi2024/raw/main/con
 Recordemos nuestro modelo de regresión lineal simple utilizado para analizar la relación entre la amplitud de la brecha salarial de género.
 
 
-```r
+``` r
 ggplot(datos, aes(x = prom_esc, y = brecha)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
   geom_smooth(method = "lm", color = "black", linetype = "solid", se = FALSE) +  # Línea de tendencia en negro
@@ -68,7 +68,7 @@ ggplot(datos, aes(x = prom_esc, y = brecha)) +
 Utilizamos el paquete texreg para presentar la tabla de regresión. El argumento 'file' nos permite guardar la tabla como un archivo, para lo cual debemos poner el nombre del archivo entre comillas, asegurandonos de terminar en ".html".
 
 
-```r
+``` r
 modelo <- lm(brecha ~ prom_esc, data = datos)
 
 htmlreg(modelo, 
@@ -146,7 +146,7 @@ Los residuos son fundamentales para evaluar qué tan bien el modelo se ajusta a 
 Utilizaremos la función `resid()` en R para calcular los residuos del modelo ajustado, y `predict()` para obtener los valores ajsutados:
 
 
-```r
+``` r
 # Calcular los residuos del modelo
 datos$residuos <- resid(modelo)
 #datos$residuos <- modelo$residuals #equivalente
@@ -161,7 +161,7 @@ Un *gráfico de residuos vs. valores predichos* nos ayuda a identificar patrones
 
 
 
-```r
+``` r
 # Crear el gráfico de residuos vs valores predichos
 ggplot(datos, aes(x = predicciones, y = residuos)) +
   geom_point(color = "#0073C2", size = 3, alpha = 0.7) +  # Puntos más grandes y ligeramente transparentes
@@ -193,7 +193,7 @@ ggplot(datos, aes(x = predicciones, y = residuos)) +
 Un histograma de residuos es útil para evaluar si los residuos siguen una distribución normal, lo cual es una suposición clave en la regresión lineal simple para ciertas inferencias.  
 
 
-```r
+``` r
 # Crear el histograma de residuos
 ggplot(datos, aes(x = residuos)) +
   geom_histogram(binwidth = 1, fill = "#0073C2", color = "black", alpha = 0.7) +  # Histograma con barras azules
@@ -252,7 +252,7 @@ Donde:
 Primero, calculamos la **Suma Total de Cuadrados (SST)**, que representa la variabilidad total en los valores observados de \( Y \):
 
 
-```r
+``` r
 # Calcular la media de Y
 mean_y <- mean(datos$brecha, na.rm = TRUE)
 
@@ -269,7 +269,7 @@ SST
 Luego, calculamos la Suma de Cuadrados de los Residuos (SSR), que mide la variabilidad de los residuos o la parte de `\(Y\)` no explicada por el modelo:
 
 
-```r
+``` r
 # Calcular SSR
 SSR <- sum((datos$residuos)^2, na.rm = TRUE)
 SSR
@@ -283,7 +283,7 @@ SSR
 Finalmente, utilizamos la relación entre SSR y SST para calcular `\(R^2\)`:
 
 
-```r
+``` r
 # Calcular R^2
 R2_manual <- 1 - (SSR / SST)
 R2_manual
@@ -306,7 +306,7 @@ En este ejercicio, vamos a explorar cómo varía el nivel de acuerdo con el matr
 Primero, cargamos los datos de la encuesta desde una fuente en línea y limpiamos los nombres de las variables para facilitar su uso en R.
 
 
-```r
+``` r
 # Cargar el paquete haven
 pacman::p_load(haven,janitor,kableExtra)
 
@@ -322,7 +322,7 @@ datos_cep <- read_sav(url) %>%
 Vamos a generar una tabla de frecuencias que nos muestre cómo se distribuyen las respuestas sobre el nivel de acuerdo con el matrimonio igualitario (variable rel_47). Ojo con los casos perdidos.
  
 
-```r
+``` r
 # Generar tabla de frecuencias
 frecuencias <- datos_cep %>%
   group_by(rel_47,as_factor(rel_47)) %>%
@@ -336,14 +336,14 @@ frecuencias <- datos_cep %>%
 ## `.groups` argument.
 ```
 
-```r
+``` r
 # Mostrar la tabla con kable y kableExtra
 frecuencias %>%
   kable("html", caption = "Tabla de Frecuencias de acuerdo con el matrimonio entre personas del mismo sexo") %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
 ```
 
-<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="color: black; margin-left: auto; margin-right: auto;">
 <caption><span id="tab:unnamed-chunk-11"></span>Table 1: Tabla de Frecuencias de acuerdo con el matrimonio entre personas del mismo sexo</caption>
  <thead>
   <tr>
@@ -402,7 +402,7 @@ frecuencias %>%
 Ahora, vamos a calcular algunas estadísticas descriptivas de la edad de los encuestados (ds_p2_exacta). Estas estadísticas nos ayudarán a entender la distribución de la edad en la muestra.  
 
 
-```r
+``` r
 descriptivas <- datos_cep %>%
   summarise(
     Minimo = min(ds_p2_exacta, na.rm = TRUE),
@@ -420,7 +420,7 @@ descriptivas %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
 
-<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="color: black; margin-left: auto; margin-right: auto;">
 <caption><span id="tab:unnamed-chunk-12"></span>Table 2: Estadísticas Descriptivas de edad</caption>
  <thead>
   <tr>
@@ -447,10 +447,10 @@ descriptivas %>%
 </table>
 
 ### Paso 4: Asignación de valores para casos perdidos
-Instrucción: Completa el sigueinte código para asignar NA a los valores 8 y 9 de la variable rel_47. Esta limpieza es crucial antes de proceder con el análisis. 
+Instrucción: Completa el siguiente código para asignar NA a los valores 8 y 9 de la variable rel_47. Esta limpieza es crucial antes de proceder con el análisis. 
 
 
-```r
+``` r
 datos_cep <- datos_cep %>% 
   mutate(rel_47 = ifelse())
 ```
@@ -459,13 +459,13 @@ datos_cep <- datos_cep %>%
 Vamos a crear un modelo de regresión lineal simple donde intentaremos predecir el nivel de acuerdo con el matrimonio igualitario (rel_47) a partir de la edad (ds_p2_exacta).
 
 
-```r
+``` r
 # Ajustar un modelo de regresión lineal simple
 modelocep <- lm()
 
 # Mostrar un resumen del modelo
 summary(modelocep)
-texreg()
+screenreg()
 ```
 
 Interprete los coeficientes del modelo.
@@ -475,7 +475,7 @@ Interprete los coeficientes del modelo.
 Finalmente, vamos a visualizar la relación entre la edad y el nivel de acuerdo con el matrimonio igualitario mediante un gráfico de dispersión, añadiendo la línea de regresión. Dado que estamos trabajando con una gran cantidad de casos, y con variables con pocos niveles, es importante que asignemos un valor de transparencia bajo a los puntos para que el gráfico de dispersión sea informativo. 
 
 
-```r
+``` r
 # Crear un gráfico de dispersión con la línea de regresión
 ggplot(datos_cep, aes(x = , y = )) +
   geom_point(alpha = 0.1) +
@@ -483,8 +483,109 @@ ggplot(datos_cep, aes(x = , y = )) +
   labs(
     title = "Relación entre Edad y Nivel de Acuerdo con el Matrimonio Igualitario",
     x = "Edad",
-    y = "Nivel de Acuerdo"
-  ) %>% 
+    y = "Nivel de Desacuerdo"
+  ) +
   theme_minimal()
 ```
 
+# Versión resuelta del código 
+
+### Paso 4: Asignación de valores para casos perdidos
+Instrucción: Completa el sigueinte código para asignar NA a los valores 8 y 9 de la variable rel_47. Esta limpieza es crucial antes de proceder con el análisis. 
+
+
+``` r
+datos_cep <- datos_cep %>% 
+  mutate(rel_47 = ifelse(rel_47 %in% 8:9, NA, rel_47))
+```
+
+### Paso 5: Modelo de regresión lineal simple
+Vamos a crear un modelo de regresión lineal simple donde intentaremos predecir el nivel de acuerdo con el matrimonio igualitario (rel_47) a partir de la edad (ds_p2_exacta).
+
+
+``` r
+# Ajustar un modelo de regresión lineal simple
+modelocep <- lm(rel_47~ ds_p2_exacta, data = datos_cep)
+
+# Mostrar un resumen del modelo
+#summary(modelocep)
+#screenreg(modelocep, custom.coef.names = c("Interpecto", "Edad"))
+htmlreg(modelocep,
+        custom.coef.names = c("Interpecto", "Edad"))
+```
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>Statistical models</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
+<th style="padding-left: 5px;padding-right: 5px;">Model 1</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Interpecto</td>
+<td style="padding-left: 5px;padding-right: 5px;">2.07<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.11)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Edad</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.02<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">R<sup>2</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.07</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Adj. R<sup>2</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.07</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
+<td style="padding-left: 5px;padding-right: 5px;">1362</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
+</tr>
+</tfoot>
+</table>
+
+**Intercepto**: El valor del intercepto es 2.07. Este valor, en teoría, representaría el nivel de desacuerdo predicho para una persona cuya edad es 0 años. Sin embargo, dado que en la práctica no existen personas con edad cercana a 0 en el contexto del estudio, el intercepto carece de una interpretación sustantiva real. Es más útil como un parámetro técnico necesario para el ajuste del modelo.
+
+**Coeficiente de Edad**: El coeficiente para la edad es 0.02. Esto indica que, en promedio, por cada año adicional de edad, el nivel de desacuerdo con el matrimonio igualitario aumenta en 0.02 puntos. Es decir, las personas mayores tienden a estar ligeramente más en desacuerdo con el matrimonio igualitario en comparación con las personas más jóvenes. Esta relación es pequeña, pero positiva, sugiriendo que, a medida que las personas envejecen, hay una tendencia a moverse hacia un mayor desacuerdo.
+
+**$R^2$**: El valor de es 0.07, lo que significa que la edad explica el 7% de la variabilidad en el nivel de desacuerdo con el matrimonio igualitario. Aunque esto indica que la edad tiene algún efecto, la mayor parte de las diferencias en las actitudes hacia el matrimonio igualitario no se explican por la edad, lo que sugiere que otros factores son más importantes.
+
+## Paso 6: Visualización del modelo
+
+Finalmente, vamos a visualizar la relación entre la edad y el nivel de acuerdo con el matrimonio igualitario mediante un gráfico de dispersión, añadiendo la línea de regresión. Dado que estamos trabajando con una gran cantidad de casos, y con variables con pocos niveles, es importante que asignemos un valor de transparencia bajo a los puntos para que el gráfico de dispersión sea informativo. 
+Debemos especificar 'method = "lm"' en geom_smooth, para que la linea graficada corresponda a una recta de regresión lineal. 
+
+
+``` r
+# Crear un gráfico de dispersión con la línea de regresión
+ggplot(datos_cep, aes(x = ds_p2_exacta, y = rel_47)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Relación entre Edad y Nivel de Acuerdo con el Matrimonio Igualitario",
+    x = "Edad",
+    y = "Nivel de Desacuerdo"
+  ) +
+  theme_minimal()
+```
+
+```
+## `geom_smooth()` using formula = 'y ~ x'
+```
+
+<img src="/example/04-practico_files/figure-html/unnamed-chunk-18-1.png" width="672" />

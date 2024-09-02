@@ -214,7 +214,7 @@ R2_manual
 Interpretación del $R^2$
 Valor de $R^2$: El valor calculado de $R^2$ indica la proporción de la variabilidad total en $Y$ que es explicada por $X$ en el modelo. Un $R^2$ cercano a 1 sugiere que el modelo explica una gran parte de la variabilidad de los datos, mientras que un $R^2$ cercano a 0 indica que el modelo no captura bien la relación entre las variables.
 
-Ejemplo de interpretación: Si obtienes un $R^2 = 0.20$, significa que el 19% de la variabilidad en la brecha salarial de género se explica por las diferencias en el promedio de años de escolaridad, según el modelo ajustado. El 81% restante se debe a factores no capturados por el modelo.
+Ejemplo de interpretación: Si obtienes un $R^2 = 0.20$, significa que el 20% de la variabilidad en la brecha salarial de género se explica por las diferencias en el promedio de años de escolaridad, según el modelo ajustado. El 80% restante se debe a factores no capturados por el modelo.
 
 ## Ejercicio: Obtención de un modelo de regresión simple a partir de encuestas.
 

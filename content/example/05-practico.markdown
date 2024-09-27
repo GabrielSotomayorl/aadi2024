@@ -16,7 +16,7 @@ editor_options:
 
 El objetivo de este práctico es utilizar los datos de ejercicio y pérdida de peso para entender la importancia de considerar múltiples variables predictoras en un modelo de regresión. Aplicaremos regresiones simples y múltiples, exploraremos los coeficientes, compararemos `\(R^2\)` y `\(R^2\)` ajustado, y entenderemos el valor de usar múltiples predictores conjuntamente.
 
-# 1. Cargar y explorar los datos
+## 1. Cargar y explorar los datos
 
 Primero, cargamos los datos del ejercicio y pérdida de peso, que incluyen la frecuencia semanal de ejercicio, la ingesta diaria de alimentos y la pérdida semanal de peso.
 

@@ -73,8 +73,8 @@ lessons:
   - title: '• Inferencia estadística y regresión'
     session: "Sesión 8"
     date: "7 octubre"
-    # content: "07-content"
-    # example: "07-practico"
+    content: "07-content"
+    example: "07-practico"
     bg: 2
     bottomborder: True
 

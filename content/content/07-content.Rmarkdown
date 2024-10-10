@@ -20,7 +20,7 @@ source(here::here("R", "slide-tabs.R"))
 
 slide_details <- tibble::tribble(
   ~title, ~slide, ~active,
-  "Análisis Factorial Confirmatorio III", "0", TRUE)
+  "Análisis de regresión lineal múltiple III", "0", TRUE)
 ```
 
 # Slides

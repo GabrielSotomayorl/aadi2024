@@ -21,13 +21,13 @@ slides: "07-slides"
 
 <ul class="nav nav-tabs" id="slide-tabs" role="tablist">
 <li class="nav-item">
-<a class="nav-link active" id="análisis-factorial-confirmatorio-iii-tab" data-toggle="tab" href="#análisis-factorial-confirmatorio-iii" role="tab" aria-controls="análisis-factorial-confirmatorio-iii" aria-selected="true">Análisis Factorial Confirmatorio III</a>
+<a class="nav-link active" id="análisis-de-regresión-lineal-múltiple-iii-tab" data-toggle="tab" href="#análisis-de-regresión-lineal-múltiple-iii" role="tab" aria-controls="análisis-de-regresión-lineal-múltiple-iii" aria-selected="true">Análisis de regresión lineal múltiple III</a>
 </li>
 </ul>
 
 <div id="slide-tabs" class="tab-content">
 
-<div id="análisis-factorial-confirmatorio-iii" class="tab-pane fade show active" role="tabpanel" aria-labelledby="análisis-factorial-confirmatorio-iii-tab">
+<div id="análisis-de-regresión-lineal-múltiple-iii" class="tab-pane fade show active" role="tabpanel" aria-labelledby="análisis-de-regresión-lineal-múltiple-iii-tab">
 
 <div class="embed-responsive embed-responsive-16by9">
 

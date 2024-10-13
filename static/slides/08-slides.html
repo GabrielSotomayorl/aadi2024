@@ -614,126 +614,300 @@ Gabriel Sotomayor
 <section id="cálculo-de-modelo-en-r-función-glm" class="slide level2 smaller" data-background-color="white">
 <h2>Cálculo de modelo en R: función GLM</h2>
 <p>Para estimar un modelo de regresión logística binaria en R debemos usar la función glm, incluida en r base</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">glm</span>(pobre<span class="sc">~</span><span class="fu">as_factor</span>(sexo), </span>
+<span id="cb5-2"><a href="#cb5-2"></a>    <span class="at">data=</span>base[base<span class="sc">$</span>pco1<span class="sc">==</span><span class="dv">1</span>,], <span class="co"># filtro por JH</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>    <span class="at">family=</span><span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Especificamos la formula igual que en una regresión lineal (la variable dependiente debe estar en formato 0-1). Debemos especificar la familia de modelos (ya que la función glm sirve para calcular distintos tipos de modelos lineales generalizados).</p>
 </section>
 <section id="interpretación-de-coeficiente" class="slide level2 smaller" data-background-color="white">
 <h2>Interpretación de coeficiente</h2>
 <p>Los beta de un modelo de regresión logística están puestos en términos del logaritmo de los odds.</p>
 <p>Es decir, el beta de mujer nos indica que los log-odds de encontrarse en situación de pobreza aumentan en 0.41 en las mujeres en relación a los hombres.</p>
-<table>
-<caption>Statistical models</caption>
-<colgroup>
-<col style="width: 68%">
-<col style="width: 31%">
-</colgroup>
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
 <thead>
-<tr class="header">
-<th></th>
-<th>Pobreza según sexo JH</th>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Model 1
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>Intercepto</td>
-<td>-2.40<sup>***</sup></td>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Intercepto
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-2.40<sup>***</sup>
+</td>
 </tr>
-<tr class="even">
-<td></td>
-<td>(0.02)</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.02)
+</td>
 </tr>
-<tr class="odd">
-<td>Mujer (ref.hombre)</td>
-<td>0.41<sup>***</sup></td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Mujer (ref.hombre)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.41<sup>***</sup>
+</td>
 </tr>
-<tr class="even">
-<td></td>
-<td>(0.03)</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.03)
+</td>
 </tr>
-<tr class="odd">
-<td>AIC</td>
-<td>41074.58</td>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+AIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41074.58
+</td>
 </tr>
-<tr class="even">
-<td>BIC</td>
-<td>41092.68</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+BIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41092.68
+</td>
 </tr>
-<tr class="odd">
-<td>Log Likelihood</td>
-<td>-20535.29</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Log Likelihood
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-20535.29
+</td>
 </tr>
-<tr class="even">
-<td>Deviance</td>
-<td>41070.58</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Deviance
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41070.58
+</td>
 </tr>
-<tr class="odd">
-<td>Num. obs.</td>
-<td>62911</td>
-</tr>
-<tr class="even">
-<td><sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05</td>
-<td></td>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+62911
+</td>
 </tr>
 </tbody>
-</table>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
 
+</table>
 </section>
 <section id="interpretación-de-coeficientes" class="slide level2 smaller" data-background-color="white">
 <h2>Interpretación de coeficientes</h2>
 <p>Para poder realizar una interpretación con sentido de los coeficientes del modelo debemos realizar una transformación, de forma que el beta quede expresado como odds. Para esto debemos hacer una <strong>exponenciación</strong> de los coeficientes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">exp</span>(<span class="fl">0.41</span>)<span class="ot">=</span><span class="fl">1.506818</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Es decir, los odds (chances) de ser pobre para un hogar con jefatura femenina son 1,506818 veces más que las de uno con jefatura masculina.</p>
 </section>
-<section id="modelos-con-múltiples-variables-independientes" class="slide level2 smaller" data-background-color="white">
-<h2>Modelos con múltiples variables independientes</h2>
-<table>
-<caption>Statistical models</caption>
-<colgroup>
-<col style="width: 68%">
-<col style="width: 31%">
-</colgroup>
+<section id="interpretación-de-coeficientes-1" class="slide level2 smaller" data-background-color="white">
+<h2>Interpretación de coeficientes</h2>
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
 <thead>
-<tr class="header">
-<th></th>
-<th>Pobreza según sexo JH</th>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Pobreza según sexo JH
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>Intercepto</td>
-<td>-1.07 (0.05)<sup>***</sup></td>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Intercepto
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.09 (0.02)<sup>***</sup>
+</td>
 </tr>
-<tr class="even">
-<td>Mujer (ref.hombre)</td>
-<td>0.39 (0.03)<sup>***</sup></td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Mujer (ref.hombre)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1.51 (0.03)<sup>***</sup>
+</td>
 </tr>
-<tr class="odd">
-<td>Edad</td>
-<td>-0.03 (0.00)<sup>***</sup></td>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+AIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41074.58
+</td>
 </tr>
-<tr class="even">
-<td>AIC</td>
-<td>40182.30</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+BIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41092.68
+</td>
 </tr>
-<tr class="odd">
-<td>BIC</td>
-<td>40209.45</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Log Likelihood
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-20535.29
+</td>
 </tr>
-<tr class="even">
-<td>Log Likelihood</td>
-<td>-20088.15</td>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Deviance
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41070.58
+</td>
 </tr>
-<tr class="odd">
-<td>Deviance</td>
-<td>40176.30</td>
-</tr>
-<tr class="even">
-<td>Num. obs.</td>
-<td>62911</td>
-</tr>
-<tr class="odd">
-<td><sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05</td>
-<td></td>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+62911
+</td>
 </tr>
 </tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+
+</table>
+</section>
+<section id="modelos-con-múltiples-variables-independientes" class="slide level2 smaller" data-background-color="white">
+<h2>Modelos con múltiples variables independientes</h2>
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Pobreza según sexo JH
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Intercepto
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-1.50 (0.02)<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Mujer (ref.hombre)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.11 (0.01)<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Edad
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-0.02 (0.00)<sup>***</sup>
+</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+AIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+129517.95
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+BIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+129548.34
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Log Likelihood
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-64755.98
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Deviance
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+129511.95
+</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+185339
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+
 </table>
 </section>
 <section id="modelos-con-múltiples-variables-independientes-1" class="slide level2 smaller" data-background-color="white">
@@ -741,6 +915,151 @@ Gabriel Sotomayor
 <p>En el caso de un modelo de regresión logística con múltiples predictores o variables independientes la interpretación es similar, pero integrando el concepto de control estadístico.</p>
 <p>En este caso podemos decir que los log-odds predichos de encontrarse en situación de pobreza aumentan en 0,39 en los hogares con jefatura femenina respecto aquellos con jefatura masculina <strong>controlando por edad</strong></p>
 <p>En el mismo sentido, los log-odds predichos de ser encontrarse en situación de pobreza disminuyen en 0.03 por cada año más de edad del jefe de hogar, <strong>controlando por sexo</strong>.</p>
+</section>
+<section id="modelos-con-múltiples-variables-independientes-2" class="slide level2 smaller" data-background-color="white">
+<h2>Modelos con múltiples variables independientes</h2>
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Pobreza según sexo JH (odd ratios)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Intercepto
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.22 (0.02)<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Mujer (ref.hombre)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+1.12 (0.01)<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Edad
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.98 (0.00)<sup>***</sup>
+</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+AIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+129517.95
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+BIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+129548.34
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Log Likelihood
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-64755.98
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Deviance
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+129511.95
+</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+185339
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+
+</table>
+</section>
+<section id="interpretación-de-resultados-de-regresión-logística-en-odds-ratios" class="slide level2 smaller" data-background-color="white">
+<h2>Interpretación de Resultados de Regresión Logística en Odds Ratios</h2>
+<p>En el siguiente modelo de regresión logística, se analiza la probabilidad de encontrarse en situación de pobreza según sexo del jefe de hogar (JH) y su edad.</p>
+<ul>
+<li><strong>Intercepto (0.22)</strong>: Los odds de encontrarse en situación de pobreza son 0.22 cuando el jefe de hogar es hombre y tiene una edad de referencia (edad igual a 0).</li>
+<li><strong>Mujer (ref. hombre, 1.12)</strong>: Los odds de estar en situación de pobreza son 1.12 veces mayores en los hogares con jefatura femenina, comparado con los hogares con jefatura masculina, manteniendo constante la edad. Esto indica que las mujeres jefas de hogar tienen una mayor probabilidad de encontrarse en situación de pobreza.</li>
+<li><strong>Edad (0.98)</strong>: Por cada año adicional de edad del jefe de hogar, los odds de encontrarse en situación de pobreza disminuyen un 2%, manteniendo constante el sexo del jefe de hogar.</li>
+</ul>
+</section>
+<section id="interpretación-de-los-coeficientes-en-términos-de-odds-ratios-comparación-de-grupos" class="slide level2 smaller" data-background-color="white">
+<h2>Interpretación de los Coeficientes en Términos de Odds Ratios: Comparación de Grupos</h2>
+<p>Al interpretar un coeficiente de regresión logística en términos de odds ratios para la comparación entre grupos, se deben considerar los siguientes criterios:</p>
+<ol type="1">
+<li><p><strong>Valor mayor a 1</strong>: Si el odds ratio es mayor a 1, significa que el grupo comparado tiene una mayor probabilidad del evento estudiado en comparación con el grupo de referencia. Por ejemplo, un odds ratio de 1.12 indica que la probabilidad del evento es un 12% mayor en el grupo comparado, manteniendo constantes las demás variables. Esto implica que el grupo comparado tiene un mayor riesgo o probabilidad del evento en relación con el grupo de referencia.</p></li>
+<li><p><strong>Valor menor a 1</strong>: Si el odds ratio es menor a 1, indica que el grupo comparado tiene una menor probabilidad del evento estudiado en comparación con el grupo de referencia. Esto implica un efecto protector o una reducción de la probabilidad del evento para el grupo comparado.</p></li>
+</ol>
+</section>
+<section id="interpretación-de-los-coeficientes-en-términos-de-odds-ratios-comparación-de-grupos-1" class="slide level2 smaller" data-background-color="white">
+<h2>Interpretación de los Coeficientes en Términos de Odds Ratios: Comparación de Grupos</h2>
+<ol start="3" type="1">
+<li><p><strong>Valores cercanos a 1</strong>: Valores cercanos a 1, como el 1.01 o 0.99, implican que la variable tiene poco o ningún efecto sobre los odds del evento, es decir, el impacto de dicha variable es mínimo.</p></li>
+<li><p><strong>Significancia Estadística</strong>: Para determinar si el coeficiente tiene un efecto significativo sobre la variable dependiente, se consideran los valores p (<em><strong>p &lt; 0.001; </strong>p &lt; 0.01; </em>p &lt; 0.05). En este caso, todos los coeficientes son significativos al nivel del 0.001.</p></li>
+</ol>
+</section>
+<section id="interpretación-de-los-coeficientes-en-términos-de-odds-ratios-variable-continua" class="slide level2 smaller" data-background-color="white">
+<h2>Interpretación de los Coeficientes en Términos de Odds Ratios: Variable Continua</h2>
+<p>Al interpretar un coeficiente de regresión logística en términos de odds ratios para una variable continua, se deben considerar los siguientes criterios:</p>
+<ol type="1">
+<li><p><strong>Valor mayor a 1</strong>: Si el odds ratio es mayor a 1, significa que por cada unidad adicional de la variable continua, la probabilidad del evento estudiado aumenta. Esto implica que la variable tiene un efecto positivo en la probabilidad del evento. Un valor mayor que 1 sugiere un incremento proporcional en los odds del evento.</p></li>
+<li><p><strong>Valor menor a 1</strong>: Si el odds ratio es menor a 1, indica que por cada unidad adicional de la variable continua, la probabilidad del evento disminuye. Por ejemplo, un odds ratio de 0.98 implica que, por cada año adicional de edad del jefe de hogar, los odds de estar en situación de pobreza disminuyen en un 2%. Un valor menor que 1 indica un efecto protector o una reducción en los odds del evento conforme aumenta la variable.</p></li>
+</ol>
+</section>
+<section id="interpretación-de-los-coeficientes-en-términos-de-odds-ratios-variable-continua-1" class="slide level2 smaller" data-background-color="white">
+<h2>Interpretación de los Coeficientes en Términos de Odds Ratios: Variable Continua</h2>
+<ol start="3" type="1">
+<li><p><strong>Valores cercanos a 1</strong>: Valores cercanos a 1, como el 1.01 o 0.99, implican que la variable tiene poco o ningún efecto sobre los odds del evento, es decir, el impacto de dicha variable es mínimo.</p></li>
+<li><p><strong>Significancia Estadística</strong>: Para determinar si el coeficiente tiene un efecto significativo sobre la variable dependiente, se consideran los valores p (<em><strong>p &lt; 0.001; </strong>p &lt; 0.01; </em>p &lt; 0.05). En este caso, todos los coeficientes son significativos al nivel del 0.001.</p></li>
+</ol>
+</section>
+<section id="diferencia-entre-un-coeficiente-de-comparación-de-grupos-y-uno-de-una-variable-continua" class="slide level2 smaller" data-background-color="white">
+<h2>Diferencia entre un Coeficiente de Comparación de Grupos y uno de una Variable Continua</h2>
+<p>En un modelo de regresión logística, los coeficientes pueden representar comparaciones entre grupos o el efecto de variables continuas:</p>
+<ul>
+<li><strong>Coeficiente de Comparación de Grupos</strong>: Este tipo de coeficiente se utiliza para variables categóricas, donde se compara un grupo específico con un grupo de referencia. Por ejemplo, en el caso de la variable <strong>sexo</strong> del jefe de hogar, el coeficiente de <strong>Mujer (ref. hombre, 1.12)</strong> representa la comparación entre los hogares con jefatura femenina y aquellos con jefatura masculina. En este caso, el odds ratio de 1.12 indica que los hogares con jefatura femenina tienen un 12% más de probabilidad de encontrarse en situación de pobreza comparado con los hogares con jefatura masculina, manteniendo constante la edad. Los coeficientes de comparación de grupos siempre se interpretan en relación con una categoría de referencia.</li>
+</ul>
+</section>
+<section id="diferencia-entre-un-coeficiente-de-comparación-de-grupos-y-uno-de-una-variable-continua-1" class="slide level2 smaller" data-background-color="white">
+<h2>Diferencia entre un Coeficiente de Comparación de Grupos y uno de una Variable Continua</h2>
+<ul>
+<li><strong>Coeficiente de una Variable Continua</strong>: Este tipo de coeficiente se utiliza para variables numéricas que pueden tomar un rango de valores, como la <strong>edad</strong> del jefe de hogar. En este caso, el coeficiente de <strong>Edad (0.98)</strong> indica el cambio en los odds de encontrarse en situación de pobreza por cada año adicional de edad del jefe de hogar, manteniendo constante el sexo. Un odds ratio de 0.98 significa que, por cada año adicional de edad, los odds de estar en situación de pobreza disminuyen en un 2%. A diferencia de los coeficientes de comparación de grupos, los coeficientes de variables continuas reflejan un cambio incremental en los odds del evento por cada unidad adicional de la variable independiente.</li>
+</ul>
 </section></section>
 <section>
 <section id="estadísticos-de-ajuste-y-selección-de-modelos" class="title-slide slide level1 center">

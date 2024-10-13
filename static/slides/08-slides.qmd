@@ -203,7 +203,7 @@ Ahora con estos conceptos en mente pasemos a ver como se ajusta un modelo de reg
 
 Para estimar un modelo de regresión logística binaria en R debemos usar la función glm, incluida en r base
 
-```{r, eval=FALSE}
+```{r, echo= TRUE, eval=FALSE}
 glm(pobre~as_factor(sexo), 
     data=base[base$pco1==1,], # filtro por JH
     family="binomial")
@@ -217,69 +217,60 @@ Los beta de un modelo de regresión logística están puestos en términos del l
 
 Es decir, el beta de mujer nos indica que los log-odds de encontrarse en situación de pobreza aumentan en 0.41 en las mujeres en relación a los hombres.
 
-+----------------------------------------------------+-----------------------+
-|                                                    | Pobreza según sexo JH |
-+====================================================+=======================+
-| Intercepto                                         | -2.40^\*\*\*^         |
-+----------------------------------------------------+-----------------------+
-|                                                    | (0.02)                |
-+----------------------------------------------------+-----------------------+
-| Mujer (ref.hombre)                                 | 0.41^\*\*\*^          |
-+----------------------------------------------------+-----------------------+
-|                                                    | (0.03)                |
-+----------------------------------------------------+-----------------------+
-| AIC                                                | 41074.58              |
-+----------------------------------------------------+-----------------------+
-| BIC                                                | 41092.68              |
-+----------------------------------------------------+-----------------------+
-| Log Likelihood                                     | -20535.29             |
-+----------------------------------------------------+-----------------------+
-| Deviance                                           | 41070.58              |
-+----------------------------------------------------+-----------------------+
-| Num. obs.                                          | 62911                 |
-+----------------------------------------------------+-----------------------+
-| ^\*\*\*^p \< 0.001; ^\*\*^p \< 0.01; ^\*^p \< 0.05 |                       |
-+----------------------------------------------------+-----------------------+
+```{r, results='asis', echo=FALSE}
+library(haven)
+library(dplyr)
+library(texreg)
+temp <- tempfile() #Creamos un archivo temporal
+download.file("http://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/casen/2020/Casen_en_Pandemia_2020_revisada202209.sav.zip",temp) #descargamos los datos
+casen <- haven::read_sav(unz(temp, "Casen_en_Pandemia_2020_revisada202209.sav")) #cargamos los datos
+unlink(temp); remove(temp) #eliminamos el archivo temporal
 
-: Statistical models
+casen <- casen %>%
+  mutate(pobre = case_when(
+    pobreza %in% 1:2 ~ 1,
+    pobreza == 3 ~ 0
+  ))
 
-</ul>
+modelo<- glm(pobre~as_factor(sexo), 
+    data=casen[casen$pco1==1,], # filtro por JH
+    family="binomial")
+
+htmlreg(modelo, custom.coef.names = c("Intercepto","Mujer (ref.hombre)" ))
+
+```
 
 ## Interpretación de coeficientes {.smaller background-color="white"}
 
 Para poder realizar una interpretación con sentido de los coeficientes del modelo debemos realizar una transformación, de forma que el beta quede expresado como odds. Para esto debemos hacer una **exponenciación** de los coeficientes.
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo=TRUE}
 exp(0.41)=1.506818
 ```
 
 Es decir, los odds (chances) de ser pobre para un hogar con jefatura femenina son 1,506818 veces más que las de uno con jefatura masculina.
 
+## Interpretación de coeficientes {.smaller background-color="white"}
+
+```{r, results='asis'}
+or <- texreg::extract(modelo)
+or@coef <- exp(or@coef)
+
+
+htmlreg(or,
+        custom.coef.names = c("Intercepto","Mujer (ref.hombre)"),
+        custom.model.names = "Pobreza según sexo JH",single.row = T)
+```
+
+
 ## Modelos con múltiples variables independientes {.smaller background-color="white"}
 
-+----------------------------------------------------+-----------------------+
-|                                                    | Pobreza según sexo JH |
-+====================================================+=======================+
-| Intercepto                                         | -1.07 (0.05)^\*\*\*^  |
-+----------------------------------------------------+-----------------------+
-| Mujer (ref.hombre)                                 | 0.39 (0.03)^\*\*\*^   |
-+----------------------------------------------------+-----------------------+
-| Edad                                               | -0.03 (0.00)^\*\*\*^  |
-+----------------------------------------------------+-----------------------+
-| AIC                                                | 40182.30              |
-+----------------------------------------------------+-----------------------+
-| BIC                                                | 40209.45              |
-+----------------------------------------------------+-----------------------+
-| Log Likelihood                                     | -20088.15             |
-+----------------------------------------------------+-----------------------+
-| Deviance                                           | 40176.30              |
-+----------------------------------------------------+-----------------------+
-| Num. obs.                                          | 62911                 |
-+----------------------------------------------------+-----------------------+
-| ^\*\*\*^p \< 0.001; ^\*\*^p \< 0.01; ^\*^p \< 0.05 |                       |
-+----------------------------------------------------+-----------------------+
+```{r, results='asis'}
+htmlreg(glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial"),
+        custom.coef.names = c("Intercepto","Mujer (ref.hombre)","Edad"),
+        custom.model.names = "Pobreza según sexo JH",single.row = T)
+```
 
-: Statistical models
 
 ## Modelos con múltiples variables independientes {.smaller background-color="white"}
 
@@ -288,6 +279,68 @@ En el caso de un modelo de regresión logística con múltiples predictores o va
 En este caso podemos decir que los log-odds predichos de encontrarse en situación de pobreza aumentan en 0,39 en los hogares con jefatura femenina respecto aquellos con jefatura masculina **controlando por edad**
 
 En el mismo sentido, los log-odds predichos de ser encontrarse en situación de pobreza disminuyen en 0.03 por cada año más de edad del jefe de hogar, **controlando por sexo**.
+
+## Modelos con múltiples variables independientes {.smaller background-color="white"}
+
+```{r, results='asis'}
+
+modelo2<-glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial")
+or <- texreg::extract(modelo2)
+or@coef <- exp(or@coef)
+
+
+htmlreg(or,
+        custom.coef.names = c("Intercepto","Mujer (ref.hombre)","Edad"),
+        custom.model.names = "Pobreza según sexo JH (odd ratios)",single.row = T)
+```
+
+## Interpretación de Resultados de Regresión Logística en Odds Ratios {.smaller background-color="white"}
+
+En el siguiente modelo de regresión logística, se analiza la probabilidad de encontrarse en situación de pobreza según sexo del jefe de hogar (JH) y su edad.
+
+- **Intercepto (0.22)**: Los odds de encontrarse en situación de pobreza son 0.22 cuando el jefe de hogar es hombre y tiene una edad de referencia (edad igual a 0).
+- **Mujer (ref. hombre, 1.12)**: Los odds de estar en situación de pobreza son 1.12 veces mayores en los hogares con jefatura femenina, comparado con los hogares con jefatura masculina, manteniendo constante la edad. Esto indica que las mujeres jefas de hogar tienen una mayor probabilidad de encontrarse en situación de pobreza.
+- **Edad (0.98)**: Por cada año adicional de edad del jefe de hogar, los odds de encontrarse en situación de pobreza disminuyen un 2%, manteniendo constante el sexo del jefe de hogar.
+
+## Interpretación de los Coeficientes en Términos de Odds Ratios: Comparación de Grupos {.smaller background-color="white"}
+
+Al interpretar un coeficiente de regresión logística en términos de odds ratios para la comparación entre grupos, se deben considerar los siguientes criterios:
+
+1. **Valor mayor a 1**: Si el odds ratio es mayor a 1, significa que el grupo comparado tiene una mayor probabilidad del evento estudiado en comparación con el grupo de referencia. Por ejemplo, un odds ratio de 1.12 indica que la probabilidad del evento es un 12% mayor en el grupo comparado, manteniendo constantes las demás variables. Esto implica que el grupo comparado tiene un mayor riesgo o probabilidad del evento en relación con el grupo de referencia.
+
+2. **Valor menor a 1**: Si el odds ratio es menor a 1, indica que el grupo comparado tiene una menor probabilidad del evento estudiado en comparación con el grupo de referencia. Esto implica un efecto protector o una reducción de la probabilidad del evento para el grupo comparado.
+
+## Interpretación de los Coeficientes en Términos de Odds Ratios: Comparación de Grupos {.smaller background-color="white"}
+
+
+3. **Valores cercanos a 1**: Valores cercanos a 1, como el 1.01 o 0.99, implican que la variable tiene poco o ningún efecto sobre los odds del evento, es decir, el impacto de dicha variable es mínimo.
+
+4. **Significancia Estadística**: Para determinar si el coeficiente tiene un efecto significativo sobre la variable dependiente, se consideran los valores p (***p < 0.001; **p < 0.01; *p < 0.05). En este caso, todos los coeficientes son significativos al nivel del 0.001.
+
+## Interpretación de los Coeficientes en Términos de Odds Ratios: Variable Continua {.smaller background-color="white"}
+
+Al interpretar un coeficiente de regresión logística en términos de odds ratios para una variable continua, se deben considerar los siguientes criterios:
+
+1. **Valor mayor a 1**: Si el odds ratio es mayor a 1, significa que por cada unidad adicional de la variable continua, la probabilidad del evento estudiado aumenta. Esto implica que la variable tiene un efecto positivo en la probabilidad del evento. Un valor mayor que 1 sugiere un incremento proporcional en los odds del evento.
+
+2. **Valor menor a 1**: Si el odds ratio es menor a 1, indica que por cada unidad adicional de la variable continua, la probabilidad del evento disminuye. Por ejemplo, un odds ratio de 0.98 implica que, por cada año adicional de edad del jefe de hogar, los odds de estar en situación de pobreza disminuyen en un 2%. Un valor menor que 1 indica un efecto protector o una reducción en los odds del evento conforme aumenta la variable.
+
+## Interpretación de los Coeficientes en Términos de Odds Ratios: Variable Continua {.smaller background-color="white"}
+
+3. **Valores cercanos a 1**: Valores cercanos a 1, como el 1.01 o 0.99, implican que la variable tiene poco o ningún efecto sobre los odds del evento, es decir, el impacto de dicha variable es mínimo.
+
+4. **Significancia Estadística**: Para determinar si el coeficiente tiene un efecto significativo sobre la variable dependiente, se consideran los valores p (***p < 0.001; **p < 0.01; *p < 0.05). En este caso, todos los coeficientes son significativos al nivel del 0.001.
+
+## Diferencia entre un Coeficiente de Comparación de Grupos y uno de una Variable Continua {.smaller background-color="white"}
+
+En un modelo de regresión logística, los coeficientes pueden representar comparaciones entre grupos o el efecto de variables continuas:
+
+- **Coeficiente de Comparación de Grupos**: Este tipo de coeficiente se utiliza para variables categóricas, donde se compara un grupo específico con un grupo de referencia. Por ejemplo, en el caso de la variable **sexo** del jefe de hogar, el coeficiente de **Mujer (ref. hombre, 1.12)** representa la comparación entre los hogares con jefatura femenina y aquellos con jefatura masculina. En este caso, el odds ratio de 1.12 indica que los hogares con jefatura femenina tienen un 12% más de probabilidad de encontrarse en situación de pobreza comparado con los hogares con jefatura masculina, manteniendo constante la edad. Los coeficientes de comparación de grupos siempre se interpretan en relación con una categoría de referencia.
+
+## Diferencia entre un Coeficiente de Comparación de Grupos y uno de una Variable Continua {.smaller background-color="white"}
+
+
+- **Coeficiente de una Variable Continua**: Este tipo de coeficiente se utiliza para variables numéricas que pueden tomar un rango de valores, como la **edad** del jefe de hogar. En este caso, el coeficiente de **Edad (0.98)** indica el cambio en los odds de encontrarse en situación de pobreza por cada año adicional de edad del jefe de hogar, manteniendo constante el sexo. Un odds ratio de 0.98 significa que, por cada año adicional de edad, los odds de estar en situación de pobreza disminuyen en un 2%. A diferencia de los coeficientes de comparación de grupos, los coeficientes de variables continuas reflejan un cambio incremental en los odds del evento por cada unidad adicional de la variable independiente.
 
 # Estadísticos de ajuste y selección de modelos
 

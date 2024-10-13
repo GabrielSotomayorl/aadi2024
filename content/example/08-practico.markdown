@@ -14,7 +14,7 @@ editor_options:
 <link href="/rmarkdown-libs/tile-view/tile-view.css" rel="stylesheet" />
 <script src="/rmarkdown-libs/tile-view/tile-view.js"></script>
 <link href="/rmarkdown-libs/animate.css/animate.xaringan.css" rel="stylesheet" />
-<script type="application/json" id="xaringanExtra-editable-docid">{"id":"fc2c3cbd2e344285a3957b6a0f45df8a","expires":14}</script>
+<script type="application/json" id="xaringanExtra-editable-docid">{"id":"xbbbae64f46e40ecb7765b8527ba1b7b","expires":14}</script>
 <script src="/rmarkdown-libs/himalaya/himalaya.js"></script>
 <script src="/rmarkdown-libs/js-cookie/js.cookie.js"></script>
 <link href="/rmarkdown-libs/editable/editable.css" rel="stylesheet" />
@@ -39,12 +39,10 @@ editor_options:
 
 
 
-
 # 0. Objetivo del práctico
 
 El objetivo de este práctico es aprender a ejecutar análisis de regresión logística binaria en R, visualizar sus resultados y evaluar el ajuste de los modelos.   
 Para esto haremos uso de la encuesta [CASEN (2020)](http://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-en-pandemia-2020), la mayor encuesta de hogares realizada en Chile, a cargo del Ministerio de Desarrollo Social, de carácter transversal y multipropósito, es el principal instrumento de medición socioeconómica para el diseño y evaluación de la política social. Permite conocer periódicamente la situación socioeconómica de los hogares y de la población que reside en viviendas particulares, a través de preguntas referidas a composición familiar, educación, salud, vivienda, trabajo e ingresos, entre otros aspectos. 
-
 
 
 # 1. Carga y preparación de la base de datos.
@@ -238,9 +236,7 @@ cat("Odds mujer: ", odds_mujer, "\n")
 
 El **odds ratio** se calcula como la razón entre los odds de las mujeres y los hombres:  
 
-$$
-\text{Odds Ratio} = \frac{\text{Odds}_{\text{mujer}}}{\text{Odds}_{\text{hombre}}}
-$$
+`\(\text{Odds Ratio} = \frac{\text{Odds}_{\text{mujer}}}{\text{Odds}_{\text{hombre}}}\)`
 
 
 
@@ -336,7 +332,6 @@ La variable "Edad" tiene un coeficiente de -0.03 (0.00)***, lo que indica que a 
 modelo2<-glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial")
 or <- texreg::extract(modelo2)
 or@coef <- exp(or@coef)
-
 
 htmlreg(or,
         custom.coef.names = c("Intercepto","Mujer (ref.hombre)","Edad"),

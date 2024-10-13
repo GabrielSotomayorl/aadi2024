@@ -16,7 +16,6 @@ editor_options:
 xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "share_again", "scribble", "frezeeframe", "editable"))
 ```
 
-
 ```{r xaringanExtra-clipboard, echo=FALSE}
 htmltools::tagList(
   xaringanExtra::use_clipboard(
@@ -32,7 +31,6 @@ htmltools::tagList(
 
 El objetivo de este práctico es aprender a ejecutar análisis de regresión logística binaria en R, visualizar sus resultados y evaluar el ajuste de los modelos.   
 Para esto haremos uso de la encuesta [CASEN (2020)](http://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-en-pandemia-2020), la mayor encuesta de hogares realizada en Chile, a cargo del Ministerio de Desarrollo Social, de carácter transversal y multipropósito, es el principal instrumento de medición socioeconómica para el diseño y evaluación de la política social. Permite conocer periódicamente la situación socioeconómica de los hogares y de la población que reside en viviendas particulares, a través de preguntas referidas a composición familiar, educación, salud, vivienda, trabajo e ingresos, entre otros aspectos. 
-
 
 
 # 1. Carga y preparación de la base de datos.
@@ -158,9 +156,7 @@ cat("Odds mujer: ", odds_mujer, "\n")
 
 El **odds ratio** se calcula como la razón entre los odds de las mujeres y los hombres:  
 
-$$
-\text{Odds Ratio} = \frac{\text{Odds}_{\text{mujer}}}{\text{Odds}_{\text{hombre}}}
-$$
+$\text{Odds Ratio} = \frac{\text{Odds}_{\text{mujer}}}{\text{Odds}_{\text{hombre}}}$
 
 
 ```{r}
@@ -200,7 +196,6 @@ La variable "Edad" tiene un coeficiente de -0.03 (0.00)***, lo que indica que a 
 modelo2<-glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial")
 or <- texreg::extract(modelo2)
 or@coef <- exp(or@coef)
-
 
 htmlreg(or,
         custom.coef.names = c("Intercepto","Mujer (ref.hombre)","Edad"),
@@ -260,5 +255,4 @@ En resumen, el código utiliza la función plot_model() para generar un gráfico
 library(sjPlot)
 
 plot_model(modelo2,vline.color = "grey")
-
 ``` 

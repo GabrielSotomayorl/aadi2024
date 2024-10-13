@@ -1,6 +1,6 @@
 ---
 title: "Análisis de regresión logística"
-linktitle: "5: Análisis de regresión logística"
+linktitle: "8: Análisis de regresión logística"
 date: "2024-10-14"
 menu:
   example:
@@ -34,6 +34,7 @@ El objetivo de este práctico es aprender a ejecutar análisis de regresión log
 Para esto haremos uso de la encuesta [CASEN (2020)](http://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-en-pandemia-2020), la mayor encuesta de hogares realizada en Chile, a cargo del Ministerio de Desarrollo Social, de carácter transversal y multipropósito, es el principal instrumento de medición socioeconómica para el diseño y evaluación de la política social. Permite conocer periódicamente la situación socioeconómica de los hogares y de la población que reside en viviendas particulares, a través de preguntas referidas a composición familiar, educación, salud, vivienda, trabajo e ingresos, entre otros aspectos. 
 
 
+
 # 1. Carga y preparación de la base de datos.
 
 ```{r load, warning=FALSE, message=F}
@@ -64,8 +65,110 @@ casen <- casen |>
   filter(pco1==1)
 ```
 
+# 2. Cálculo de probabilidades, odds, y logit
 
-# 2. Estimación del modelo e interpretación de coeficientes
+## Cálculo de probabilidades a odds
+
+La fórmula para calcular los **odds** a partir de una probabilidad (`p`) es:
+$$ 
+\text{Odds} = \frac{p}{1 - p} 
+$$
+
+```{r, echo=TRUE}
+p <- seq(0, 1, 0.1)
+odds <- p / (1 - p)
+
+print(data.frame(p, odds))
+```
+
+## Gráfico: Odds según valores de `p`
+
+```{r}
+library(ggplot2)
+
+p <- seq(0, 1, 0.01)
+odds <- p / (1 - p)
+ggplot(data = data.frame(p, odds), aes(x = p, y = odds)) +
+  geom_line(color = "darkgreen", size = 1.1) +
+  labs(title = "Odds según valores de p", x = "p", y = "Odds = p / (1 - p)") +
+  theme_minimal()
+```
+
+## Cálculo de odds a logit
+
+La fórmula para calcular el **logit** (logaritmo natural de los odds) es:
+$$
+\text{Logit} = \ln \left( \frac{p}{1 - p} \right)
+$$
+
+```{r}
+logit <- log(p / (1 - p))
+```
+
+## Gráfico: Logit según valores de `p`
+
+```{r}
+logit <- log(p / (1 - p))
+
+ggplot(data = data.frame(p, logit), aes(x = p, y = logit)) +
+  geom_line(color = "steelblue", size = 1.1) +
+  labs(title = "Logit según valores de p", x = "p", y = "Logit = ln(p / (1 - p))") +
+  theme_minimal() +
+  ylim(-6, 6)
+```
+
+# 3. Análisis de odds y odds ratio en base de datos CASEN
+
+Filtramos la base de datos para quedarnos solo con las jefaturas de hogar y analizamos la relación entre sexo del jefe de hogar y la condición de pobreza.
+
+```{r}
+library(dplyr)
+
+# Filtramos la base para quedarnos con jefes de hogar
+df_jh <- casen %>%
+  filter(pco1 == 1)
+
+# Tabla cruzada entre sexo del jefe de hogar y pobreza
+tabla <- table(df_jh$sexo, df_jh$pobre)
+print(tabla)
+```
+
+## Cálculo de odds
+
+Calculamos los **odds** de estar en situación de pobreza según el sexo del jefe de hogar:
+
+- Para hombres:
+$$
+\text{Odds}_{\text{hombre}} = \frac{\text{Casos en pobreza (hombre)}}{\text{Casos no en pobreza (hombre)}}
+$$
+- Para mujeres:
+$$
+\text{Odds}_{\text{mujer}} = \frac{\text{Casos en pobreza (mujer)}}{\text{Casos no en pobreza (mujer)}}
+$$
+
+```{r}
+odds_hombre <- tabla[1, 2] / tabla[1, 1]
+odds_mujer <- tabla[2, 2] / tabla[2, 1]
+
+cat("Odds hombre: ", odds_hombre, "\n")
+cat("Odds mujer: ", odds_mujer, "\n")
+```
+
+## Cálculo de odds ratio
+
+El **odds ratio** se calcula como la razón entre los odds de las mujeres y los hombres:  
+
+$$
+\text{Odds Ratio} = \frac{\text{Odds}_{\text{mujer}}}{\text{Odds}_{\text{hombre}}}
+$$
+
+
+```{r}
+odds_ratio <- odds_mujer / odds_hombre
+cat("Odds Ratio: ", odds_ratio, "\n")
+```
+
+# 4. Estimación del modelo e interpretación de coeficientes
 
 Para estimar un modelo de regresión logística binaria se utiliza el comando glm, que estima un modelo lineal generalizado. En este caso, el argumento family = "binomial" especifica que se está ajustando un modelo de regresión logística binaria.
 
@@ -107,7 +210,7 @@ htmlreg(or,
 A continuación, se utilizan las funciones "texreg::extract" y "exp" para obtener los ORs (odds ratios) y sus intervalos de confianza del modelo y, posteriormente, se utiliza la función "htmlreg" para mostrar los resultados en formato HTML.
 
 
-# 3. Ajuste del modelo
+# 5. Ajuste del modelo
 
 Como vimos durante la clase, la interpretación de ajuste de los modelos de regresión logística tiene una orientación principalmente comparativa. 
 
@@ -141,7 +244,7 @@ PseudoR2(modelo2,which="McFadden")
 ``` 
 
 
-# 4. Visualización de resultados
+# 6. Visualización de resultados
 
 El código anterior utiliza la función plot_model() de la librería sjPlot para generar un gráfico de visualización de los resultados del modelo de regresión logística modelo2 ajustado previamente.
 

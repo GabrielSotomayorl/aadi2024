@@ -43,3 +43,7 @@ slides: "08-slides"
 {{% div fyi %}}
 **¿Cómo ocupar**: Si presionas <kbd>?</kbd> (o <kbd>shift</kbd> + <kbd>/</kbd>) mientras estas viendo las slides, podrás ver los comandos específicos para navegar en ellas.
 {{% /div %}}
+
+# Bibliografía
+
+- [Camarero - Regresión Logística](../bib/Camarero_rlb.pdf/)

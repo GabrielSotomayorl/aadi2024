@@ -11,83 +11,51 @@ format:
 editor: visual
 ---
 
-
 # Modelos de probabilidad lineal
-
 
 ## Regresiones para variables dicotómicas {.smaller background-color="white"}
 
-La semana pasada revisamos los modelos de regresión lineal múltiple, que nos permiten analizar la relación de una variable dependiente continua y variables independientes de cualquier nivel de medida. Ahora cabe la pregunta:  
+Las semanas anteriores revisamos los modelos de regresión lineal múltiple, que nos permiten analizar la relación de una variable dependiente continua y variables independientes de cualquier nivel de medida. Ahora cabe la pregunta:
 
 **¿Cómo podemos modelar variables dicotómicas?**
-
 
 ## Modelos de probabilidad lineal {.smaller background-color="white"}
 
 Una opción son los modelos de probabilidad lineal, los cuales consisten en usar una regresión estimada mediante mínimos cuadrados ordinarios para una variable dicotómica (valores 0 y 1). En estos los valores beta pueden interpretarse como cambios promedio en la probabilidad.
 
++----------------------------------------------------+-----------------------+
+|                                                    | Pobreza según sexo JH |
++====================================================+=======================+
+| Intercepto                                         | 0.08^\*\*\*^          |
++----------------------------------------------------+-----------------------+
+|                                                    | (0.00)                |
++----------------------------------------------------+-----------------------+
+| Mujer (ref.hombre)                                 | 0.04^\*\*\*^          |
++----------------------------------------------------+-----------------------+
+|                                                    | (0.00)                |
++----------------------------------------------------+-----------------------+
+| R^2^                                               | 0.00                  |
++----------------------------------------------------+-----------------------+
+| Adj. R^2^                                          | 0.00                  |
++----------------------------------------------------+-----------------------+
+| Num. obs.                                          | 62911                 |
++----------------------------------------------------+-----------------------+
+| ^\*\*\*^p \< 0.001; ^\*\*^p \< 0.01; ^\*^p \< 0.05 |                       |
++----------------------------------------------------+-----------------------+
 
-<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
-<caption>Statistical models</caption>
-<thead>
-<tr>
-<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
-<th style="padding-left: 5px;padding-right: 5px;">Pobreza según sexo JH</th>
-</tr>
-</thead>
-<tbody>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
-<td style="padding-left: 5px;padding-right: 5px;">0.08<sup>&#42;&#42;&#42;</sup></td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-<td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Mujer (ref.hombre)</td>
-<td style="padding-left: 5px;padding-right: 5px;">0.04<sup>&#42;&#42;&#42;</sup></td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-<td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
-</tr>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">R<sup>2</sup></td>
-<td style="padding-left: 5px;padding-right: 5px;">0.00</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Adj. R<sup>2</sup></td>
-<td style="padding-left: 5px;padding-right: 5px;">0.00</td>
-</tr>
-<tr style="border-bottom: 2px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
-<td style="padding-left: 5px;padding-right: 5px;">62911</td>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-<td style="font-size: 0.8em;" colspan="2"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
-</tr>
-</tfoot>
-</table>
+: Statistical models
 
-  </ul>
-
+</ul>
 
 ## Modelos de probabilidad lineal {.smaller background-color="white"}
 
 A pesar de la simpleza de su interpretación, los modelos de probabilidad lineal cuentan con dos problemas:
 
-1) Pueden entregar variables predichos más allá del rango 0-1 lo cual no tiene sentido en el caso de una probabilidad  
+1)  Pueden entregar variables predichos más allá del rango 0-1 lo cual no tiene sentido en el caso de una probabilidad
 
-2) No entregan un buen ajuste en términos de cumplimiento de los supuestos del modelo y ajuste a los datos  
-
-
+2)  No entregan un buen ajuste en términos de cumplimiento de los supuestos del modelo y ajuste a los datos
 
 # Modelo de regresión logística binaria
-
-
 
 ## Regresión logística {.smaller background-color="white"}
 
@@ -97,42 +65,66 @@ $$
 \log\left(\frac{P}{1 - P}\right) = \beta_0 + \beta_1 X
 $$
 
-
 ## Regresión logística {.smaller background-color="white"}
 
 $$
 \log\left(\frac{P}{1 - P}\right) = \beta_0 + \beta_1 X
 $$
 
+-   $\log\left(\frac{P}{1 - P}\right)$: Esto representa el **logit** o **log odds**. El término $P$ es la probabilidad de que ocurra el evento de interés, y $1 - P$ es la probabilidad de que no ocurra. Al tomar el logaritmo de las "odds" o probabilidades, transformamos el rango de $P$ (que va de 0 a 1) a un rango de $-\infty$ a $\infty$.
 
-- **$\log\left(\frac{P}{1 - P}\right)$**: Esto representa el **logit** o **log odds**. El término $P$ es la probabilidad de que ocurra el evento de interés, y $1 - P$ es la probabilidad de que no ocurra. Al tomar el logaritmo de las "odds" o probabilidades, transformamos el rango de $P$ (que va de 0 a 1) a un rango de $-\infty$ a $\infty$.
+-   $\beta_0$: Es el **intercepto**. Este valor indica el valor de los log odds cuando la variable independiente $X$ es igual a 0.
 
-- **$\beta_0$**: Es el **intercepto**. Este valor indica el valor de los log odds cuando la variable independiente $X$ es igual a 0.
-
-- **$\beta_1 X$**: Es el **coeficiente** que acompaña a la variable independiente $X$. Representa el cambio en los log odds por cada unidad adicional de $X$. Si $X$ aumenta en una unidad, los log odds se incrementarán o disminuirán dependiendo del valor de $\beta_1$.
+-   $\beta_1 X$: Es el **coeficiente** que acompaña a la variable independiente $X$. Representa el cambio en los log odds por cada unidad adicional de $X$. Si $X$ aumenta en una unidad, los log odds se incrementarán o disminuirán dependiendo del valor de $\beta_1$.
 
 Este es un modelo de regresión logística, donde la relación entre $X$ y la probabilidad $P$ de un evento se modela de manera no lineal, usando la función logit para transformar la probabilidad.
 
-## Regresión logistica  {.smaller background-color="white"}
+## Regresión logistica {.smaller background-color="white"}
 
 ![](https://www.statdeveloper.com/wp-content/uploads/2020/02/regresion-lineal-vs-regresion-logistica.png)
 
+# Probabilidad, odds y odds ratio
 
+## Probabilidad y Odds {.smaller background-color="white"}
 
-# Odds y odds ratio
+- **Probabilidad (`p`)**: Representa la probabilidad de ocurrencia de un evento y toma valores entre 0 y 1.
+- **Odds**: Es la razón entre la probabilidad de que ocurra un evento y la probabilidad de que no ocurra, es decir: 
+  $$ \text{Odds} = \frac{p}{1 - p} $$
 
+## Probabilidad y Odds {.smaller background-color="white"}
 
-## Concepto de Odds {.smaller background-color="white"}
+```{r, echo=TRUE}
+p <- seq(0, 1, 0.1)
+odds <- p / (1 - p)
+
+print(data.frame(p,odds))
+```
+
+## Gráfico: Odds según valores de `p` {.smaller background-color="white"}
+
+Este gráfico ilustra cómo varían los odds a medida que cambia la probabilidad (`p`). Podemos observar que, cuando `p` se acerca a 1, los odds tienden a crecer exponencialmente.
+
+```{r, echo=FALSE}
+library(ggplot2)
+
+p <- seq(0, 1, 0.01)
+odds <- p / (1 - p)
+ggplot(data = data.frame(p, odds), aes(x = p, y = odds)) +
+  geom_line(color = "darkgreen", size = 1.1) +
+  labs(title = "Odds según valores de p", x = "p", y = "Odds = p / (1 - p)") +
+  theme_minimal()
+```
+
+## Ejemplo de Odds {.smaller background-color="white"}
 
 Los odds (chances) corresponden a la razón entre la probabilidad de que algo ocurra dividido por la probabilidad de que algo no ocurra.
 
-$$Odds = {p\over1-p}$$ 
-Ejemplo en CASEN 2020, odds de ser pobre
+$$Odds = {p\over1-p}$$ Ejemplo en CASEN 2020, odds de ser pobre
+
 
 Odds pobreza = 0.095/0.905 = 0.105
 
 Es decir, de acuerdo a la CASEN 2020, las chances de ser pobre son de 0.105
-
 
 ## Concepto de Odds {.smaller background-color="white"}
 
@@ -142,6 +134,44 @@ Odds **menores de 1** dan cuenta de chances negativas (es más probable que no o
 
 Odds **mayores a 1** dan cuenta de chances positivas (es más probable que ocurra a que no ocurra)
 
+## Logit {.smaller background-color="white"}
+
+- **Logit**: La función logit se define como el logaritmo natural de los odds:
+  $$ \text{Logit} = \ln \left( \frac{p}{1 - p} \right) $$
+  Es la función de enlace que utilizamos en la regresión logística para transformar la probabilidad en un valor continuo entre $(-\infty, \infty)$.
+
+```{r}
+logit <- log(p / (1 - p))
+```
+
+## Probabilidad, Odds y logaritmo de los odds (logit) {.smaller background-color="white"}
+
+```{r, echo=TRUE}
+p <- seq(0, 1, 0.1)
+odds <- p / (1 - p)
+logit <- log(p / (1 - p))
+
+print(data.frame(p,odds,logit))
+```
+
+## Gráfico: Logit según valores de `p` {.smaller background-color="white"}
+
+Este gráfico muestra cómo varía el logit con respecto a `p`. A diferencia de los odds, el logit transforma la probabilidad en una escala lineal, lo cual es esencial para poder aplicar un modelo lineal en la regresión logística.
+
+```{r, echo=FALSE}
+
+p <- seq(0, 1, 0.01)
+odds <- p / (1 - p)
+logit <- log(p / (1 - p))
+
+ggplot(data = data.frame(p, logit), aes(x = p, y = logit)) +
+  geom_line(color = "steelblue", size = 1.1) +
+  labs(title = "Logit según valores de p", x = "p", y = "Logit = ln(p / (1 - p))") +
+  theme_minimal() +
+  ylim(-6, 6)
+```
+
+
 
 ## Odds de dos grupos {.smaller background-color="white"}
 
@@ -149,8 +179,7 @@ En nuestro ejemplo original queremos ver como cambia la probabilidad de que un h
 
 $$Odds_{JH- Hombre} = 0.076/0.924=0.08225 $$
 
-$$Odds_{JH- Mujer} = 0.114/0.886=0.1286 $$
-Es decir, existen 8,22 hogares con jefatura masculina en situación de pobreza por cada 100 que no lo están, mientras que 12,86 hogares con jefatura femenina en situación de pobreza por cada 100 que no lo están.
+$$Odds_{JH- Mujer} = 0.114/0.886=0.1286 $$ Es decir, existen 8,22 hogares con jefatura masculina en situación de pobreza por cada 100 que no lo están, mientras que 12,86 hogares con jefatura femenina en situación de pobreza por cada 100 que no lo están.
 
 ## Concepto de Odds ratio {.smaller background-color="white"}
 
@@ -158,9 +187,7 @@ Los odds ratio resultan útiles para comparar la asociación entre las chances d
 
 OR de pobreza de un hogar con jefatura masculina / OR de pobreza de un hogar con jefatura masculina
 
-$$Odds\: ratio = {{p_{m}(1-p_{m})}\over p_{h}(1-p_{h})}$$ 
-$$= {0.114/0.886 \over 0.076/0.924} = {0.1286\over 0.08225}= 1.564 $$ 
-
+$$Odds\: ratio = {{p_{m}(1-p_{m})}\over p_{h}(1-p_{h})}$$ $$= {0.114/0.886 \over 0.076/0.924} = {0.1286\over 0.08225}= 1.564 $$
 
 ## Concepto de Odds ratio {.smaller background-color="white"}
 
@@ -170,91 +197,57 @@ Las chances de un hogar con jefatura femenina de encontrarse esn situación de p
 
 Ahora con estos conceptos en mente pasemos a ver como se ajusta un modelo de regresión logística.
 
-
 # Cálculo de modelos e interpretación de coeficientes
-
 
 ## Cálculo de modelo en R: función GLM {.smaller background-color="white"}
 
 Para estimar un modelo de regresión logística binaria en R debemos usar la función glm, incluida en r base
+
 ```{r, eval=FALSE}
 glm(pobre~as_factor(sexo), 
     data=base[base$pco1==1,], # filtro por JH
     family="binomial")
 ```
- 
 
-Especificamos la formula igual que en una regresión lineal (la variable dependiente debe estar en formato 0-1). Debemos especificar la familia de modelos (ya que la función glm sirve para calcular distintos tipos de modelos lineales generalizados). 
-
+Especificamos la formula igual que en una regresión lineal (la variable dependiente debe estar en formato 0-1). Debemos especificar la familia de modelos (ya que la función glm sirve para calcular distintos tipos de modelos lineales generalizados).
 
 ## Interpretación de coeficiente {.smaller background-color="white"}
 
-Los beta de un modelo de regresión logística están puestos en términos del logaritmo de los odds.   
+Los beta de un modelo de regresión logística están puestos en términos del logaritmo de los odds.
 
-Es decir, el beta de mujer nos indica que los log-odds de encontrarse en situación de pobreza aumentan en 0.41 en las mujeres en relación a los hombres. 
+Es decir, el beta de mujer nos indica que los log-odds de encontrarse en situación de pobreza aumentan en 0.41 en las mujeres en relación a los hombres.
 
-<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
-<caption>Statistical models</caption>
-<thead>
-<tr>
-<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
-<th style="padding-left: 5px;padding-right: 5px;">Pobreza según sexo JH</th>
-</tr>
-</thead>
-<tbody>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
-<td style="padding-left: 5px;padding-right: 5px;">-2.40<sup>&#42;&#42;&#42;</sup></td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-<td style="padding-left: 5px;padding-right: 5px;">(0.02)</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Mujer (ref.hombre)</td>
-<td style="padding-left: 5px;padding-right: 5px;">0.41<sup>&#42;&#42;&#42;</sup></td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-<td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
-</tr>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">AIC</td>
-<td style="padding-left: 5px;padding-right: 5px;">41074.58</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">BIC</td>
-<td style="padding-left: 5px;padding-right: 5px;">41092.68</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Log Likelihood</td>
-<td style="padding-left: 5px;padding-right: 5px;">-20535.29</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Deviance</td>
-<td style="padding-left: 5px;padding-right: 5px;">41070.58</td>
-</tr>
-<tr style="border-bottom: 2px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
-<td style="padding-left: 5px;padding-right: 5px;">62911</td>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-<td style="font-size: 0.8em;" colspan="2"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
-</tr>
-</tfoot>
-</table>
++----------------------------------------------------+-----------------------+
+|                                                    | Pobreza según sexo JH |
++====================================================+=======================+
+| Intercepto                                         | -2.40^\*\*\*^         |
++----------------------------------------------------+-----------------------+
+|                                                    | (0.02)                |
++----------------------------------------------------+-----------------------+
+| Mujer (ref.hombre)                                 | 0.41^\*\*\*^          |
++----------------------------------------------------+-----------------------+
+|                                                    | (0.03)                |
++----------------------------------------------------+-----------------------+
+| AIC                                                | 41074.58              |
++----------------------------------------------------+-----------------------+
+| BIC                                                | 41092.68              |
++----------------------------------------------------+-----------------------+
+| Log Likelihood                                     | -20535.29             |
++----------------------------------------------------+-----------------------+
+| Deviance                                           | 41070.58              |
++----------------------------------------------------+-----------------------+
+| Num. obs.                                          | 62911                 |
++----------------------------------------------------+-----------------------+
+| ^\*\*\*^p \< 0.001; ^\*\*^p \< 0.01; ^\*^p \< 0.05 |                       |
++----------------------------------------------------+-----------------------+
 
-  </ul>
+: Statistical models
 
-
+</ul>
 
 ## Interpretación de coeficientes {.smaller background-color="white"}
 
 Para poder realizar una interpretación con sentido de los coeficientes del modelo debemos realizar una transformación, de forma que el beta quede expresado como odds. Para esto debemos hacer una **exponenciación** de los coeficientes.
-
-
 
 ```{r, eval=FALSE}
 exp(0.41)=1.506818
@@ -262,59 +255,31 @@ exp(0.41)=1.506818
 
 Es decir, los odds (chances) de ser pobre para un hogar con jefatura femenina son 1,506818 veces más que las de uno con jefatura masculina.
 
-
-
 ## Modelos con múltiples variables independientes {.smaller background-color="white"}
 
-<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
-<caption>Statistical models</caption>
-<thead>
-<tr>
-<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
-<th style="padding-left: 5px;padding-right: 5px;">Pobreza según sexo JH</th>
-</tr>
-</thead>
-<tbody>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
-<td style="padding-left: 5px;padding-right: 5px;">-1.07 (0.05)<sup>&#42;&#42;&#42;</sup></td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Mujer (ref.hombre)</td>
-<td style="padding-left: 5px;padding-right: 5px;">0.39 (0.03)<sup>&#42;&#42;&#42;</sup></td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Edad</td>
-<td style="padding-left: 5px;padding-right: 5px;">-0.03 (0.00)<sup>&#42;&#42;&#42;</sup></td>
-</tr>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">AIC</td>
-<td style="padding-left: 5px;padding-right: 5px;">40182.30</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">BIC</td>
-<td style="padding-left: 5px;padding-right: 5px;">40209.45</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Log Likelihood</td>
-<td style="padding-left: 5px;padding-right: 5px;">-20088.15</td>
-</tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">Deviance</td>
-<td style="padding-left: 5px;padding-right: 5px;">40176.30</td>
-</tr>
-<tr style="border-bottom: 2px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
-<td style="padding-left: 5px;padding-right: 5px;">62911</td>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-<td style="font-size: 0.8em;" colspan="2"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
-</tr>
-</tfoot>
-</table>
++----------------------------------------------------+-----------------------+
+|                                                    | Pobreza según sexo JH |
++====================================================+=======================+
+| Intercepto                                         | -1.07 (0.05)^\*\*\*^  |
++----------------------------------------------------+-----------------------+
+| Mujer (ref.hombre)                                 | 0.39 (0.03)^\*\*\*^   |
++----------------------------------------------------+-----------------------+
+| Edad                                               | -0.03 (0.00)^\*\*\*^  |
++----------------------------------------------------+-----------------------+
+| AIC                                                | 40182.30              |
++----------------------------------------------------+-----------------------+
+| BIC                                                | 40209.45              |
++----------------------------------------------------+-----------------------+
+| Log Likelihood                                     | -20088.15             |
++----------------------------------------------------+-----------------------+
+| Deviance                                           | 40176.30              |
++----------------------------------------------------+-----------------------+
+| Num. obs.                                          | 62911                 |
++----------------------------------------------------+-----------------------+
+| ^\*\*\*^p \< 0.001; ^\*\*^p \< 0.01; ^\*^p \< 0.05 |                       |
++----------------------------------------------------+-----------------------+
 
+: Statistical models
 
 ## Modelos con múltiples variables independientes {.smaller background-color="white"}
 
@@ -324,10 +289,7 @@ En este caso podemos decir que los log-odds predichos de encontrarse en situaci�
 
 En el mismo sentido, los log-odds predichos de ser encontrarse en situación de pobreza disminuyen en 0.03 por cada año más de edad del jefe de hogar, **controlando por sexo**.
 
-
-
 # Estadísticos de ajuste y selección de modelos
-
 
 ## Estadísticos de ajuste {.smaller background-color="white"}
 
@@ -335,30 +297,24 @@ En el caso de los modelos de regresión logística no contamos con una sola medi
 
 4 principales aproximaciones
 
-- Devianza
-- Test de Razón de Verosimilitud
-- Pseudo R2s
-- Criterios de Información (AIC y BIC)
-
-
+-   Devianza
+-   Test de Razón de Verosimilitud
+-   Pseudo R2s
+-   Criterios de Información (AIC y BIC)
 
 ## Devianza {.smaller background-color="white"}
 
-- La devianza es una medida de ajuste que se utiliza para evaluar la calidad de un modelo de regresión logística binaria. Es la diferencia entre la log-verosimilitud del modelo ajustado y la log-verosimilitud del modelo nulo, multiplicada por -2. Por eso también se conoce como devianza residual.
+-   La devianza es una medida de ajuste que se utiliza para evaluar la calidad de un modelo de regresión logística binaria. Es la diferencia entre la log-verosimilitud del modelo ajustado y la log-verosimilitud del modelo nulo, multiplicada por -2. Por eso también se conoce como devianza residual.
 
-- Formula: **.red[Devianza =-2*log likelihood]**
-
-
+-   Formula: **.red\[Devianza =-2\*log likelihood\]**
 
 ## Test de razón de verosimilitud {.smaller background-color="white"}
 
 **Test de razón de verosimilitud:** es un test estadístico utilizado para comparar dos modelos, uno más simple (modelo nulo) y otro más complejo (modelo ajustado). El test de LR se basa en la comparación de la devianza de ambos modelos, y se utiliza para determinar si el modelo ajustado mejora significativamente la predicción en comparación con el modelo nulo.
 
-
 ## Criterios de información (AIC y BIC) {.smaller background-color="white"}
 
-Criterios de información: son medidas utilizadas para comparar diferentes modelos y seleccionar el modelo más adecuado. Los dos criterios de información más comunes son el Akaike Information Criterion (AIC) y el **Bayesian Information Criterion (BIC)**. Estos criterios toman en cuenta tanto la bondad de ajuste del modelo como la complejidad del modelo. Un modelo con un valor de AIC o BIC más bajo se considera mejor ajustado que un modelo con un valor más alto.  
-
+Criterios de información: son medidas utilizadas para comparar diferentes modelos y seleccionar el modelo más adecuado. Los dos criterios de información más comunes son el Akaike Information Criterion (AIC) y el **Bayesian Information Criterion (BIC)**. Estos criterios toman en cuenta tanto la bondad de ajuste del modelo como la complejidad del modelo. Un modelo con un valor de AIC o BIC más bajo se considera mejor ajustado que un modelo con un valor más alto.
 
 ## Pseudo R2s {.smaller background-color="white"}
 
@@ -366,9 +322,8 @@ Son medidas de la variabilidad explicada por el modelo. No pueden interpretarse 
 
 Existen varios tipos de PseudoR2, cada uno con una interpretación diferente. Uno de los PseudoR2 más comunes es el McFadden's PseudoR2. Se define como: $1−[LL(LM)/LL(L0)]$, donde
 
-- LL es el log likelihood del modelo  
-- LM es el modelo posterior (con más predictores)  
-- L0 es el modelo nulo  
+-   LL es el log likelihood del modelo\
+-   LM es el modelo posterior (con más predictores)\
+-   L0 es el modelo nulo
 
 Un valor cercano a 1 indica que el modelo explica una gran cantidad de la variabilidad en los datos, mientras que un valor cercano a 0 indica que el modelo no explica mucha variabilidad.
-

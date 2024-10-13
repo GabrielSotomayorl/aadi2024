@@ -1,6 +1,6 @@
 ---
 title: "Análisis de regresión logística"
-linktitle: "5: Análisis de regresión logística"
+linktitle: "8: Análisis de regresión logística"
 date: "2024-10-14"
 menu:
   example:
@@ -14,7 +14,7 @@ editor_options:
 <link href="/rmarkdown-libs/tile-view/tile-view.css" rel="stylesheet" />
 <script src="/rmarkdown-libs/tile-view/tile-view.js"></script>
 <link href="/rmarkdown-libs/animate.css/animate.xaringan.css" rel="stylesheet" />
-<script type="application/json" id="xaringanExtra-editable-docid">{"id":"x71448281b3a4f53adf9a85369d288da","expires":14}</script>
+<script type="application/json" id="xaringanExtra-editable-docid">{"id":"fc2c3cbd2e344285a3957b6a0f45df8a","expires":14}</script>
 <script src="/rmarkdown-libs/himalaya/himalaya.js"></script>
 <script src="/rmarkdown-libs/js-cookie/js.cookie.js"></script>
 <link href="/rmarkdown-libs/editable/editable.css" rel="stylesheet" />
@@ -46,10 +46,11 @@ El objetivo de este práctico es aprender a ejecutar análisis de regresión log
 Para esto haremos uso de la encuesta [CASEN (2020)](http://observatorio.ministeriodesarrollosocial.gob.cl/encuesta-casen-en-pandemia-2020), la mayor encuesta de hogares realizada en Chile, a cargo del Ministerio de Desarrollo Social, de carácter transversal y multipropósito, es el principal instrumento de medición socioeconómica para el diseño y evaluación de la política social. Permite conocer periódicamente la situación socioeconómica de los hogares y de la población que reside en viviendas particulares, a través de preguntas referidas a composición familiar, educación, salud, vivienda, trabajo e ingresos, entre otros aspectos. 
 
 
+
 # 1. Carga y preparación de la base de datos.
 
 
-``` r
+```r
 library(haven)
 library(dplyr)
 temp <- tempfile() #Creamos un archivo temporal
@@ -61,7 +62,7 @@ unlink(temp); remove(temp) #eliminamos el archivo temporal
 Para ejecutar un modelo de regresión logística necesitamos que nuestra variable dependiente esté codificada con valores 0 y 1. En este caso transformaremos la variable pobreza, que cuenta con tres valores, a una variable dicotómica donde 0 es no pobre y 1 es pobre. 
 
 
-``` r
+```r
 table(as_factor(casen$pobreza))
 ```
 
@@ -71,7 +72,7 @@ table(as_factor(casen$pobreza))
 ##               8435              12862             164042
 ```
 
-``` r
+```r
 casen <- casen %>%
   mutate(pobre = case_when(
     pobreza %in% 1:2 ~ 1,
@@ -82,13 +83,177 @@ casen <- casen %>%
 Además filtraremos la base de datos para quedarnos solo con las jefaturas de hogar, de modo de tener solo un caso por hogar.
 
 
-``` r
+```r
 casen <- casen |> 
   filter(pco1==1)
 ```
 
+# 2. Cálculo de probabilidades, odds, y logit
 
-# 2. Estimación del modelo e interpretación de coeficientes
+## Cálculo de probabilidades a odds
+
+La fórmula para calcular los **odds** a partir de una probabilidad (`p`) es:
+$$ 
+\text{Odds} = \frac{p}{1 - p} 
+$$
+
+
+```r
+p <- seq(0, 1, 0.1)
+odds <- p / (1 - p)
+
+print(data.frame(p, odds))
+```
+
+```
+##      p      odds
+## 1  0.0 0.0000000
+## 2  0.1 0.1111111
+## 3  0.2 0.2500000
+## 4  0.3 0.4285714
+## 5  0.4 0.6666667
+## 6  0.5 1.0000000
+## 7  0.6 1.5000000
+## 8  0.7 2.3333333
+## 9  0.8 4.0000000
+## 10 0.9 9.0000000
+## 11 1.0       Inf
+```
+
+## Gráfico: Odds según valores de `p`
+
+
+```r
+library(ggplot2)
+```
+
+```
+## Warning: package 'ggplot2' was built under R version 4.3.3
+```
+
+```r
+p <- seq(0, 1, 0.01)
+odds <- p / (1 - p)
+ggplot(data = data.frame(p, odds), aes(x = p, y = odds)) +
+  geom_line(color = "darkgreen", size = 1.1) +
+  labs(title = "Odds según valores de p", x = "p", y = "Odds = p / (1 - p)") +
+  theme_minimal()
+```
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+<img src="/example/08-practico_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
+## Cálculo de odds a logit
+
+La fórmula para calcular el **logit** (logaritmo natural de los odds) es:
+$$
+\text{Logit} = \ln \left( \frac{p}{1 - p} \right)
+$$
+
+
+```r
+logit <- log(p / (1 - p))
+```
+
+## Gráfico: Logit según valores de `p`
+
+
+```r
+logit <- log(p / (1 - p))
+
+ggplot(data = data.frame(p, logit), aes(x = p, y = logit)) +
+  geom_line(color = "steelblue", size = 1.1) +
+  labs(title = "Logit según valores de p", x = "p", y = "Logit = ln(p / (1 - p))") +
+  theme_minimal() +
+  ylim(-6, 6)
+```
+
+<img src="/example/08-practico_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+
+# 3. Análisis de odds y odds ratio en base de datos CASEN
+
+Filtramos la base de datos para quedarnos solo con las jefaturas de hogar y analizamos la relación entre sexo del jefe de hogar y la condición de pobreza.
+
+
+```r
+library(dplyr)
+
+# Filtramos la base para quedarnos con jefes de hogar
+df_jh <- casen %>%
+  filter(pco1 == 1)
+
+# Tabla cruzada entre sexo del jefe de hogar y pobreza
+tabla <- table(df_jh$sexo, df_jh$pobre)
+print(tabla)
+```
+
+```
+##    
+##         0     1
+##   1 29035  2624
+##   2 27491  3761
+```
+
+## Cálculo de odds
+
+Calculamos los **odds** de estar en situación de pobreza según el sexo del jefe de hogar:
+
+- Para hombres:
+$$
+\text{Odds}_{\text{hombre}} = \frac{\text{Casos en pobreza (hombre)}}{\text{Casos no en pobreza (hombre)}}
+$$
+- Para mujeres:
+$$
+\text{Odds}_{\text{mujer}} = \frac{\text{Casos en pobreza (mujer)}}{\text{Casos no en pobreza (mujer)}}
+$$
+
+
+```r
+odds_hombre <- tabla[1, 2] / tabla[1, 1]
+odds_mujer <- tabla[2, 2] / tabla[2, 1]
+
+cat("Odds hombre: ", odds_hombre, "\n")
+```
+
+```
+## Odds hombre:  0.09037369
+```
+
+```r
+cat("Odds mujer: ", odds_mujer, "\n")
+```
+
+```
+## Odds mujer:  0.1368084
+```
+
+## Cálculo de odds ratio
+
+El **odds ratio** se calcula como la razón entre los odds de las mujeres y los hombres:  
+
+$$
+\text{Odds Ratio} = \frac{\text{Odds}_{\text{mujer}}}{\text{Odds}_{\text{hombre}}}
+$$
+
+
+
+```r
+odds_ratio <- odds_mujer / odds_hombre
+cat("Odds Ratio: ", odds_ratio, "\n")
+```
+
+```
+## Odds Ratio:  1.513808
+```
+
+# 4. Estimación del modelo e interpretación de coeficientes
 
 Para estimar un modelo de regresión logística binaria se utiliza el comando glm, que estima un modelo lineal generalizado. En este caso, el argumento family = "binomial" especifica que se está ajustando un modelo de regresión logística binaria.
 
@@ -99,7 +264,7 @@ Para estimar un modelo de regresión logística binaria se utiliza el comando gl
 "family = "binomial"" especifica que se está ajustando un modelo de regresión logística, es decir, que la variable dependiente es binaria.
 
 
-``` r
+```r
 library(texreg)
 
 #para ver el output en la consola de R, reemplazar función htmlreg por screenreg
@@ -167,7 +332,7 @@ La variable "Mujer" (ref.hombre) tiene un coeficiente de 0.39 (0.03)***, lo que 
 La variable "Edad" tiene un coeficiente de -0.03 (0.00)***, lo que indica que a medida que aumenta la edad del jefe de hogar, disminuyen las probabilidades de que el hogar se encuentre en situación de pobreza. En concreto, las odds de pobreza disminuyen en un factor de exp(-0.03) = 0.97, es decir en un 3%, por cada año de aumento en la edad del jefe de hogar, manteniendo constantes las demás variables.
 
 
-``` r
+```r
 modelo2<-glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial")
 or <- texreg::extract(modelo2)
 or@coef <- exp(or@coef)
@@ -230,7 +395,7 @@ htmlreg(or,
 A continuación, se utilizan las funciones "texreg::extract" y "exp" para obtener los ORs (odds ratios) y sus intervalos de confianza del modelo y, posteriormente, se utiliza la función "htmlreg" para mostrar los resultados en formato HTML.
 
 
-# 3. Ajuste del modelo
+# 5. Ajuste del modelo
 
 Como vimos durante la clase, la interpretación de ajuste de los modelos de regresión logística tiene una orientación principalmente comparativa. 
 
@@ -240,7 +405,7 @@ A continuación, se comparan los modelos utilizando el criterio estadístico de 
 "anova" se utiliza para comparar modelos ajustados y obtener la prueba de razón de verosimilitud. En este caso, se están comparando los modelos "modelonulo" y "modelo1", y se especifica el test utilizado como "Chisq".
 
 
-``` r
+```r
 modelonulo<-glm(pobre~1, data=casen, family = "binomial")
 modelo1<-glm(pobre~as_factor(sexo), data=casen, family = "binomial")
 modelo2<-glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial")
@@ -263,7 +428,7 @@ anova(modelonulo,modelo1, test ="Chisq")
 En este caso, se están comparando los modelos "modelo1" y "modelo2".
 
 
-``` r
+```r
 anova(modelo1,modelo2, test ="Chisq")
 ```
 
@@ -282,7 +447,7 @@ anova(modelo1,modelo2, test ="Chisq")
 Por último, se utiliza la función "PseudoR2" del paquete "DescTools" para obtener los pseudo-R cuadrados de McFadden para cada modelo.
 
 
-``` r
+```r
 library(DescTools)
 
 PseudoR2(modelo1,which="McFadden")
@@ -293,7 +458,7 @@ PseudoR2(modelo1,which="McFadden")
 ## 0.005884247
 ```
 
-``` r
+```r
 PseudoR2(modelo2,which="McFadden")
 ```
 
@@ -303,7 +468,7 @@ PseudoR2(modelo2,which="McFadden")
 ```
 
 
-# 4. Visualización de resultados
+# 6. Visualización de resultados
 
 El código anterior utiliza la función plot_model() de la librería sjPlot para generar un gráfico de visualización de los resultados del modelo de regresión logística modelo2 ajustado previamente.
 
@@ -316,7 +481,7 @@ El gráfico muestra dos líneas: una para cada valor de la variable sexo (0 y 1)
 En resumen, el código utiliza la función plot_model() para generar un gráfico que permite visualizar de manera intuitiva los resultados del modelo de regresión logística ajustado anteriormente.
 
 
-``` r
+```r
 library(sjPlot)
 
 plot_model(modelo2,vline.color = "grey")
@@ -327,4 +492,4 @@ plot_model(modelo2,vline.color = "grey")
 ##   Use `ci_method="wald"` for faster computation of CIs.
 ```
 
-<img src="/example/08-practico_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<img src="/example/08-practico_files/figure-html/unnamed-chunk-15-1.png" width="672" />

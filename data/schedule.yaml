@@ -87,8 +87,8 @@ lessons:
   - title: '• Regresión Logística I'
     session: "Sesión 9"
     date: "14 octubre"
-    # content: "08-content"
-    # example: "08-practico"
+    content: "08-content"
+    example: "08-practico"
     bg: 1
 
   - title: '• Regresión Logística II'

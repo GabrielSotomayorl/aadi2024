@@ -8,7 +8,7 @@
 <link href="08-slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="08-slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="08-slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.353">
+  <meta name="generator" content="quarto-1.3.450">
 
   <meta name="author" content="Gabriel Sotomayor">
   <title>Clase 8   Análisis de regresión Logística</title>
@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="08-slides_files/libs/revealjs/dist/theme/quarto.css">
   <link href="08-slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -344,93 +409,58 @@ Gabriel Sotomayor
 </section>
 <section id="regresiones-para-variables-dicotómicas" class="slide level2 smaller" data-background-color="white">
 <h2>Regresiones para variables dicotómicas</h2>
-<p>La semana pasada revisamos los modelos de regresión lineal múltiple, que nos permiten analizar la relación de una variable dependiente continua y variables independientes de cualquier nivel de medida. Ahora cabe la pregunta:</p>
+<p>Las semanas anteriores revisamos los modelos de regresión lineal múltiple, que nos permiten analizar la relación de una variable dependiente continua y variables independientes de cualquier nivel de medida. Ahora cabe la pregunta:</p>
 <p><strong>¿Cómo podemos modelar variables dicotómicas?</strong></p>
 </section>
 <section id="modelos-de-probabilidad-lineal-1" class="slide level2 smaller" data-background-color="white">
 <h2>Modelos de probabilidad lineal</h2>
 <p>Una opción son los modelos de probabilidad lineal, los cuales consisten en usar una regresión estimada mediante mínimos cuadrados ordinarios para una variable dicotómica (valores 0 y 1). En estos los valores beta pueden interpretarse como cambios promedio en la probabilidad.</p>
-
-<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
-<caption>
-Statistical models
-</caption>
+<table>
+<caption>Statistical models</caption>
+<colgroup>
+<col style="width: 68%">
+<col style="width: 31%">
+</colgroup>
 <thead>
-<tr>
-<th style="padding-left: 5px;padding-right: 5px;">
-&nbsp;
-</th>
-<th style="padding-left: 5px;padding-right: 5px;">
-Pobreza según sexo JH
-</th>
+<tr class="header">
+<th></th>
+<th>Pobreza según sexo JH</th>
 </tr>
 </thead>
 <tbody>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-Intercepto
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-0.08<sup>***</sup>
-</td>
+<tr class="odd">
+<td>Intercepto</td>
+<td>0.08<sup>***</sup></td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-&nbsp;
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-(0.00)
-</td>
+<tr class="even">
+<td></td>
+<td>(0.00)</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Mujer (ref.hombre)
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-0.04<sup>***</sup>
-</td>
+<tr class="odd">
+<td>Mujer (ref.hombre)</td>
+<td>0.04<sup>***</sup></td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-&nbsp;
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-(0.00)
-</td>
+<tr class="even">
+<td></td>
+<td>(0.00)</td>
 </tr>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-R<sup>2</sup>
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-0.00
-</td>
+<tr class="odd">
+<td>R<sup>2</sup></td>
+<td>0.00</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Adj. R<sup>2</sup>
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-0.00
-</td>
+<tr class="even">
+<td>Adj. R<sup>2</sup></td>
+<td>0.00</td>
 </tr>
-<tr style="border-bottom: 2px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-Num. obs.
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-62911
-</td>
+<tr class="odd">
+<td>Num. obs.</td>
+<td>62911</td>
+</tr>
+<tr class="even">
+<td><sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05</td>
+<td></td>
 </tr>
 </tbody>
-<tfoot>
-<tr>
-<td style="font-size: 0.8em;" colspan="2">
-<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
-</td>
-</tr>
-</tfoot>
-
 </table>
 
 </section>
@@ -460,9 +490,9 @@ Num. obs.
 \log\left(\frac{P}{1 - P}\right) = \beta_0 + \beta_1 X
 \]</span></p>
 <ul>
-<li><p><strong><span class="math inline">\(\log\left(\frac{P}{1 - P}\right)\)</span></strong>: Esto representa el <strong>logit</strong> o <strong>log odds</strong>. El término <span class="math inline">\(P\)</span> es la probabilidad de que ocurra el evento de interés, y <span class="math inline">\(1 - P\)</span> es la probabilidad de que no ocurra. Al tomar el logaritmo de las “odds” o probabilidades, transformamos el rango de <span class="math inline">\(P\)</span> (que va de 0 a 1) a un rango de <span class="math inline">\(-\infty\)</span> a <span class="math inline">\(\infty\)</span>.</p></li>
-<li><p><strong><span class="math inline">\(\beta_0\)</span></strong>: Es el <strong>intercepto</strong>. Este valor indica el valor de los log odds cuando la variable independiente <span class="math inline">\(X\)</span> es igual a 0.</p></li>
-<li><p><strong><span class="math inline">\(\beta_1 X\)</span></strong>: Es el <strong>coeficiente</strong> que acompaña a la variable independiente <span class="math inline">\(X\)</span>. Representa el cambio en los log odds por cada unidad adicional de <span class="math inline">\(X\)</span>. Si <span class="math inline">\(X\)</span> aumenta en una unidad, los log odds se incrementarán o disminuirán dependiendo del valor de <span class="math inline">\(\beta_1\)</span>.</p></li>
+<li><p><span class="math inline">\(\log\left(\frac{P}{1 - P}\right)\)</span>: Esto representa el <strong>logit</strong> o <strong>log odds</strong>. El término <span class="math inline">\(P\)</span> es la probabilidad de que ocurra el evento de interés, y <span class="math inline">\(1 - P\)</span> es la probabilidad de que no ocurra. Al tomar el logaritmo de las “odds” o probabilidades, transformamos el rango de <span class="math inline">\(P\)</span> (que va de 0 a 1) a un rango de <span class="math inline">\(-\infty\)</span> a <span class="math inline">\(\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\beta_0\)</span>: Es el <strong>intercepto</strong>. Este valor indica el valor de los log odds cuando la variable independiente <span class="math inline">\(X\)</span> es igual a 0.</p></li>
+<li><p><span class="math inline">\(\beta_1 X\)</span>: Es el <strong>coeficiente</strong> que acompaña a la variable independiente <span class="math inline">\(X\)</span>. Representa el cambio en los log odds por cada unidad adicional de <span class="math inline">\(X\)</span>. Si <span class="math inline">\(X\)</span> aumenta en una unidad, los log odds se incrementarán o disminuirán dependiendo del valor de <span class="math inline">\(\beta_1\)</span>.</p></li>
 </ul>
 <p>Este es un modelo de regresión logística, donde la relación entre <span class="math inline">\(X\)</span> y la probabilidad <span class="math inline">\(P\)</span> de un evento se modela de manera no lineal, usando la función logit para transformar la probabilidad.</p>
 </section>
@@ -471,23 +501,93 @@ Num. obs.
 
 <img data-src="https://www.statdeveloper.com/wp-content/uploads/2020/02/regresion-lineal-vs-regresion-logistica.png" class="r-stretch"></section></section>
 <section>
-<section id="odds-y-odds-ratio" class="title-slide slide level1 center">
-<h1>Odds y odds ratio</h1>
+<section id="probabilidad-odds-y-odds-ratio" class="title-slide slide level1 center">
+<h1>Probabilidad, odds y odds ratio</h1>
 
 </section>
-<section id="concepto-de-odds" class="slide level2 smaller" data-background-color="white">
-<h2>Concepto de Odds</h2>
+<section id="probabilidad-y-odds" class="slide level2 smaller" data-background-color="white">
+<h2>Probabilidad y Odds</h2>
+<ul>
+<li><strong>Probabilidad (<code>p</code>)</strong>: Representa la probabilidad de ocurrencia de un evento y toma valores entre 0 y 1.</li>
+<li><strong>Odds</strong>: Es la razón entre la probabilidad de que ocurra un evento y la probabilidad de que no ocurra, es decir: <span class="math display">\[ \text{Odds} = \frac{p}{1 - p} \]</span></li>
+</ul>
+</section>
+<section id="probabilidad-y-odds-1" class="slide level2 smaller" data-background-color="white">
+<h2>Probabilidad y Odds</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>odds <span class="ot">&lt;-</span> p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">print</span>(<span class="fu">data.frame</span>(p,odds))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     p      odds
+1  0.0 0.0000000
+2  0.1 0.1111111
+3  0.2 0.2500000
+4  0.3 0.4285714
+5  0.4 0.6666667
+6  0.5 1.0000000
+7  0.6 1.5000000
+8  0.7 2.3333333
+9  0.8 4.0000000
+10 0.9 9.0000000
+11 1.0       Inf</code></pre>
+</div>
+</div>
+</section>
+<section id="gráfico-odds-según-valores-de-p" class="slide level2 smaller" data-background-color="white">
+<h2>Gráfico: Odds según valores de <code>p</code></h2>
+<p>Este gráfico ilustra cómo varían los odds a medida que cambia la probabilidad (<code>p</code>). Podemos observar que, cuando <code>p</code> se acerca a 1, los odds tienden a crecer exponencialmente.</p>
+
+<img data-src="08-slides_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section>
+<section id="ejemplo-de-odds" class="slide level2 smaller" data-background-color="white">
+<h2>Ejemplo de Odds</h2>
 <p>Los odds (chances) corresponden a la razón entre la probabilidad de que algo ocurra dividido por la probabilidad de que algo no ocurra.</p>
 <p><span class="math display">\[Odds = {p\over1-p}\]</span> Ejemplo en CASEN 2020, odds de ser pobre</p>
 <p>Odds pobreza = 0.095/0.905 = 0.105</p>
 <p>Es decir, de acuerdo a la CASEN 2020, las chances de ser pobre son de 0.105</p>
 </section>
-<section id="concepto-de-odds-1" class="slide level2 smaller" data-background-color="white">
+<section id="concepto-de-odds" class="slide level2 smaller" data-background-color="white">
 <h2>Concepto de Odds</h2>
 <p>Odds de <strong>1</strong> significa que existen chances iguales de la correncia o no ocurrencia de cierto hecho.</p>
 <p>Odds <strong>menores de 1</strong> dan cuenta de chances negativas (es más probable que no ocurra a que ocurra)</p>
 <p>Odds <strong>mayores a 1</strong> dan cuenta de chances positivas (es más probable que ocurra a que no ocurra)</p>
 </section>
+<section id="logit" class="slide level2 smaller" data-background-color="white">
+<h2>Logit</h2>
+<ul>
+<li><strong>Logit</strong>: La función logit se define como el logaritmo natural de los odds: <span class="math display">\[ \text{Logit} = \ln \left( \frac{p}{1 - p} \right) \]</span> Es la función de enlace que utilizamos en la regresión logística para transformar la probabilidad en un valor continuo entre <span class="math inline">\((-\infty, \infty)\)</span>.</li>
+</ul>
+</section>
+<section id="probabilidad-odds-y-logaritmo-de-los-odds-logit" class="slide level2 smaller" data-background-color="white">
+<h2>Probabilidad, Odds y logaritmo de los odds (logit)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>p <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>odds <span class="ot">&lt;-</span> p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>logit <span class="ot">&lt;-</span> <span class="fu">log</span>(p <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p))</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">print</span>(<span class="fu">data.frame</span>(p,odds,logit))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     p      odds      logit
+1  0.0 0.0000000       -Inf
+2  0.1 0.1111111 -2.1972246
+3  0.2 0.2500000 -1.3862944
+4  0.3 0.4285714 -0.8472979
+5  0.4 0.6666667 -0.4054651
+6  0.5 1.0000000  0.0000000
+7  0.6 1.5000000  0.4054651
+8  0.7 2.3333333  0.8472979
+9  0.8 4.0000000  1.3862944
+10 0.9 9.0000000  2.1972246
+11 1.0       Inf        Inf</code></pre>
+</div>
+</div>
+</section>
+<section id="gráfico-logit-según-valores-de-p" class="slide level2 smaller" data-background-color="white">
+<h2>Gráfico: Logit según valores de <code>p</code></h2>
+<p>Este gráfico muestra cómo varía el logit con respecto a <code>p</code>. A diferencia de los odds, el logit transforma la probabilidad en una escala lineal, lo cual es esencial para poder aplicar un modelo lineal en la regresión logística.</p>
+
+<img data-src="08-slides_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
 <section id="odds-de-dos-grupos" class="slide level2 smaller" data-background-color="white">
 <h2>Odds de dos grupos</h2>
 <p>En nuestro ejemplo original queremos ver como cambia la probabilidad de que un hogar este en la pobreza según sexo del jefe de hogar.</p>
@@ -520,103 +620,60 @@ Num. obs.
 <h2>Interpretación de coeficiente</h2>
 <p>Los beta de un modelo de regresión logística están puestos en términos del logaritmo de los odds.</p>
 <p>Es decir, el beta de mujer nos indica que los log-odds de encontrarse en situación de pobreza aumentan en 0.41 en las mujeres en relación a los hombres.</p>
-
-<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
-<caption>
-Statistical models
-</caption>
+<table>
+<caption>Statistical models</caption>
+<colgroup>
+<col style="width: 68%">
+<col style="width: 31%">
+</colgroup>
 <thead>
-<tr>
-<th style="padding-left: 5px;padding-right: 5px;">
-&nbsp;
-</th>
-<th style="padding-left: 5px;padding-right: 5px;">
-Pobreza según sexo JH
-</th>
+<tr class="header">
+<th></th>
+<th>Pobreza según sexo JH</th>
 </tr>
 </thead>
 <tbody>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-Intercepto
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
--2.40<sup>***</sup>
-</td>
+<tr class="odd">
+<td>Intercepto</td>
+<td>-2.40<sup>***</sup></td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-&nbsp;
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-(0.02)
-</td>
+<tr class="even">
+<td></td>
+<td>(0.02)</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Mujer (ref.hombre)
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-0.41<sup>***</sup>
-</td>
+<tr class="odd">
+<td>Mujer (ref.hombre)</td>
+<td>0.41<sup>***</sup></td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-&nbsp;
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-(0.03)
-</td>
+<tr class="even">
+<td></td>
+<td>(0.03)</td>
 </tr>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-AIC
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-41074.58
-</td>
+<tr class="odd">
+<td>AIC</td>
+<td>41074.58</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-BIC
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-41092.68
-</td>
+<tr class="even">
+<td>BIC</td>
+<td>41092.68</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Log Likelihood
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
--20535.29
-</td>
+<tr class="odd">
+<td>Log Likelihood</td>
+<td>-20535.29</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Deviance
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-41070.58
-</td>
+<tr class="even">
+<td>Deviance</td>
+<td>41070.58</td>
 </tr>
-<tr style="border-bottom: 2px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-Num. obs.
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-62911
-</td>
+<tr class="odd">
+<td>Num. obs.</td>
+<td>62911</td>
+</tr>
+<tr class="even">
+<td><sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05</td>
+<td></td>
 </tr>
 </tbody>
-<tfoot>
-<tr>
-<td style="font-size: 0.8em;" colspan="2">
-<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
-</td>
-</tr>
-</tfoot>
-
 </table>
 
 </section>
@@ -627,95 +684,56 @@ Num. obs.
 </section>
 <section id="modelos-con-múltiples-variables-independientes" class="slide level2 smaller" data-background-color="white">
 <h2>Modelos con múltiples variables independientes</h2>
-
-<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
-<caption>
-Statistical models
-</caption>
+<table>
+<caption>Statistical models</caption>
+<colgroup>
+<col style="width: 68%">
+<col style="width: 31%">
+</colgroup>
 <thead>
-<tr>
-<th style="padding-left: 5px;padding-right: 5px;">
-&nbsp;
-</th>
-<th style="padding-left: 5px;padding-right: 5px;">
-Pobreza según sexo JH
-</th>
+<tr class="header">
+<th></th>
+<th>Pobreza según sexo JH</th>
 </tr>
 </thead>
 <tbody>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-Intercepto
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
--1.07 (0.05)<sup>***</sup>
-</td>
+<tr class="odd">
+<td>Intercepto</td>
+<td>-1.07 (0.05)<sup>***</sup></td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Mujer (ref.hombre)
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-0.39 (0.03)<sup>***</sup>
-</td>
+<tr class="even">
+<td>Mujer (ref.hombre)</td>
+<td>0.39 (0.03)<sup>***</sup></td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Edad
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
--0.03 (0.00)<sup>***</sup>
-</td>
+<tr class="odd">
+<td>Edad</td>
+<td>-0.03 (0.00)<sup>***</sup></td>
 </tr>
-<tr style="border-top: 1px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-AIC
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-40182.30
-</td>
+<tr class="even">
+<td>AIC</td>
+<td>40182.30</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-BIC
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-40209.45
-</td>
+<tr class="odd">
+<td>BIC</td>
+<td>40209.45</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Log Likelihood
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
--20088.15
-</td>
+<tr class="even">
+<td>Log Likelihood</td>
+<td>-20088.15</td>
 </tr>
-<tr>
-<td style="padding-left: 5px;padding-right: 5px;">
-Deviance
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-40176.30
-</td>
+<tr class="odd">
+<td>Deviance</td>
+<td>40176.30</td>
 </tr>
-<tr style="border-bottom: 2px solid #000000;">
-<td style="padding-left: 5px;padding-right: 5px;">
-Num. obs.
-</td>
-<td style="padding-left: 5px;padding-right: 5px;">
-62911
-</td>
+<tr class="even">
+<td>Num. obs.</td>
+<td>62911</td>
+</tr>
+<tr class="odd">
+<td><sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05</td>
+<td></td>
 </tr>
 </tbody>
-<tfoot>
-<tr>
-<td style="font-size: 0.8em;" colspan="2">
-<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
-</td>
-</tr>
-</tfoot>
-
 </table>
 </section>
 <section id="modelos-con-múltiples-variables-independientes-1" class="slide level2 smaller" data-background-color="white">

@@ -14,7 +14,7 @@ editor_options:
 <link href="/rmarkdown-libs/tile-view/tile-view.css" rel="stylesheet" />
 <script src="/rmarkdown-libs/tile-view/tile-view.js"></script>
 <link href="/rmarkdown-libs/animate.css/animate.xaringan.css" rel="stylesheet" />
-<script type="application/json" id="xaringanExtra-editable-docid">{"id":"x8fc1abc19684b779abfd97958b13e27","expires":14}</script>
+<script type="application/json" id="xaringanExtra-editable-docid">{"id":"x94a2c8aad8f42f99e5a71ed23780075","expires":14}</script>
 <script src="/rmarkdown-libs/himalaya/himalaya.js"></script>
 <script src="/rmarkdown-libs/js-cookie/js.cookie.js"></script>
 <link href="/rmarkdown-libs/editable/editable.css" rel="stylesheet" />
@@ -48,7 +48,7 @@ Para esto haremos uso de la encuesta [CASEN (2020)](http://observatorio.minister
 # 1. Carga y preparación de la base de datos.
 
 
-```r
+``` r
 library(haven)
 library(dplyr)
 temp <- tempfile() #Creamos un archivo temporal
@@ -60,7 +60,7 @@ unlink(temp); remove(temp) #eliminamos el archivo temporal
 Para ejecutar un modelo de regresión logística necesitamos que nuestra variable dependiente esté codificada con valores 0 y 1. En este caso transformaremos la variable pobreza, que cuenta con tres valores, a una variable dicotómica donde 0 es no pobre y 1 es pobre. 
 
 
-```r
+``` r
 table(as_factor(casen$pobreza))
 ```
 
@@ -70,7 +70,7 @@ table(as_factor(casen$pobreza))
 ##               8435              12862             164042
 ```
 
-```r
+``` r
 casen <- casen %>%
   mutate(pobre = case_when(
     pobreza %in% 1:2 ~ 1,
@@ -81,7 +81,7 @@ casen <- casen %>%
 Además filtraremos la base de datos para quedarnos solo con las jefaturas de hogar, de modo de tener solo un caso por hogar.
 
 
-```r
+``` r
 casen <- casen |> 
   filter(pco1==1)
 ```
@@ -96,7 +96,7 @@ $$
 $$
 
 
-```r
+``` r
 p <- seq(0, 1, 0.1)
 odds <- p / (1 - p)
 
@@ -121,7 +121,7 @@ print(data.frame(p, odds))
 ## Gráfico: Odds según valores de `p`
 
 
-```r
+``` r
 library(ggplot2)
 ```
 
@@ -129,7 +129,7 @@ library(ggplot2)
 ## Warning: package 'ggplot2' was built under R version 4.3.3
 ```
 
-```r
+``` r
 p <- seq(0, 1, 0.01)
 odds <- p / (1 - p)
 ggplot(data = data.frame(p, odds), aes(x = p, y = odds)) +
@@ -156,14 +156,14 @@ $$
 $$
 
 
-```r
+``` r
 logit <- log(p / (1 - p))
 ```
 
 ## Gráfico: Logit según valores de `p`
 
 
-```r
+``` r
 logit <- log(p / (1 - p))
 
 ggplot(data = data.frame(p, logit), aes(x = p, y = logit)) +
@@ -180,7 +180,7 @@ ggplot(data = data.frame(p, logit), aes(x = p, y = logit)) +
 Filtramos la base de datos para quedarnos solo con las jefaturas de hogar y analizamos la relación entre sexo del jefe de hogar y la condición de pobreza.
 
 
-```r
+``` r
 library(dplyr)
 
 # Filtramos la base para quedarnos con jefes de hogar
@@ -213,7 +213,7 @@ $$
 $$
 
 
-```r
+``` r
 odds_hombre <- tabla[1, 2] / tabla[1, 1]
 odds_mujer <- tabla[2, 2] / tabla[2, 1]
 
@@ -224,7 +224,7 @@ cat("Odds hombre: ", odds_hombre, "\n")
 ## Odds hombre:  0.09037369
 ```
 
-```r
+``` r
 cat("Odds mujer: ", odds_mujer, "\n")
 ```
 
@@ -240,7 +240,7 @@ El **odds ratio** se calcula como la razón entre los odds de las mujeres y los 
 
 
 
-```r
+``` r
 odds_ratio <- odds_mujer / odds_hombre
 cat("Odds Ratio: ", odds_ratio, "\n")
 ```
@@ -260,7 +260,7 @@ Para estimar un modelo de regresión logística binaria se utiliza el comando gl
 "family = "binomial"" especifica que se está ajustando un modelo de regresión logística, es decir, que la variable dependiente es binaria.
 
 
-```r
+``` r
 library(texreg)
 
 #para ver el output en la consola de R, reemplazar función htmlreg por screenreg
@@ -328,7 +328,7 @@ La variable "Mujer" (ref.hombre) tiene un coeficiente de 0.39 (0.03)***, lo que 
 La variable "Edad" tiene un coeficiente de -0.03 (0.00)***, lo que indica que a medida que aumenta la edad del jefe de hogar, disminuyen las probabilidades de que el hogar se encuentre en situación de pobreza. En concreto, las odds de pobreza disminuyen en un factor de exp(-0.03) = 0.97, es decir en un 3%, por cada año de aumento en la edad del jefe de hogar, manteniendo constantes las demás variables.
 
 
-```r
+``` r
 modelo2<-glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial")
 or <- texreg::extract(modelo2)
 or@coef <- exp(or@coef)
@@ -400,7 +400,7 @@ A continuación, se comparan los modelos utilizando el criterio estadístico de 
 "anova" se utiliza para comparar modelos ajustados y obtener la prueba de razón de verosimilitud. En este caso, se están comparando los modelos "modelonulo" y "modelo1", y se especifica el test utilizado como "Chisq".
 
 
-```r
+``` r
 modelonulo<-glm(pobre~1, data=casen, family = "binomial")
 modelo1<-glm(pobre~as_factor(sexo), data=casen, family = "binomial")
 modelo2<-glm(pobre~as_factor(sexo)+edad, data=casen, family = "binomial")
@@ -423,7 +423,7 @@ anova(modelonulo,modelo1, test ="Chisq")
 En este caso, se están comparando los modelos "modelo1" y "modelo2".
 
 
-```r
+``` r
 anova(modelo1,modelo2, test ="Chisq")
 ```
 
@@ -442,7 +442,7 @@ anova(modelo1,modelo2, test ="Chisq")
 Por último, se utiliza la función "PseudoR2" del paquete "DescTools" para obtener los pseudo-R cuadrados de McFadden para cada modelo.
 
 
-```r
+``` r
 library(DescTools)
 
 PseudoR2(modelo1,which="McFadden")
@@ -453,7 +453,7 @@ PseudoR2(modelo1,which="McFadden")
 ## 0.005884247
 ```
 
-```r
+``` r
 PseudoR2(modelo2,which="McFadden")
 ```
 
@@ -476,15 +476,15 @@ El gráfico muestra dos líneas: una para cada valor de la variable sexo (0 y 1)
 En resumen, el código utiliza la función plot_model() para generar un gráfico que permite visualizar de manera intuitiva los resultados del modelo de regresión logística ajustado anteriormente.
 
 
-```r
+``` r
 library(sjPlot)
 ```
 
 ```
-## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
+## #refugeeswelcome
 ```
 
-```r
+``` r
 plot_model(modelo2,vline.color = "grey")
 ```
 
@@ -495,12 +495,12 @@ plot_model(modelo2,vline.color = "grey")
 
 <img src="/example/08-practico_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 
-## Ejercicio
+## Ejercicio (resuelto)
 
 Construya un modelo para ver el efecto de la situación financiera (i1) en la presencia de sintomatología depresiva (phq4), controlando por sexo (sexo) y edad (l1), a partir de EBS 2021.
 
 
-```r
+``` r
 temp <- tempfile() 
 # Descargamos el archivo ZIP
 download.file("https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/bienestar-social/Base_de_datos_EBS_2021_STATA.dta.zip", temp)
@@ -511,7 +511,7 @@ unlink(temp); remove(temp)
 ```
 
 
-```r
+``` r
 table(as_factor(ebs$phq4))
 ```
 
@@ -523,7 +523,7 @@ table(as_factor(ebs$phq4))
 ##                   648
 ```
 
-```r
+``` r
 table(as_factor(ebs$i1))
 ```
 
@@ -545,40 +545,244 @@ Recodifique la presencia de sintomatología depresiva de manera dicotómica, sie
 De los valores perdidos (9) en i1. 
 
 
-```r
+``` r
 ebs <- ebs %>%
-  mutate(phq4_dicotomica = ifelse(as_factor(phq4) == "1. Sin síntomas", 0, 1),
+  mutate(phq4_dicotomica = ifelse(phq4 == 1, 0, 1),
          i1 = ifelse(i1 == 9, NA, i1)) #de por perdidos los valores 9 en i1
 
-modelo <- glm(  , #Escriba la formula
+modelo <- glm( phq4_dicotomica  ~ factor(i1)+factor(sexo)+l1 , #Escriba la formula
                 data =  ebs ,
-                family = "")#escriba la familia de modelos correspondiente 
-screenreg(modelo)
+                family = "binomial")#escriba la familia de modelos correspondiente 
+htmlreg(modelo, 
+        custom.coef.names = c("Intercepto", 
+                               "2. No les alcanzó, tuvo algunas dificultades (ref. Tuvo muchas dificultades )",
+                              "3. Les alcanzó justo, sin mayores dificultades",
+                              "4. Les alcanzó bien, no tuvo dificultades",
+                              "Mujer (ref. hombre)",
+                              "Edad"))
 ```
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>Statistical models</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
+<th style="padding-left: 5px;padding-right: 5px;">Model 1</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
+<td style="padding-left: 5px;padding-right: 5px;">1.04<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.09)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">2. No les alcanzó, tuvo algunas dificultades (ref. Tuvo muchas dificultades )</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.48<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.08)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">3. Les alcanzó justo, sin mayores dificultades</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.89<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.07)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">4. Les alcanzó bien, no tuvo dificultades</td>
+<td style="padding-left: 5px;padding-right: 5px;">-1.37<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.07)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Mujer (ref. hombre)</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.65<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Edad</td>
+<td style="padding-left: 5px;padding-right: 5px;">-0.01<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">AIC</td>
+<td style="padding-left: 5px;padding-right: 5px;">14203.65</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">BIC</td>
+<td style="padding-left: 5px;padding-right: 5px;">14247.42</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Log Likelihood</td>
+<td style="padding-left: 5px;padding-right: 5px;">-7095.82</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Deviance</td>
+<td style="padding-left: 5px;padding-right: 5px;">14191.65</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
+<td style="padding-left: 5px;padding-right: 5px;">10889</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
+</tr>
+</tfoot>
+</table>
 
 Convierta los coeficientes en odd ratio e interprete los coeficientes.
 
 
-```r
+``` r
 or <- texreg::extract(modelo)
 or@coef <- exp(or@coef)
 
 htmlreg(or, 
         custom.coef.names = c("Intercepto", 
-                               "2. No les alcanzó, tuvo algunas dificultades (ref. No les alcanzó, tuvo muchas dificultades )",
+                               "2. No les alcanzó, tuvo algunas dificultades (ref. Tuvo muchas dificultades )",
                               "3. Les alcanzó justo, sin mayores dificultades",
                               "4. Les alcanzó bien, no tuvo dificultades",
-                              "Sexo",
-                              "Edad"))
+                              "Mujer (ref. hombre)",
+                              "Edad"),
+        custom.model.names = c("Sintomatología Depresiva (OR)"))
 ```
 
-Genere un gráafico que resuma los resultados del modelo.
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>Statistical models</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
+<th style="padding-left: 5px;padding-right: 5px;">Sintomatología Depresiva (OR)</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
+<td style="padding-left: 5px;padding-right: 5px;">2.83<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.09)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">2. No les alcanzó, tuvo algunas dificultades (ref. Tuvo muchas dificultades )</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.62<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.08)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">3. Les alcanzó justo, sin mayores dificultades</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.41<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.07)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">4. Les alcanzó bien, no tuvo dificultades</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.25<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.07)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Mujer (ref. hombre)</td>
+<td style="padding-left: 5px;padding-right: 5px;">1.91<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Edad</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.99<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">AIC</td>
+<td style="padding-left: 5px;padding-right: 5px;">14203.65</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">BIC</td>
+<td style="padding-left: 5px;padding-right: 5px;">14247.42</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Log Likelihood</td>
+<td style="padding-left: 5px;padding-right: 5px;">-7095.82</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Deviance</td>
+<td style="padding-left: 5px;padding-right: 5px;">14191.65</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
+<td style="padding-left: 5px;padding-right: 5px;">10889</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="2"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
+</tr>
+</tfoot>
+</table>
+
+1. **2. No les alcanzó, tuvo algunas dificultades (OR = 0.62, p < 0.001)**:  
+   - Las personas que reportaron que "no les alcanzó, tuvo algunas dificultades", tienen un 38% menos de chances de presentar sintomatología depresiva en comparación con aquellas que tuvieron muchas dificultades económicas, controlando por las demás variables del modelo. Este resultado es estadísticamente significativo con un 99,9% de confianza (p < 0.001).
+
+2. **3. Les alcanzó justo, sin mayores dificultades (OR = 0.41, p < 0.001)**:  
+   - Aquellos que dijeron que "les alcanzó justo, sin mayores dificultades" tienen un 59% menos de chances de tener sintomatología depresiva en comparación con aquellos que tuvieron muchas dificultades económicas, controlando por las demás variables del modelo. Este efecto es estadísticamente significativo con un 99,9% de confianza (p < 0.001).
+
+3. **4. Les alcanzó bien, no tuvo dificultades (OR = 0.25, p < 0.001)**:  
+   - Las personas que indicaron que "les alcanzó bien" tienen un 75% menos de chances de presentar síntomas depresivos en comparación con aquellos que tuvieron muchas dificultades económicas, controlando por las demás variables del modelo. Este resultado es estadísticamente significativo con un 99,9% de confianza (p < 0.001).
+
+4. **Mujer (OR = 1.91, p < 0.001)**:  
+   - Las mujeres tienen un 91% más de chances de presentar sintomatología depresiva en comparación con los hombres, controlando por las demás variables del modelo. Este efecto es estadísticamente significativo con un 99,9% de confianza (p < 0.001), lo que sugiere que el género es un factor importante en la presencia de síntomas depresivos.
+
+5. **Edad (OR = 0.99, p < 0.001)**:  
+   - Por cada año adicional de edad, las chances de presentar sintomatología depresiva disminuyen en un 1%, controlando por las demás variables del modelo. Aunque el efecto es pequeño, es estadísticamente significativo con un 99,9% de confianza (p < 0.001), lo que implica que la edad tiene un impacto consistente, aunque reducido, sobre las chances de tener síntomas depresivos.
 
 
 
-```r
+``` r
 library(sjPlot)
 
-plot_model(modelo,vline.color = "grey")
+plot_model(modelo, 
+           vline.color = "grey",
+           axis.labels = c("Edad", 
+                           "Mujer (ref. hombre)", 
+                           "4. Les alcanzó bien, no tuvo dificultades", 
+                           "3. Les alcanzó justo, sin mayores dificultades", 
+                           "2. No les alcanzó, tuvo algunas dificultades (ref. No les alcanzó, tuvo muchas dificultades )", 
+                           "Intercepto"))
 ```
+
+```
+## Profiled confidence intervals may take longer time to compute.
+##   Use `ci_method="wald"` for faster computation of CIs.
+```
+
+<img src="/example/08-practico_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 

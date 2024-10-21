@@ -257,7 +257,7 @@ library(sjPlot)
 plot_model(modelo2,vline.color = "grey")
 ``` 
 
-## Ejercicio
+## Ejercicio (resuelto)
 
 Construya un modelo para ver el efecto de la situación financiera (i1) en la presencia de sintomatología depresiva (phq4), controlando por sexo (sexo) y edad (l1), a partir de EBS 2021.
 
@@ -280,40 +280,67 @@ table(as_factor(ebs$i1))
 Recodifique la presencia de sintomatología depresiva de manera dicotómica, siendo la ausencia de síntomas 0 y cualquier toro nivel de sintomatología 1.
 De los valores perdidos (9) en i1. 
 
-```{r, eval=FALSE}
+```{r, results='asis'}
 
 ebs <- ebs %>%
-  mutate(phq4_dicotomica = ifelse(as_factor(phq4) == "1. Sin síntomas", 0, 1),
+  mutate(phq4_dicotomica = ifelse(phq4 == 1, 0, 1),
          i1 = ifelse(i1 == 9, NA, i1)) #de por perdidos los valores 9 en i1
 
-modelo <- glm(  , #Escriba la formula
+modelo <- glm( phq4_dicotomica  ~ factor(i1)+factor(sexo)+l1 , #Escriba la formula
                 data =  ebs ,
-                family = "")#escriba la familia de modelos correspondiente 
-screenreg(modelo)
+                family = "binomial")#escriba la familia de modelos correspondiente 
+htmlreg(modelo, 
+        custom.coef.names = c("Intercepto", 
+                               "2. No les alcanzó, tuvo algunas dificultades (ref. Tuvo muchas dificultades )",
+                              "3. Les alcanzó justo, sin mayores dificultades",
+                              "4. Les alcanzó bien, no tuvo dificultades",
+                              "Mujer (ref. hombre)",
+                              "Edad"))
 
 ```
 
 Convierta los coeficientes en odd ratio e interprete los coeficientes.
 
-```{r, eval  = F}
+```{r, results='asis'}
 or <- texreg::extract(modelo)
 or@coef <- exp(or@coef)
 
 htmlreg(or, 
         custom.coef.names = c("Intercepto", 
-                               "2. No les alcanzó, tuvo algunas dificultades (ref. No les alcanzó, tuvo muchas dificultades )",
+                               "2. No les alcanzó, tuvo algunas dificultades (ref. Tuvo muchas dificultades )",
                               "3. Les alcanzó justo, sin mayores dificultades",
                               "4. Les alcanzó bien, no tuvo dificultades",
-                              "Sexo",
-                              "Edad"))
+                              "Mujer (ref. hombre)",
+                              "Edad"),
+        custom.model.names = c("Sintomatología Depresiva (OR)"))
 ```
 
-Genere un gráafico que resuma los resultados del modelo.
+1. **2. No les alcanzó, tuvo algunas dificultades (OR = 0.62, p < 0.001)**:  
+   - Las personas que reportaron que "no les alcanzó, tuvo algunas dificultades", tienen un 38% menos de chances de presentar sintomatología depresiva en comparación con aquellas que tuvieron muchas dificultades económicas, controlando por las demás variables del modelo. Este resultado es estadísticamente significativo con un 99,9% de confianza (p < 0.001).
+
+2. **3. Les alcanzó justo, sin mayores dificultades (OR = 0.41, p < 0.001)**:  
+   - Aquellos que dijeron que "les alcanzó justo, sin mayores dificultades" tienen un 59% menos de chances de tener sintomatología depresiva en comparación con aquellos que tuvieron muchas dificultades económicas, controlando por las demás variables del modelo. Este efecto es estadísticamente significativo con un 99,9% de confianza (p < 0.001).
+
+3. **4. Les alcanzó bien, no tuvo dificultades (OR = 0.25, p < 0.001)**:  
+   - Las personas que indicaron que "les alcanzó bien" tienen un 75% menos de chances de presentar síntomas depresivos en comparación con aquellos que tuvieron muchas dificultades económicas, controlando por las demás variables del modelo. Este resultado es estadísticamente significativo con un 99,9% de confianza (p < 0.001).
+
+4. **Mujer (OR = 1.91, p < 0.001)**:  
+   - Las mujeres tienen un 91% más de chances de presentar sintomatología depresiva en comparación con los hombres, controlando por las demás variables del modelo. Este efecto es estadísticamente significativo con un 99,9% de confianza (p < 0.001), lo que sugiere que el género es un factor importante en la presencia de síntomas depresivos.
+
+5. **Edad (OR = 0.99, p < 0.001)**:  
+   - Por cada año adicional de edad, las chances de presentar sintomatología depresiva disminuyen en un 1%, controlando por las demás variables del modelo. Aunque el efecto es pequeño, es estadísticamente significativo con un 99,9% de confianza (p < 0.001), lo que implica que la edad tiene un impacto consistente, aunque reducido, sobre las chances de tener síntomas depresivos.
 
 
-```{r, eval=FALSE}
+```{r, }
 library(sjPlot)
 
-plot_model(modelo,vline.color = "grey")
+plot_model(modelo, 
+           vline.color = "grey",
+           axis.labels = c("Edad", 
+                           "Mujer (ref. hombre)", 
+                           "4. Les alcanzó bien, no tuvo dificultades", 
+                           "3. Les alcanzó justo, sin mayores dificultades", 
+                           "2. No les alcanzó, tuvo algunas dificultades (ref. No les alcanzó, tuvo muchas dificultades )", 
+                           "Intercepto"))
 ```
 

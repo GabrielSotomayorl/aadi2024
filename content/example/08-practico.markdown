@@ -14,7 +14,7 @@ editor_options:
 <link href="/rmarkdown-libs/tile-view/tile-view.css" rel="stylesheet" />
 <script src="/rmarkdown-libs/tile-view/tile-view.js"></script>
 <link href="/rmarkdown-libs/animate.css/animate.xaringan.css" rel="stylesheet" />
-<script type="application/json" id="xaringanExtra-editable-docid">{"id":"xbbbae64f46e40ecb7765b8527ba1b7b","expires":14}</script>
+<script type="application/json" id="xaringanExtra-editable-docid">{"id":"x8fc1abc19684b779abfd97958b13e27","expires":14}</script>
 <script src="/rmarkdown-libs/himalaya/himalaya.js"></script>
 <script src="/rmarkdown-libs/js-cookie/js.cookie.js"></script>
 <link href="/rmarkdown-libs/editable/editable.css" rel="stylesheet" />
@@ -478,7 +478,13 @@ En resumen, el código utiliza la función plot_model() para generar un gráfico
 
 ```r
 library(sjPlot)
+```
 
+```
+## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
+```
+
+```r
 plot_model(modelo2,vline.color = "grey")
 ```
 
@@ -488,3 +494,91 @@ plot_model(modelo2,vline.color = "grey")
 ```
 
 <img src="/example/08-practico_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+
+## Ejercicio
+
+Construya un modelo para ver el efecto de la situación financiera (i1) en la presencia de sintomatología depresiva (phq4), controlando por sexo (sexo) y edad (l1), a partir de EBS 2021.
+
+
+```r
+temp <- tempfile() 
+# Descargamos el archivo ZIP
+download.file("https://observatorio.ministeriodesarrollosocial.gob.cl/storage/docs/bienestar-social/Base_de_datos_EBS_2021_STATA.dta.zip", temp)
+# Leemos el archivo descomprimido dentro del ZIP
+ebs <- haven::read_dta(unz(temp, "Base de datos EBS 2021 STATA.dta"))
+# Eliminamos el archivo temporal
+unlink(temp); remove(temp)
+```
+
+
+```r
+table(as_factor(ebs$phq4))
+```
+
+```
+## 
+##       1. Sin síntomas     2. Síntomas Leves 3. Síntomas Moderados 
+##                  4921                  4012                  1340 
+##   4. Síntomas Severos 
+##                   648
+```
+
+```r
+table(as_factor(ebs$i1))
+```
+
+```
+## 
+##    1. No les alcanzó, tuvo muchas dificultades 
+##                                           1353 
+##   2. No les alcanzó, tuvo algunas dificultades 
+##                                           2340 
+## 3. Les alcanzó justo, sin mayores dificultades 
+##                                           4368 
+##      4. Les alcanzó bien, no tuvo dificultades 
+##                                           2828 
+##                         9. No sabe/No responde 
+##                                             32
+```
+
+Recodifique la presencia de sintomatología depresiva de manera dicotómica, siendo la ausencia de síntomas 0 y cualquier toro nivel de sintomatología 1.
+De los valores perdidos (9) en i1. 
+
+
+```r
+ebs <- ebs %>%
+  mutate(phq4_dicotomica = ifelse(as_factor(phq4) == "1. Sin síntomas", 0, 1),
+         i1 = ifelse(i1 == 9, NA, i1)) #de por perdidos los valores 9 en i1
+
+modelo <- glm(  , #Escriba la formula
+                data =  ebs ,
+                family = "")#escriba la familia de modelos correspondiente 
+screenreg(modelo)
+```
+
+Convierta los coeficientes en odd ratio e interprete los coeficientes.
+
+
+```r
+or <- texreg::extract(modelo)
+or@coef <- exp(or@coef)
+
+htmlreg(or, 
+        custom.coef.names = c("Intercepto", 
+                               "2. No les alcanzó, tuvo algunas dificultades (ref. No les alcanzó, tuvo muchas dificultades )",
+                              "3. Les alcanzó justo, sin mayores dificultades",
+                              "4. Les alcanzó bien, no tuvo dificultades",
+                              "Sexo",
+                              "Edad"))
+```
+
+Genere un gráafico que resuma los resultados del modelo.
+
+
+
+```r
+library(sjPlot)
+
+plot_model(modelo,vline.color = "grey")
+```
+

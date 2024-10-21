@@ -745,7 +745,7 @@ Statistical models
 &nbsp;
 </th>
 <th style="padding-left: 5px;padding-right: 5px;">
-Pobreza según sexo JH
+Pobreza según sexo JH (odd ratio)
 </th>
 </tr>
 </thead>
@@ -840,7 +840,7 @@ Pobreza según sexo JH
 Intercepto
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
--1.50 (0.02)<sup>***</sup>
+-1.07 (0.05)<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -848,7 +848,7 @@ Intercepto
 Mujer (ref.hombre)
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-0.11 (0.01)<sup>***</sup>
+0.39 (0.03)<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -856,7 +856,7 @@ Mujer (ref.hombre)
 Edad
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
--0.02 (0.00)<sup>***</sup>
+-0.03 (0.00)<sup>***</sup>
 </td>
 </tr>
 <tr style="border-top: 1px solid #000000;">
@@ -864,7 +864,7 @@ Edad
 AIC
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-129517.95
+40182.30
 </td>
 </tr>
 <tr>
@@ -872,7 +872,7 @@ AIC
 BIC
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-129548.34
+40209.45
 </td>
 </tr>
 <tr>
@@ -880,7 +880,7 @@ BIC
 Log Likelihood
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
--64755.98
+-20088.15
 </td>
 </tr>
 <tr>
@@ -888,7 +888,7 @@ Log Likelihood
 Deviance
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-129511.95
+40176.30
 </td>
 </tr>
 <tr style="border-bottom: 2px solid #000000;">
@@ -896,7 +896,7 @@ Deviance
 Num. obs.
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-185339
+62911
 </td>
 </tr>
 </tbody>
@@ -939,7 +939,7 @@ Pobreza según sexo JH (odd ratios)
 Intercepto
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-0.22 (0.02)<sup>***</sup>
+0.34 (0.05)<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -947,7 +947,7 @@ Intercepto
 Mujer (ref.hombre)
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-1.12 (0.01)<sup>***</sup>
+1.47 (0.03)<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -955,7 +955,7 @@ Mujer (ref.hombre)
 Edad
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-0.98 (0.00)<sup>***</sup>
+0.97 (0.00)<sup>***</sup>
 </td>
 </tr>
 <tr style="border-top: 1px solid #000000;">
@@ -963,7 +963,7 @@ Edad
 AIC
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-129517.95
+40182.30
 </td>
 </tr>
 <tr>
@@ -971,7 +971,7 @@ AIC
 BIC
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-129548.34
+40209.45
 </td>
 </tr>
 <tr>
@@ -979,7 +979,7 @@ BIC
 Log Likelihood
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
--64755.98
+-20088.15
 </td>
 </tr>
 <tr>
@@ -987,7 +987,7 @@ Log Likelihood
 Deviance
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-129511.95
+40176.30
 </td>
 </tr>
 <tr style="border-bottom: 2px solid #000000;">
@@ -995,7 +995,7 @@ Deviance
 Num. obs.
 </td>
 <td style="padding-left: 5px;padding-right: 5px;">
-185339
+62911
 </td>
 </tr>
 </tbody>
@@ -1013,17 +1013,16 @@ Num. obs.
 <h2>Interpretación de Resultados de Regresión Logística en Odds Ratios</h2>
 <p>En el siguiente modelo de regresión logística, se analiza la probabilidad de encontrarse en situación de pobreza según sexo del jefe de hogar (JH) y su edad.</p>
 <ul>
-<li><strong>Intercepto (0.22)</strong>: Los odds de encontrarse en situación de pobreza son 0.22 cuando el jefe de hogar es hombre y tiene una edad de referencia (edad igual a 0).</li>
-<li><strong>Mujer (ref. hombre, 1.12)</strong>: Los odds de estar en situación de pobreza son 1.12 veces mayores en los hogares con jefatura femenina, comparado con los hogares con jefatura masculina, manteniendo constante la edad. Esto indica que las mujeres jefas de hogar tienen una mayor probabilidad de encontrarse en situación de pobreza.</li>
-<li><strong>Edad (0.98)</strong>: Por cada año adicional de edad del jefe de hogar, los odds de encontrarse en situación de pobreza disminuyen un 2%, manteniendo constante el sexo del jefe de hogar.</li>
+<li><strong>Mujer (ref. hombre, 1.47)</strong>: Los odds de estar en situación de pobreza son 1.47 veces mayores en los hogares con jefatura femenina, comparado con los hogares con jefatura masculina, manteniendo constante la edad. Esto indica que las mujeres jefas de hogar tienen una mayor probabilidad de encontrarse en situación de pobreza.</li>
+<li><strong>Edad (0.97)</strong>: Por cada año adicional de edad del jefe de hogar, los odds o chances de encontrarse en situación de pobreza disminuyen un 3%, manteniendo constante el sexo del jefe de hogar.</li>
 </ul>
 </section>
 <section id="interpretación-de-los-coeficientes-en-términos-de-odds-ratios-comparación-de-grupos" class="slide level2 smaller" data-background-color="white">
 <h2>Interpretación de los Coeficientes en Términos de Odds Ratios: Comparación de Grupos</h2>
 <p>Al interpretar un coeficiente de regresión logística en términos de odds ratios para la comparación entre grupos, se deben considerar los siguientes criterios:</p>
 <ol type="1">
-<li><p><strong>Valor mayor a 1</strong>: Si el odds ratio es mayor a 1, significa que el grupo comparado tiene una mayor probabilidad del evento estudiado en comparación con el grupo de referencia. Por ejemplo, un odds ratio de 1.12 indica que la probabilidad del evento es un 12% mayor en el grupo comparado, manteniendo constantes las demás variables. Esto implica que el grupo comparado tiene un mayor riesgo o probabilidad del evento en relación con el grupo de referencia.</p></li>
-<li><p><strong>Valor menor a 1</strong>: Si el odds ratio es menor a 1, indica que el grupo comparado tiene una menor probabilidad del evento estudiado en comparación con el grupo de referencia. Esto implica un efecto protector o una reducción de la probabilidad del evento para el grupo comparado.</p></li>
+<li><p><strong>Valor mayor a 1</strong>: Si el odds ratio es mayor a 1, significa que el grupo comparado tiene una mayor chances del evento estudiado en comparación con el grupo de referencia. Por ejemplo, un odds ratio de 1.47 indica que la chances del evento es un 47% mayor en el grupo comparado, manteniendo constantes las demás variables. Esto implica que el grupo comparado tiene un mayor riesgo o chances del evento en relación con el grupo de referencia.</p></li>
+<li><p><strong>Valor menor a 1</strong>: Si el odds ratio es menor a 1, indica que el grupo comparado tiene una menor chances del evento estudiado en comparación con el grupo de referencia. Esto implica un efecto protector o una reducción de la chances del evento para el grupo comparado.</p></li>
 </ol>
 </section>
 <section id="interpretación-de-los-coeficientes-en-términos-de-odds-ratios-comparación-de-grupos-1" class="slide level2 smaller" data-background-color="white">
@@ -1037,8 +1036,8 @@ Num. obs.
 <h2>Interpretación de los Coeficientes en Términos de Odds Ratios: Variable Continua</h2>
 <p>Al interpretar un coeficiente de regresión logística en términos de odds ratios para una variable continua, se deben considerar los siguientes criterios:</p>
 <ol type="1">
-<li><p><strong>Valor mayor a 1</strong>: Si el odds ratio es mayor a 1, significa que por cada unidad adicional de la variable continua, la probabilidad del evento estudiado aumenta. Esto implica que la variable tiene un efecto positivo en la probabilidad del evento. Un valor mayor que 1 sugiere un incremento proporcional en los odds del evento.</p></li>
-<li><p><strong>Valor menor a 1</strong>: Si el odds ratio es menor a 1, indica que por cada unidad adicional de la variable continua, la probabilidad del evento disminuye. Por ejemplo, un odds ratio de 0.98 implica que, por cada año adicional de edad del jefe de hogar, los odds de estar en situación de pobreza disminuyen en un 2%. Un valor menor que 1 indica un efecto protector o una reducción en los odds del evento conforme aumenta la variable.</p></li>
+<li><p><strong>Valor mayor a 1</strong>: Si el odds ratio es mayor a 1, significa que por cada unidad adicional de la variable continua, la chances del evento estudiado aumenta. Esto implica que la variable tiene un efecto positivo en la chances del evento. Un valor mayor que 1 sugiere un incremento proporcional en los odds del evento.</p></li>
+<li><p><strong>Valor menor a 1</strong>: Si el odds ratio es menor a 1, indica que por cada unidad adicional de la variable continua, la chances del evento disminuye. Por ejemplo, un odds ratio de 0.97 implica que, por cada año adicional de edad del jefe de hogar, los odds de estar en situación de pobreza disminuyen en un 3%. Un valor menor que 1 indica un efecto protector o una reducción en los odds del evento conforme aumenta la variable.</p></li>
 </ol>
 </section>
 <section id="interpretación-de-los-coeficientes-en-términos-de-odds-ratios-variable-continua-1" class="slide level2 smaller" data-background-color="white">
@@ -1052,13 +1051,13 @@ Num. obs.
 <h2>Diferencia entre un Coeficiente de Comparación de Grupos y uno de una Variable Continua</h2>
 <p>En un modelo de regresión logística, los coeficientes pueden representar comparaciones entre grupos o el efecto de variables continuas:</p>
 <ul>
-<li><strong>Coeficiente de Comparación de Grupos</strong>: Este tipo de coeficiente se utiliza para variables categóricas, donde se compara un grupo específico con un grupo de referencia. Por ejemplo, en el caso de la variable <strong>sexo</strong> del jefe de hogar, el coeficiente de <strong>Mujer (ref. hombre, 1.12)</strong> representa la comparación entre los hogares con jefatura femenina y aquellos con jefatura masculina. En este caso, el odds ratio de 1.12 indica que los hogares con jefatura femenina tienen un 12% más de probabilidad de encontrarse en situación de pobreza comparado con los hogares con jefatura masculina, manteniendo constante la edad. Los coeficientes de comparación de grupos siempre se interpretan en relación con una categoría de referencia.</li>
+<li><strong>Coeficiente de Comparación de Grupos</strong>: Este tipo de coeficiente se utiliza para variables categóricas, donde se compara un grupo específico con un grupo de referencia. Por ejemplo, en el caso de la variable <strong>sexo</strong> del jefe de hogar, el coeficiente de <strong>Mujer (ref. hombre, 1.47)</strong> representa la comparación entre los hogares con jefatura femenina y aquellos con jefatura masculina. En este caso, el odds ratio de 1.47 indica que los hogares con jefatura femenina tienen un 47% más de chances de encontrarse en situación de pobreza comparado con los hogares con jefatura masculina, manteniendo constante la edad. Los coeficientes de comparación de grupos siempre se interpretan en relación con una categoría de referencia.</li>
 </ul>
 </section>
 <section id="diferencia-entre-un-coeficiente-de-comparación-de-grupos-y-uno-de-una-variable-continua-1" class="slide level2 smaller" data-background-color="white">
 <h2>Diferencia entre un Coeficiente de Comparación de Grupos y uno de una Variable Continua</h2>
 <ul>
-<li><strong>Coeficiente de una Variable Continua</strong>: Este tipo de coeficiente se utiliza para variables numéricas que pueden tomar un rango de valores, como la <strong>edad</strong> del jefe de hogar. En este caso, el coeficiente de <strong>Edad (0.98)</strong> indica el cambio en los odds de encontrarse en situación de pobreza por cada año adicional de edad del jefe de hogar, manteniendo constante el sexo. Un odds ratio de 0.98 significa que, por cada año adicional de edad, los odds de estar en situación de pobreza disminuyen en un 2%. A diferencia de los coeficientes de comparación de grupos, los coeficientes de variables continuas reflejan un cambio incremental en los odds del evento por cada unidad adicional de la variable independiente.</li>
+<li><strong>Coeficiente de una Variable Continua</strong>: Este tipo de coeficiente se utiliza para variables numéricas que pueden tomar un rango de valores, como la <strong>edad</strong> del jefe de hogar. En este caso, el coeficiente de <strong>Edad (0.97)</strong> indica el cambio en los odds de encontrarse en situación de pobreza por cada año adicional de edad del jefe de hogar, manteniendo constante el sexo. Un odds ratio de 0.97 significa que, por cada año adicional de edad, los odds de estar en situación de pobreza disminuyen en un 3%. A diferencia de los coeficientes de comparación de grupos, los coeficientes de variables continuas reflejan un cambio incremental en los odds del evento por cada unidad adicional de la variable independiente.</li>
 </ul>
 </section></section>
 <section>
@@ -1068,42 +1067,209 @@ Num. obs.
 </section>
 <section id="estadísticos-de-ajuste" class="slide level2 smaller" data-background-color="white">
 <h2>Estadísticos de ajuste</h2>
-<p>En el caso de los modelos de regresión logística no contamos con una sola medida de ajuste de los modelos y esta suele interpretarse principalmente en términos comparativos.</p>
-<p>4 principales aproximaciones</p>
+<p>En los modelos de regresión logística no contamos con una sola medida de ajuste, por lo que el análisis de ajuste se suele realizar de forma comparativa entre diferentes modelos. Las principales aproximaciones incluyen:</p>
 <ul>
-<li>Devianza</li>
-<li>Test de Razón de Verosimilitud</li>
-<li>Pseudo R2s</li>
-<li>Criterios de Información (AIC y BIC)</li>
+<li><strong>Devianza</strong>: Evalúa la calidad del modelo ajustado.</li>
+<li><strong>Test de Razón de Verosimilitud</strong>: Compara la bondad de ajuste entre modelos.</li>
+<li><strong>Pseudo R²</strong>: Proporciona una medida de la variabilidad explicada.</li>
+<li><strong>Criterios de Información (AIC y BIC)</strong>: Comparan modelos considerando tanto el ajuste como la complejidad.</li>
 </ul>
 </section>
 <section id="devianza" class="slide level2 smaller" data-background-color="white">
 <h2>Devianza</h2>
+<p>La devianza es una medida de ajuste que se utiliza para evaluar la calidad de un modelo de regresión logística binaria. Representa la diferencia entre la log-verosimilitud del modelo ajustado y la log-verosimilitud del modelo nulo, multiplicada por -2. Por esta razón, también se conoce como <strong>devianza residual</strong>. Cuanto menor sea el valor de la devianza, mejor se ajusta el modelo a los datos.</p>
 <ul>
-<li><p>La devianza es una medida de ajuste que se utiliza para evaluar la calidad de un modelo de regresión logística binaria. Es la diferencia entre la log-verosimilitud del modelo ajustado y la log-verosimilitud del modelo nulo, multiplicada por -2. Por eso también se conoce como devianza residual.</p></li>
-<li><p>Formula: <strong>.red[Devianza =-2*log likelihood]</strong></p></li>
+<li>Fórmula: <span class="math display">\[ \text{Devianza} = -2 \times \log(\text{verosimilitud}) \]</span></li>
 </ul>
 </section>
 <section id="test-de-razón-de-verosimilitud" class="slide level2 smaller" data-background-color="white">
 <h2>Test de razón de verosimilitud</h2>
-<p><strong>Test de razón de verosimilitud:</strong> es un test estadístico utilizado para comparar dos modelos, uno más simple (modelo nulo) y otro más complejo (modelo ajustado). El test de LR se basa en la comparación de la devianza de ambos modelos, y se utiliza para determinar si el modelo ajustado mejora significativamente la predicción en comparación con el modelo nulo.</p>
+<p>El <strong>Test de razón de verosimilitud (LR)</strong> es un test estadístico utilizado para comparar dos modelos: uno más simple (modelo nulo) y otro más complejo (modelo ajustado). Se basa en la comparación de las devianzas de ambos modelos para determinar si el modelo ajustado mejora significativamente la predicción en comparación con el modelo nulo. Si el test muestra una mejora significativa, podemos concluir que el modelo más complejo proporciona un mejor ajuste a los datos.</p>
 </section>
 <section id="criterios-de-información-aic-y-bic" class="slide level2 smaller" data-background-color="white">
 <h2>Criterios de información (AIC y BIC)</h2>
-<p>Criterios de información: son medidas utilizadas para comparar diferentes modelos y seleccionar el modelo más adecuado. Los dos criterios de información más comunes son el Akaike Information Criterion (AIC) y el <strong>Bayesian Information Criterion (BIC)</strong>. Estos criterios toman en cuenta tanto la bondad de ajuste del modelo como la complejidad del modelo. Un modelo con un valor de AIC o BIC más bajo se considera mejor ajustado que un modelo con un valor más alto.</p>
+<p>Los <strong>Criterios de Información</strong> son medidas utilizadas para comparar diferentes modelos y seleccionar el más adecuado. Los dos criterios más comunes son el <strong>Akaike Information Criterion (AIC)</strong> y el <strong>Bayesian Information Criterion (BIC)</strong>. Ambos criterios consideran tanto la bondad de ajuste del modelo como su complejidad, penalizando los modelos excesivamente complejos para evitar el sobreajuste. Un valor más bajo de AIC o BIC indica un mejor equilibrio entre ajuste y simplicidad del modelo.</p>
 </section>
-<section id="pseudo-r2s" class="slide level2 smaller" data-background-color="white">
-<h2>Pseudo R2s</h2>
-<p>Son medidas de la variabilidad explicada por el modelo. No pueden interpretarse como proporción de la varianza explicada, como en le caso de los modelos con variable dependientes continuas.</p>
-<p>Existen varios tipos de PseudoR2, cada uno con una interpretación diferente. Uno de los PseudoR2 más comunes es el McFadden’s PseudoR2. Se define como: <span class="math inline">\(1−[LL(LM)/LL(L0)]\)</span>, donde</p>
+<section id="pseudo-r²" class="slide level2 smaller" data-background-color="white">
+<h2>Pseudo R²</h2>
+<p>Los <strong>Pseudo R²</strong> son medidas de la variabilidad explicada por un modelo de regresión logística. No deben interpretarse como una proporción de la varianza explicada, como en los modelos con variables dependientes continuas, pero ofrecen una idea del desempeño del modelo. Entre los tipos de Pseudo R², uno de los más comunes es el <strong>Pseudo R² de McFadden</strong>, que se define como:</p>
+<p><span class="math display">\[ 1 - \left( \frac{LL(LM)}{LL(L0)} \right) \]</span></p>
+<p>donde:</p>
 <ul>
-<li>LL es el log likelihood del modelo<br>
-</li>
-<li>LM es el modelo posterior (con más predictores)<br>
-</li>
-<li>L0 es el modelo nulo</li>
+<li><strong>LL</strong> es la log-verosimilitud del modelo.</li>
+<li><strong>LM</strong> es el modelo ajustado (con más predictores).</li>
+<li><strong>L0</strong> es el modelo nulo.</li>
 </ul>
-<p>Un valor cercano a 1 indica que el modelo explica una gran cantidad de la variabilidad en los datos, mientras que un valor cercano a 0 indica que el modelo no explica mucha variabilidad.</p>
+<p>Un valor cercano a 1 indica que el modelo explica una gran cantidad de la variabilidad en los datos, mientras que un valor cercano a 0 sugiere que el modelo tiene un poder explicativo limitado.</p>
+</section>
+<section id="ejemplo-estadísticos-de-ajuste" class="slide level2 smaller" data-background-color="white">
+<h2>Ejemplo estadísticos de ajuste</h2>
+
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>
+Statistical models
+</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Model 1
+</th>
+<th style="padding-left: 5px;padding-right: 5px;">
+Model 2
+</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Intercepto
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-2.40<sup>***</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-1.07<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.02)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.05)
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Mujer (ref.hombre)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.41<sup>***</sup>
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+0.39<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.03)
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.03)
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Edad
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-0.03<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+&nbsp;
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+(0.00)
+</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+AIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41074.58
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+40182.30
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+BIC
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41092.68
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+40209.45
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Log Likelihood
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-20535.29
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+-20088.15
+</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">
+Deviance
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+41070.58
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+40176.30
+</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">
+Num. obs.
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+62911
+</td>
+<td style="padding-left: 5px;padding-right: 5px;">
+62911
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="3">
+<sup>***</sup>p &lt; 0.001; <sup>**</sup>p &lt; 0.01; <sup>*</sup>p &lt; 0.05
+</td>
+</tr>
+</tfoot>
+
+</table>
+</section>
+<section id="ejemplo-estadísticos-de-ajuste-1" class="slide level2" data-background-color="white">
+<h2>Ejemplo estadísticos de ajuste</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb7-2"><a href="#cb7-2"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   McFadden 
+0.005884247 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>DescTools<span class="sc">::</span><span class="fu">PseudoR2</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  McFadden 
+0.02753019 </code></pre>
+</div>
+</div>
 
 <img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 

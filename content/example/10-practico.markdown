@@ -237,90 +237,88 @@ dom2<-lm(tdnr_dt~factor(c13_1_1)+c14_1_1+factor(n2_1_1, levels = c(2,1))+factor(
 htmlreg(list(dom, dom2), custom.coef.names = c("Intercepto", "Mujer (ref.hombre)", "Edad", "Presencia de menores de 0 a 4 años (ref. No)", "Presencia de nna de 5 a 14 años (ref. No)"), custom.model.names = c("Con atípicos", "Sin atípicos"))
 ```
 
-```
-## <table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
-## <caption>Statistical models</caption>
-## <thead>
-## <tr>
-## <th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
-## <th style="padding-left: 5px;padding-right: 5px;">Con atípicos</th>
-## <th style="padding-left: 5px;padding-right: 5px;">Sin atípicos</th>
-## </tr>
-## </thead>
-## <tbody>
-## <tr style="border-top: 1px solid #000000;">
-## <td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.37<sup>&#42;&#42;&#42;</sup></td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.17<sup>&#42;&#42;&#42;</sup></td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.05)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">Mujer (ref.hombre)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">1.92<sup>&#42;&#42;&#42;</sup></td>
-## <td style="padding-left: 5px;padding-right: 5px;">1.84<sup>&#42;&#42;&#42;</sup></td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">Edad</td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.03<sup>&#42;&#42;&#42;</sup></td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.03<sup>&#42;&#42;&#42;</sup></td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">Presencia de menores de 0 a 4 años (ref. No)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.19<sup>&#42;&#42;&#42;</sup></td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.14<sup>&#42;&#42;&#42;</sup></td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">Presencia de nna de 5 a 14 años (ref. No)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.26<sup>&#42;&#42;&#42;</sup></td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.24<sup>&#42;&#42;&#42;</sup></td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
-## <td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
-## </tr>
-## <tr style="border-top: 1px solid #000000;">
-## <td style="padding-left: 5px;padding-right: 5px;">R<sup>2</sup></td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.19</td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.29</td>
-## </tr>
-## <tr>
-## <td style="padding-left: 5px;padding-right: 5px;">Adj. R<sup>2</sup></td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.19</td>
-## <td style="padding-left: 5px;padding-right: 5px;">0.29</td>
-## </tr>
-## <tr style="border-bottom: 2px solid #000000;">
-## <td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
-## <td style="padding-left: 5px;padding-right: 5px;">20595</td>
-## <td style="padding-left: 5px;padding-right: 5px;">19215</td>
-## </tr>
-## </tbody>
-## <tfoot>
-## <tr>
-## <td style="font-size: 0.8em;" colspan="3"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
-## </tr>
-## </tfoot>
-## </table>
-```
+<table class="texreg" style="margin: 10px auto;border-collapse: collapse;border-spacing: 0px;caption-side: bottom;color: #000000;border-top: 2px solid #000000;">
+<caption>Statistical models</caption>
+<thead>
+<tr>
+<th style="padding-left: 5px;padding-right: 5px;">&nbsp;</th>
+<th style="padding-left: 5px;padding-right: 5px;">Con atípicos</th>
+<th style="padding-left: 5px;padding-right: 5px;">Sin atípicos</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Intercepto</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.37<sup>&#42;&#42;&#42;</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.17<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.05)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Mujer (ref.hombre)</td>
+<td style="padding-left: 5px;padding-right: 5px;">1.92<sup>&#42;&#42;&#42;</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">1.84<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Edad</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.03<sup>&#42;&#42;&#42;</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.03<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.00)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Presencia de menores de 0 a 4 años (ref. No)</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.19<sup>&#42;&#42;&#42;</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.14<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Presencia de nna de 5 a 14 años (ref. No)</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.26<sup>&#42;&#42;&#42;</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.24<sup>&#42;&#42;&#42;</sup></td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">&nbsp;</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.04)</td>
+<td style="padding-left: 5px;padding-right: 5px;">(0.03)</td>
+</tr>
+<tr style="border-top: 1px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">R<sup>2</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.19</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.29</td>
+</tr>
+<tr>
+<td style="padding-left: 5px;padding-right: 5px;">Adj. R<sup>2</sup></td>
+<td style="padding-left: 5px;padding-right: 5px;">0.19</td>
+<td style="padding-left: 5px;padding-right: 5px;">0.29</td>
+</tr>
+<tr style="border-bottom: 2px solid #000000;">
+<td style="padding-left: 5px;padding-right: 5px;">Num. obs.</td>
+<td style="padding-left: 5px;padding-right: 5px;">20595</td>
+<td style="padding-left: 5px;padding-right: 5px;">19215</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="font-size: 0.8em;" colspan="3"><sup>&#42;&#42;&#42;</sup>p &lt; 0.001; <sup>&#42;&#42;</sup>p &lt; 0.01; <sup>&#42;</sup>p &lt; 0.05</td>
+</tr>
+</tfoot>
+</table>
 
 
 ## 3.2 Linealidad: Valores Ajustados vs Residuos 

@@ -1,5 +1,5 @@
 ---
-title: " Diagnosticos y supuestos de modelos de regresión"
+title: "Diagnosticos y supuestos de modelos de regresión"
 linktitle: "10:  Diagnosticos y supuestos de modelos de regresión"
 date: "2024-10-28"
 menu:
@@ -135,7 +135,7 @@ base2 <- final %>% filter(!(id %in% ident$id))
 Las observaciones que superan el punto de corte son consideradas **influyentes**, ya que tienen un impacto desproporcionado en el ajuste del modelo.
 Generaremos una base de datos sin los casos influyentes para observar como se comporta el modelo al estimarlo sin estos. A pesar de lo anterior es improtnate considerar que en la práctica solo debemos removerlos sin tenemos alguna buena razón para creer que estos se deben a un error de medición o algún otro problema, ya que de lo contrariop estaremos forzando el buen ajuste del modelo. 
 
-```{r}
+```{r, results='asis'}
 dom2<-lm(tdnr_dt~factor(c13_1_1)+c14_1_1+factor(n2_1_1, levels = c(2,1))+factor(n3_1_1, levels = c(2,1)),data=base2,weights = wgt2)
 
 #screenreg(list(dom, dom2), custom.coef.names = c("Intercepto", "Mujer (ref.hombre)", "Edad", "Presencia de menores de 0 a 4 años (ref. No)", "Presencia de nna de 5 a años (ref. No)"), custom.model.names = c("Con atípicos", "Sin atípicos"))

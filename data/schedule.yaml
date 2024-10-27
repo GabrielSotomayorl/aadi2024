@@ -94,15 +94,15 @@ lessons:
   - title: '• Regresión Logística II'
     session: "Sesión 10"
     date: "21 octubre"
-    # content: "09-content"
-    # example: "09-practico"
+    content: "08-content"
+    example: "08-practico"
     bg: 1
 
   - title: '• Supuestos y chequeos de robustez'
     session: "Sesión 11"
     date: "28 octubre"
-    # content: "10-content"
-    # example: "10-practico"
+    content: "10-content"
+    example: "10-practico"
     bg: 1
     bottomborder: True
 

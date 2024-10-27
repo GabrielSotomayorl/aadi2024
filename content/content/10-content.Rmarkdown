@@ -1,9 +1,9 @@
 ---
-title: "Análisis de Senderos I"
-linktitle: "10: Análisis de Senderos I"
-date: "2024-06-10"
-start_date: "2024-06-10"
-end_date: "2024-06-10"
+title: "Diagnosticos y supuestos de modelos de regresión"
+linktitle: "10: Diagnosticos y supuestos de modelos de regresión"
+date: "2024-10-28"
+start_date: "2024-10-28"
+end_date: "2024-10-28"
 menu:
   content:
     parent: Contenido
@@ -12,7 +12,7 @@ type: docs
 toc: true
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
-slides: "Clase PA"
+slides: "10-slides"
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -20,7 +20,7 @@ source(here::here("R", "slide-tabs.R"))
 
 slide_details <- tibble::tribble(
   ~title, ~slide, ~active,
-  "Análisis de Senderos I", "1", TRUE,
+  "Diagnosticos y supuestos de modelos de regresión", "0", TRUE,
    "", "14", FALSE,
    "", "29", FALSE
 )
@@ -31,7 +31,7 @@ slide_details <- tibble::tribble(
 `r blogdown::shortcode("slide-buttons")`
 
 ```{r show-slide-tabs, echo=FALSE, results="asis"}
-slide_tabs(slide_details, "/slides/Clase PA.html")
+slide_tabs(slide_details, "/slides/10-slides.html")
 ```
 
 {{% div fyi %}}

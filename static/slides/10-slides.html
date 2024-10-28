@@ -8,7 +8,7 @@
 <link href="10-slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="10-slides_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="10-slides_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Gabriel Sotomayor">
   <title>Clase 10   Diagnosticos y supuestos de modelos de regresión</title>
@@ -344,7 +344,7 @@ Gabriel Sotomayor
 </section>
 <section id="introducción-a-los-diagnósticos-de-regresión" class="slide level2 smaller" data-background-color="white">
 <h2>Introducción a los Diagnósticos de Regresión</h2>
-<p>Este capítulo aborda el tema del diagnóstico de regresión, introduciendo conceptos como <strong>leverage</strong>, <strong>distancia</strong>, e <strong>influencia</strong> para identificar casos irregulares en un análisis de regresión.</p>
+<p>En esta clase se aborda el tema del diagnóstico de regresión, introduciendo conceptos como <strong>leverage</strong>, <strong>distancia</strong>, e <strong>influencia</strong> para identificar casos irregulares en un análisis de regresión.</p>
 <p>Los objetivos son:</p>
 <ul>
 <li>Detectar errores de digitación (o similares).</li>
@@ -411,7 +411,7 @@ Gabriel Sotomayor
 <section id="tratamiento-de-irregularidades" class="slide level2 smaller" data-background-color="white">
 <h2>Tratamiento de Irregularidades</h2>
 <ul>
-<li><strong>Corrección</strong>: Modificar errores clericales o valores extremos que se puedan justificar, como valores atípicos debidos a errores de entrada de datos.</li>
+<li><strong>Corrección</strong>: Modificar errores de digitación o valores extremos que se puedan justificar, como valores atípicos debidos a errores de entrada de datos.</li>
 <li><strong>Transformación</strong>: Si hay problemas de homocedasticidad o falta de normalidad, transformar la variable dependiente puede ser útil.</li>
 <li><strong>Eliminación de casos</strong>: Solo se debe eliminar una observación si se puede justificar adecuadamente, como en el caso de errores de medición claramente identificados.</li>
 </ul>
@@ -451,7 +451,7 @@ Gabriel Sotomayor
 <section id="relación-lineal" class="slide level2 smaller" data-background-color="white">
 <h2>Relación lineal</h2>
 <ul>
-<li>Se asume que la relación entre cada predictor y la respuesta es lineal (porque eso es lo que estamos ajustando en una regresión lineal).</li>
+<li>Se asume que la relación entre cada predictor y la respuesta es lineal (porque eso es lo que es posible ajustar con una regresión lineal).</li>
 <li>Si la relación es aproximadamente lineal, tiene sentido usar modelos de regresión lineal.</li>
 <li><strong>Detección</strong>: Utilizar gráficos de <strong>residupos vs predicciones</strong> para verificar la relación lineal. También se puede evaluar en base a diagramas de dispersión (si el n es pequeño).</li>
 <li>Una correlación alta entre las variables es indicación de que la relación es lineal.</li>

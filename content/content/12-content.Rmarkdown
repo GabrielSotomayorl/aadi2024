@@ -1,9 +1,9 @@
 ---
-title: "Análisis de Ecuaciones Estructurales"
-linktitle: "12: Análisis de Ecuaciones Estructurales"
-date: "2024-06-23"
-start_date: "2024-06-23"
-end_date: "2024-06-23"
+title: "Análisis de conglomerados no jerárquicos"
+linktitle: "12: Análisis de conglomerados no jerárquicos"
+date: "2024-11-11"
+start_date: "2024-11-11"
+end_date: "2024-11-11"
 menu:
   content:
     parent: Contenido
@@ -12,7 +12,7 @@ type: docs
 toc: true
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
-slides: "Clase SEM"
+slides: "12-slides"
 ---
 
 ```{r slides-videos, echo=FALSE, include=FALSE}
@@ -20,8 +20,7 @@ source(here::here("R", "slide-tabs.R"))
 
 slide_details <- tibble::tribble(
   ~title, ~slide, ~active,
-  "Repaso", "1", TRUE,
-   "Calidad de modelos", "10", FALSE,
+  "Análisis de conglomerados no jerárquicos", "0", TRUE,
 )
 ```
 
@@ -30,7 +29,7 @@ slide_details <- tibble::tribble(
 `r blogdown::shortcode("slide-buttons")`
 
 ```{r show-slide-tabs, echo=FALSE, results="asis"}
-slide_tabs(slide_details, "/slides/Clase SEM.html")
+slide_tabs(slide_details, "/slides/12-slides.html")
 ```
 
 {{% div fyi %}}

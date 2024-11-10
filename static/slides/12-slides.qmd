@@ -266,9 +266,69 @@ rect.hclust(hc, k = 3, border = "blue")
   - Los centroides iniciales y finales normalmente no coinciden, reflejando la evolución de la composición de los conglomerados durante el proceso.
   - Cada iteración busca minimizar la distancia total dentro de los conglomerados.
 
+
 ## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
 
-### Tabla ANOVA {.smaller background-color="white"}
+### Centros de los Conglomerados
+  
+```{r, results='asis'}
+if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
+pacman::p_load(dplyr,factoextra , corrplot, knitr, kableExtra)
+
+temp <- tempfile()
+download.file("https://github.com/GabrielSotomayorl/aadi2024/raw/refs/heads/main/content/example/input/data/ELSOC_Long_2016_2022_v1.00.RData", temp)
+load(temp)
+unlink(temp) 
+
+elsoc<- elsoc_long_2016_2022.2 %>% 
+  filter(ola == 6)  %>%
+  mutate(across(c(c37_01:c37_09), ~ ifelse(. < 0, NA, .))) %>% 
+  filter(!(is.na(c37_01)|is.na(c37_02)|is.na(c37_03)|is.na(c37_04)|is.na(c37_05)|is.na(c37_06)|is.na(c37_07)|is.na(c37_08)))
+elsoc_vars <- elsoc %>%
+  select(c37_01:c37_08)  
+
+set.seed(123)  # Para reproducibilidad
+
+# Aplicar k-medias con 3 conglomerados
+kmeans_result <- kmeans(elsoc_vars, centers = 4, nstart = 25)
+
+# Agregar los conglomerados al dataframe original
+elsoc$conglomerado <- kmeans_result$cluster
+
+
+caracterizacion <- elsoc %>%
+  group_by(conglomerado) %>%
+  summarise(
+    across(c(c37_01:c37_08), mean, na.rm = TRUE),
+    cantidad_individuos = n()
+  )
+
+# Crear un tibble para presentar los resultados con nombres más claros
+caracterizacion_tidy <- caracterizacion %>%
+  rename(
+    "Conglomerado" = conglomerado,
+    "Adopción Homoparental" = c37_01,
+    "Aborto" = c37_02,
+    "Rol del Estado en Educación" = c37_03,
+    "Capitalización Individual Pensiones" = c37_04,
+    "Restricciones Migratorias" = c37_05,
+    "Educación Sexual (Padres)" = c37_06,
+    "Restricción a Empresas Contaminantes" = c37_07,
+    "Gasto Social Focalizado" = c37_08,
+    "Cantidad de Individuos" = cantidad_individuos
+  )
+
+# Mostrar la caracterización con una tabla kable bonita
+caracterizacion_tidy %>%
+  kbl(caption = "Caracterización de los Conglomerados Ideológicos") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = F)
+
+```
+
+
+## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
+
+### Tabla ANOVA 
 
 - Evalúa la contribución de cada variable a la diferenciación entre los conglomerados.
 - La tabla ANOVA incluye:
@@ -277,6 +337,21 @@ rect.hclust(hc, k = 3, border = "blue")
 - **Interpretación**:
   - Un **valor F** alto sugiere que la variable tiene un papel importante en la diferenciación de los conglomerados.
   - **Significancia estadística**: Se utiliza para identificar qué variables deben ser consideradas al interpretar las características distintivas de los conglomerados.
+  
+## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
+
+### Tabla ANOVA 
+
+```{r, echo=TRUE}
+# ANOVA para la variable Aborto
+anova_aborto <- aov(c37_02 ~ conglomerado, data = elsoc)
+summary(anova_aborto)
+
+# ANOVA para la variable Rol del Estado en Educación
+anova_educacion <- aov(c37_03 ~ conglomerado, data = elsoc)
+summary(anova_educacion)
+```
+
 
 ## Gráficos No Jerárquicos {.smaller background-color="white"}
 
@@ -287,4 +362,12 @@ rect.hclust(hc, k = 3, border = "blue")
 - **Utilidad**:
   - Facilita la identificación de conglomerados bien separados, indicando una buena partición de los datos.
   - Permite identificar conglomerados solapados que podrían requerir un ajuste del número de conglomerados.
+
+## Gráficos No Jerárquicos {.smaller background-color="white"}
+
+### Ubicación de Conglomerados y Centros 
+
+```{r}
+fviz_cluster(kmeans_result, data = elsoc_vars, geom = "point", main = "Visualización de Conglomerados - K-Means")
+```
 

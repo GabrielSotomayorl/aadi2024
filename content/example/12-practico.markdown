@@ -26,8 +26,11 @@ El objetivo de este práctico es realizar un análisis de conglomerados no jerá
 if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
 pacman::p_load(dplyr,factoextra , corrplot, knitr, kableExtra)
 
+temp <- tempfile()
+download.file("https://github.com/GabrielSotomayorl/aadi2024/raw/refs/heads/main/content/example/input/data/ELSOC_Long_2016_2022_v1.00.RData", temp)
+load(temp)
+unlink(temp) 
 
-load("~/GitHub/aadi2024/content/example/input/data/ELSOC_Long_2016_2022_v1.00.RData")
 elsoc<- elsoc_long_2016_2022.2 %>% 
   filter(ola == 6)  %>%
   mutate(across(c(c37_01:c37_09), ~ ifelse(. < 0, NA, .))) %>% 

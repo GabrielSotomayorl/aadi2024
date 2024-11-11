@@ -22,7 +22,7 @@ El objetivo de este práctico es realizar un análisis de conglomerados no jerá
 ## 1. Carga y Preparación de los Datos
 
 
-```r
+``` r
 if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
 pacman::p_load(dplyr,factoextra , corrplot, knitr, kableExtra)
 
@@ -111,7 +111,7 @@ Las variables corresponden a escalas de acuerdo (¿Cuán de acuerdo o en desacue
 Antes de proceder al análisis de conglomerados, es importante entender las relaciones entre nuestras variables mediante un análisis de correlación.
 
 
-```r
+``` r
 # Calcular la matriz de correlación
 corr_matrix <- cor(elsoc %>% select(c37_01:c37_08), use = "complete.obs")
 
@@ -126,7 +126,7 @@ corrplot(corr_matrix, method = "color", type = "upper", tl.col = "black", tl.cex
 Para asegurar que todas las variables contribuyan equitativamente al análisis, es fundamental estandarizarlas, cuando las variables tienen diferentes rangos. En este caso, dado que todas tienen la misma escala optaremos por no estandarizar. 
 
 
-```r
+``` r
 # Estandarizar las variables
 elsoc_vars <- elsoc %>%
   select(c37_01:c37_08)  #%>%
@@ -151,7 +151,7 @@ head(elsoc_vars)
 Para determinar el número óptimo de conglomerados, utilizaremos el método del codo.
 
 
-```r
+``` r
 # Método del codo para determinar el número óptimo de conglomerados
 fviz_nbclust(elsoc_vars, kmeans, method = "wss") +
   labs(title = "Determinación del Número Óptimo de Conglomerados - Método del Codo")
@@ -165,7 +165,7 @@ fviz_nbclust(elsoc_vars, kmeans, method = "wss") +
 El siguiente paso consiste en realizar el análisis de conglomerados utilizando el método de k-medias para identificar los perfiles ideológicos. Considerando la información del método del codo haremos un análisis con 4 conglomerados. 
 
 
-```r
+``` r
 set.seed(123)  # Para reproducibilidad
 
 # Aplicar k-medias con 3 conglomerados
@@ -194,7 +194,7 @@ head(elsoc %>% select(c37_01:c37_08, conglomerado))
 Ahora caracterizaremos los conglomerados obtenidos, calculando los promedios de cada variable por conglomerado para identificar los perfiles ideológicos.
 
 
-```r
+``` r
 caracterizacion <- elsoc %>%
   group_by(conglomerado) %>%
   summarise(
@@ -223,7 +223,7 @@ caracterizacion_tidy %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = F)
 ```
 
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption><span id="tab:characterize-clusters"></span>Table 2: Caracterización de los Conglomerados Ideológicos</caption>
  <thead>
   <tr>
@@ -310,7 +310,7 @@ En esta sección, realizamos un análisis de varianza (ANOVA) para cada una de l
 El análisis se realizó individualmente para cada una de las ocho variables, y se presenta la tabla ANOVA con el valor F y el valor p para cada una de ellas. Un valor F alto y un valor p menor a 0.05 indican que existen diferencias significativas entre los conglomerados para la variable analizada, lo cual significa que esa variable es útil para distinguir entre los diferentes perfiles ideológicos.
 
 
-```r
+``` r
 # ANOVA para la variable Adopción Homoparental
 anova_adopcion <- aov(c37_01 ~ conglomerado, data = elsoc)
 summary(anova_adopcion)
@@ -324,7 +324,7 @@ summary(anova_adopcion)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # ANOVA para la variable Aborto
 anova_aborto <- aov(c37_02 ~ conglomerado, data = elsoc)
 summary(anova_aborto)
@@ -338,7 +338,7 @@ summary(anova_aborto)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # ANOVA para la variable Rol del Estado en Educación
 anova_educacion <- aov(c37_03 ~ conglomerado, data = elsoc)
 summary(anova_educacion)
@@ -350,7 +350,7 @@ summary(anova_educacion)
 ## Residuals    1654   1109  0.6703
 ```
 
-```r
+``` r
 # ANOVA para la variable Capitalización Individual Pensiones
 anova_pensiones <- aov(c37_04 ~ conglomerado, data = elsoc)
 summary(anova_pensiones)
@@ -364,7 +364,7 @@ summary(anova_pensiones)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # ANOVA para la variable Restricciones Migratorias
 anova_migrantes <- aov(c37_05 ~ conglomerado, data = elsoc)
 summary(anova_migrantes)
@@ -376,7 +376,7 @@ summary(anova_migrantes)
 ## Residuals    1654 1112.5  0.6726
 ```
 
-```r
+``` r
 # ANOVA para la variable Educación Sexual (Padres)
 anova_sexual <- aov(c37_06 ~ conglomerado, data = elsoc)
 summary(anova_sexual)
@@ -390,7 +390,7 @@ summary(anova_sexual)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-```r
+``` r
 # ANOVA para la variable Restricción a Empresas Contaminantes
 anova_contaminacion <- aov(c37_07 ~ conglomerado, data = elsoc)
 summary(anova_contaminacion)
@@ -402,7 +402,7 @@ summary(anova_contaminacion)
 ## Residuals    1654 1198.8  0.7248
 ```
 
-```r
+``` r
 # ANOVA para la variable Gasto Social Focalizado
 anova_gasto <- aov(c37_08 ~ conglomerado, data = elsoc)
 summary(anova_gasto)
@@ -423,9 +423,24 @@ e acuerdo con los resultados del ANOVA, las variables que muestran diferencias s
 Finalmente, visualizaremos los conglomerados en un gráfico de dispersión utilizando dos componentes principales para entender mejor la formación de los grupos.
 
 
-```r
+``` r
 # Visualización de los conglomerados utilizando PCA
 fviz_cluster(kmeans_result, data = elsoc_vars, geom = "point", main = "Visualización de Conglomerados - K-Means")
 ```
 
 <img src="/example/12-practico_files/figure-html/visualize-clusters-1.png" width="672" />
+
+
+## Gráfico interactivo de cluster
+
+A continuación se presenta una herramienta que podrán usar para visualizar de mejor manera como se generan clusters a partir de k-medias.
+
+Para acceder de mejor manera a la aplicación pueden acceder a este enlace: <https://gabriel-sotomayor.shinyapps.io/Cluster/>.
+
+<iframe src="https://gabriel-sotomayor.shinyapps.io/Cluster/" 
+        width="100%" 
+        height="600px" 
+        frameborder="0">
+
+</iframe>
+

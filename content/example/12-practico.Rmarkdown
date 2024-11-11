@@ -210,3 +210,18 @@ Finalmente, visualizaremos los conglomerados en un gráfico de dispersión utili
 # Visualización de los conglomerados utilizando PCA
 fviz_cluster(kmeans_result, data = elsoc_vars, geom = "point", main = "Visualización de Conglomerados - K-Means")
 ```
+
+
+## Gráfico interactivo de cluster
+
+A continuación se presenta una herramienta que podrán usar para visualizar de mejor manera como se generan clusters a partir de k-medias.
+
+Para acceder de mejor manera a la aplicación pueden acceder a este enlace: <https://gabriel-sotomayor.shinyapps.io/Cluster/>.
+
+<iframe src="https://gabriel-sotomayor.shinyapps.io/Cluster/" 
+        width="100%" 
+        height="600px" 
+        frameborder="0">
+
+</iframe>
+

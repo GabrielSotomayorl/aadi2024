@@ -115,15 +115,15 @@ lessons:
   - title: '• Análisis de Conglomerados (Método jerárquico)'
     session: "Sesión 12"
     date: "4 noviembre"
-    # content: "11-content"
-    # example: "11-practico"
+    content: "11-content"
+    example: "11-practico"
     bg: 2
 
   - title: '• Análisis de Conglomerados (Métodos de K-medias)'
     session: "Sesión 13"
     date: "11 noviembre"
-    # content: "12-content"
-    # example: "12-practico"
+    content: "12-content"
+    example: "12-practico"
     bg: 2
     bottomborder: True
 
@@ -136,15 +136,15 @@ lessons:
   - title: '• Análisis de Componentes Principales I'
     session: "Sesión 14"
     date: "18 noviembre"
-    # content: "13-content"
-    # example: "13-practico"
+    content: "13-content"
+    example: "13-practico"
     bg: 1
 
   - title: '• Análisis de Componentes Principales II'
     session: "Sesión 15"
     date: "25 noviembre"
-    # content: "14-content"
-    # example: "14-practico"
+    content: "14-content"
+    example: "14-practico"
     bg: 1
     bottomborder: True
 

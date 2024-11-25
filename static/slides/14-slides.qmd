@@ -26,28 +26,26 @@ La selección de variables en un Análisis Factorial Exploratorio es un paso cru
 
 -   **Relevancia teórica:** Las variables deben estar relacionadas con el concepto subyacente que se desea medir y tener una base teórica sólida.
 -   **Distribución de las variables:** Es conveniente verificar si las variables tienen distribuciones normales o al menos simétricas, ya que las distribuciones sesgadas o asimétricas pueden afectar la solución factorial.
--   **Correlaciones entre variables:** Examinar la matriz de correlaciones para identificar variables que estén altamente correlacionadas entre sí, lo que puede indicar redundancia en la información proporcionada por esas variables.
+-   **Correlaciones entre variables:** Examinar la matriz de correlaciones para determinar si las variables comparten suficiente varianza común. 
 -   **Ajuste con el modelo factorial:** Una vez extraidos los facotres comunes debe evaluarse el ajuste de cada variable y la posibilidad de modificar las variables.
 
 ## Criterios de selección del número de factores {.smaller background-color="white"}
 
-Existen diferentes criterios para determinar el número óptimo de factores a extraer. Algunos de los más comunes son:   
-- **Regla del codo (scree plot)**: Se grafican los autovalores de los factores en función del número de factores. Se busca el punto en el que la curva cambia de pendiente, el "codo".   
+Existen diferentes criterios para determinar el número óptimo de factores a extraer. Algunos de los más comunes son:\
+- **Regla del codo (scree plot)**: Se grafican los autovalores de los factores en función del número de factores. Se busca el punto en el que la curva cambia de pendiente, el "codo".\
 - **Criterio de Kaiser**: Se extraen solo los factores con autovalores mayores a 1. En el caso de AFE estamos trabajando solo con la varianza común, por lo que se consideran los que tienen un autovalor mayor a la varianza común promedio.\
 - **Criterios de ajuste (solo aplicable a ML)**: Se comparan diferentes modelos con distintos números de factores utilizando índices de ajuste como el AIC, BIC, RMSEA.
 
 ## Criterios de selección del número de factores {.smaller background-color="white"}
 
-Existen diferentes criterios para determinar el número óptimo de factores a extraer. Algunos de los más comunes son:   
-- **Criterio de análisis paralelo**: Este enfoque compara los autovalores observados en los datos con los autovalores generados a partir de datos aleatorios con las mismas dimensiones. Los factores se retienen si los autovalores observados son mayores que los autovalores esperados por azar.  
+Existen diferentes criterios para determinar el número óptimo de factores a extraer. Algunos de los más comunes son:\
+- **Criterio de análisis paralelo**: Este enfoque compara los autovalores observados en los datos con los autovalores generados a partir de datos aleatorios con las mismas dimensiones. Los factores se retienen si los autovalores observados son mayores que los autovalores esperados por azar.\
 - **Interpretación teórica:** Retener los factores que se ajustan a las expectativas teóricas y proporcionan una solución interpretable.\
-A menudo, es útil considerar varios criterios al tomar esta decisión.  
+A menudo, es útil considerar varios criterios al tomar esta decisión.
 
---- 
-
+------------------------------------------------------------------------
 
 ![](https://raw.githubusercontent.com/Clases-GabrielSotomayor/pruebapagina/master/static/slides/img/06/Sedimentaci%C3%B3n.png)
-
 
 ## Métodos de extracción de factores {.smaller background-color="white"}
 
@@ -74,37 +72,29 @@ La matriz factorial es la tabla que muestra las cargas factoriales de cada varia
 
 Para interpretar la matriz factorial, se busca un patrón claro de cargas altas y bajas en los factores. Las variables con cargas altas en un factor se consideran relacionadas entre sí y pueden representar una dimensión subyacente del concepto que se mide.
 
+------------------------------------------------------------------------
 
----
-
-
-![](https://raw.githubusercontent.com/Clases-GabrielSotomayor/pruebapagina/master/static/slides/img/06/no%20rotado.jpg)  
+![](https://raw.githubusercontent.com/Clases-GabrielSotomayor/pruebapagina/master/static/slides/img/06/no%20rotado.jpg)
 
 ## Interpretación de la matriz factorial {.smaller background-color="white"}
 
 Una vez que se haya rotado la matriz factorial, los siguientes pasos pueden ayudar a interpretar los resultados:
 
-- **Identificar las variables con cargas altas en cada factor:** Establecer un umbral de carga factorial (por ejemplo, > 0.30) y considerar las variables que superan ese umbral como importantes para cada factor. Idealmente se esperan que cada variable tenga una carga sobre 0,7 con un solo factor y ningún otro sobre 0,3.
-- **Interpretar el significado de cada factor:** Analizar el conjunto de variables con cargas altas en cada factor e intentar identificar un tema o dimensión común que las relacione.
+-   **Identificar las variables con cargas altas en cada factor:** Establecer un umbral de carga factorial (por ejemplo, \> 0.30) y considerar las variables que superan ese umbral como importantes para cada factor. Idealmente se esperan que cada variable tenga una carga sobre 0,7 con un solo factor y ningún otro sobre 0,3.
+-   **Interpretar el significado de cada factor:** Analizar el conjunto de variables con cargas altas en cada factor e intentar identificar un tema o dimensión común que las relacione.
 
 ## Interpretación de la matriz factorial {.smaller background-color="white"}
 
 Una vez que se haya rotado la matriz factorial, los siguientes pasos pueden ayudar a interpretar los resultados:
 
+-   **Asignar nombres a los factores:** Dar a cada factor un nombre descriptivo que refleje el tema o dimensión común identificado.
+-   **Evaluar la solidez y coherencia de los factores:** Comprobar si los factores son teóricamente coherentes y si se ajustan a las expectativas previas. Además, se pueden realizar análisis de fiabilidad y validez convergente y discriminante para evaluar la calidad de la solución factorial.
 
-- **Asignar nombres a los factores:** Dar a cada factor un nombre descriptivo que refleje el tema o dimensión común identificado.
-- **Evaluar la solidez y coherencia de los factores:** Comprobar si los factores son teóricamente coherentes y si se ajustan a las expectativas previas. Además, se pueden realizar análisis de fiabilidad y validez convergente y discriminante para evaluar la calidad de la solución factorial.
-
-
---- 
-
+------------------------------------------------------------------------
 
 ![](https://raw.githubusercontent.com/Clases-GabrielSotomayor/pruebapagina/master/static/slides/img/06/rotado.jpg)
 
-
---- 
-
-
+------------------------------------------------------------------------
 
 ![](https://raw.githubusercontent.com/Clases-GabrielSotomayor/pruebapagina/master/static/slides/img/06/rotadodest.jpg)
 

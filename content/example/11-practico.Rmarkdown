@@ -126,7 +126,7 @@ El gráfico del **índice de silueta** nos ayuda a evaluar la cohesión y separa
 
 ## 7. Visualización y Corte del Dendrograma
 
-Con base en el análisis anterior, procedemos a cortar el dendrograma para obtener los conglomerados. Podemos pobrar con distintas cantidades de conglomerados, a fin de observar cual es la mejor agrupación.
+Con base en el análisis anterior, procedemos a cortar el dendrograma para obtener los conglomerados. Podemos probar con distintas cantidades de conglomerados, a fin de observar cual es la mejor agrupación.
 
 ```{r cut-tree}
 # Cortar el dendrograma para obtener 3 conglomerados

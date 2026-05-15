@@ -104,7 +104,7 @@ kable(resultados, caption = "Medias de Opiniones en Encuesta ELSOC", format = "h
 </tbody>
 </table>
 
-Las variables corresponden a escalas de acuerdo (¿Cuán de acuerdo o en desacuerdo está usted con cada una de las siguientes afirmaciones?) donde 1 inidca menor acuerdo y 5 mayor acuerdo. 
+Las variables corresponden a escalas de acuerdo (¿Cuán de acuerdo o en desacuerdo está usted con cada una de las siguientes afirmaciones?) donde 1 indica menor acuerdo y 5 mayor acuerdo. 
 
 ##  2. Análisis de Correlación entre Variables
 
@@ -157,6 +157,36 @@ fviz_nbclust(elsoc_vars, kmeans, method = "wss") +
   labs(title = "Determinación del Número Óptimo de Conglomerados - Método del Codo")
 ```
 
+```
+## Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## ℹ The deprecated feature was likely used in the ggpubr package.
+##   Please report the issue at <https://github.com/kassambara/ggpubr/issues>.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```
+## Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## ℹ The deprecated feature was likely used in the ggpubr package.
+##   Please report the issue at <https://github.com/kassambara/ggpubr/issues>.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## ℹ The deprecated feature was likely used in the ggpubr package.
+##   Please report the issue at <https://github.com/kassambara/ggpubr/issues>.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
 <img src="/example/12-practico_files/figure-html/optimal-clusters-1.png" width="672" />
 
 
@@ -168,7 +198,7 @@ El siguiente paso consiste en realizar el análisis de conglomerados utilizando 
 ``` r
 set.seed(123)  # Para reproducibilidad
 
-# Aplicar k-medias con 3 conglomerados
+# Aplicar k-medias con 4 conglomerados
 kmeans_result <- kmeans(elsoc_vars, centers = 4, nstart = 25)
 
 # Agregar los conglomerados al dataframe original
@@ -292,7 +322,7 @@ caracterizacion_tidy %>%
 </table>
 
 **Conglomerado 1**: 
-Este grupo tiene un perfil ideológico más conservador en aspectos como la **adopción homoparental** (promedio bajo de 3.37) y el **aborto** (2.00), lo cual sugiere una postura más tradicional en temas sociales. De igual forma, muestran un apoyo alto a la **capitalización individual de pensiones** (4.00). Este grupo está compuesto por **421 individuos**.
+Este grupo tiene un perfil ideológico más conservador en aspectos como la **adopción homoparental** (promedio moderado de 3.37) y el **aborto** (2.00), lo cual sugiere una postura más tradicional en temas sociales. De igual forma, muestran un apoyo alto a la **capitalización individual de pensiones** (4.00). Este grupo está compuesto por **421 individuos**.
 
 **Conglomerado 2**:
 Este conglomerado se caracteriza por posturas moderadamente favorables hacia la **adopción homoparental** (3.89) y el **aborto** (2.91). Tienen un perfil más intervencionista en temas del **rol del Estado en la educación** (4.07) y **restricciones migratorias** (4.28). Este grupo incluye **441 individuos**, lo cual sugiere que representa un perfil relativamente común en la muestra.
@@ -312,111 +342,117 @@ El análisis se realizó individualmente para cada una de las ocho variables, y 
 
 ``` r
 # ANOVA para la variable Adopción Homoparental
-anova_adopcion <- aov(c37_01 ~ conglomerado, data = elsoc)
+anova_adopcion <- aov(c37_01 ~ factor(conglomerado), data = elsoc)
 summary(anova_adopcion)
 ```
 
 ```
-##                Df Sum Sq Mean Sq F value Pr(>F)    
-## conglomerado    1  549.7   549.7   482.9 <2e-16 ***
-## Residuals    1654 1882.8     1.1                   
+##                        Df Sum Sq Mean Sq F value Pr(>F)    
+## factor(conglomerado)    3   1357   452.3   694.7 <2e-16 ***
+## Residuals            1652   1076     0.7                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ``` r
 # ANOVA para la variable Aborto
-anova_aborto <- aov(c37_02 ~ conglomerado, data = elsoc)
+anova_aborto <- aov(c37_02 ~ factor(conglomerado), data = elsoc)
 summary(anova_aborto)
 ```
 
 ```
-##                Df Sum Sq Mean Sq F value Pr(>F)  
-## conglomerado    1    7.6   7.605    5.43 0.0199 *
-## Residuals    1654 2316.2   1.400                 
+##                        Df Sum Sq Mean Sq F value Pr(>F)    
+## factor(conglomerado)    3   1298   432.6   696.6 <2e-16 ***
+## Residuals            1652   1026     0.6                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ``` r
 # ANOVA para la variable Rol del Estado en Educación
-anova_educacion <- aov(c37_03 ~ conglomerado, data = elsoc)
+anova_educacion <- aov(c37_03 ~ factor(conglomerado), data = elsoc)
 summary(anova_educacion)
 ```
 
 ```
-##                Df Sum Sq Mean Sq F value Pr(>F)
-## conglomerado    1      0  0.0080   0.012  0.913
-## Residuals    1654   1109  0.6703
+##                        Df Sum Sq Mean Sq F value   Pr(>F)    
+## factor(conglomerado)    3   28.6   9.538   14.59 2.23e-09 ***
+## Residuals            1652 1080.1   0.654                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ``` r
 # ANOVA para la variable Capitalización Individual Pensiones
-anova_pensiones <- aov(c37_04 ~ conglomerado, data = elsoc)
+anova_pensiones <- aov(c37_04 ~ factor(conglomerado), data = elsoc)
 summary(anova_pensiones)
 ```
 
 ```
-##                Df Sum Sq Mean Sq F value   Pr(>F)    
-## conglomerado    1   25.4  25.380   20.41 6.69e-06 ***
-## Residuals    1654 2056.6   1.243                     
+##                        Df Sum Sq Mean Sq F value Pr(>F)    
+## factor(conglomerado)    3  365.8  121.92   117.4 <2e-16 ***
+## Residuals            1652 1716.2    1.04                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ``` r
 # ANOVA para la variable Restricciones Migratorias
-anova_migrantes <- aov(c37_05 ~ conglomerado, data = elsoc)
+anova_migrantes <- aov(c37_05 ~ factor(conglomerado), data = elsoc)
 summary(anova_migrantes)
 ```
 
 ```
-##                Df Sum Sq Mean Sq F value Pr(>F)
-## conglomerado    1    0.9  0.8878    1.32  0.251
-## Residuals    1654 1112.5  0.6726
+##                        Df Sum Sq Mean Sq F value   Pr(>F)    
+## factor(conglomerado)    3   38.8   12.93   19.87 1.18e-12 ***
+## Residuals            1652 1074.6    0.65                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ``` r
 # ANOVA para la variable Educación Sexual (Padres)
-anova_sexual <- aov(c37_06 ~ conglomerado, data = elsoc)
+anova_sexual <- aov(c37_06 ~ factor(conglomerado), data = elsoc)
 summary(anova_sexual)
 ```
 
 ```
-##                Df Sum Sq Mean Sq F value Pr(>F)    
-## conglomerado    1  201.9  201.92   172.1 <2e-16 ***
-## Residuals    1654 1940.9    1.17                   
+##                        Df Sum Sq Mean Sq F value Pr(>F)    
+## factor(conglomerado)    3   1113   371.1   595.4 <2e-16 ***
+## Residuals            1652   1030     0.6                   
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 ``` r
 # ANOVA para la variable Restricción a Empresas Contaminantes
-anova_contaminacion <- aov(c37_07 ~ conglomerado, data = elsoc)
+anova_contaminacion <- aov(c37_07 ~ factor(conglomerado), data = elsoc)
 summary(anova_contaminacion)
 ```
 
 ```
-##                Df Sum Sq Mean Sq F value Pr(>F)
-## conglomerado    1    0.5  0.5348   0.738   0.39
-## Residuals    1654 1198.8  0.7248
-```
-
-``` r
-# ANOVA para la variable Gasto Social Focalizado
-anova_gasto <- aov(c37_08 ~ conglomerado, data = elsoc)
-summary(anova_gasto)
-```
-
-```
-##                Df Sum Sq Mean Sq F value   Pr(>F)    
-## conglomerado    1   32.5   32.48   29.99 5.01e-08 ***
-## Residuals    1654 1791.5    1.08                     
+##                        Df Sum Sq Mean Sq F value   Pr(>F)    
+## factor(conglomerado)    3   23.2   7.722   10.85 4.67e-07 ***
+## Residuals            1652 1176.1   0.712                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-e acuerdo con los resultados del ANOVA, las variables que muestran diferencias significativas entre los conglomerados son **Adopción Homoparental**, **Aborto**, **Capitalización Individual de Pensiones**, **Educación Sexual (Padres)** y **Gasto Social Focalizado**. Estas variables parecen jugar un papel clave en la diferenciación de los perfiles ideológicos dentro de la muestra. En cambio, las variables **Rol del Estado en Educación**, **Restricciones Migratorias**, y **Restricción a Empresas Contaminantes** no presentan diferencias significativas entre los conglomerados, lo que sugiere que estas opiniones no contribuyen de manera relevante a la definición de los grupos ideológicos identificados.
+``` r
+# ANOVA para la variable Gasto Social Focalizado
+anova_gasto <- aov(c37_08 ~ factor(conglomerado), data = elsoc)
+summary(anova_gasto)
+```
+
+```
+##                        Df Sum Sq Mean Sq F value Pr(>F)    
+## factor(conglomerado)    3  290.4   96.81   104.3 <2e-16 ***
+## Residuals            1652 1533.5    0.93                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+De acuerdo con los resultados del ANOVA, las variables que muestran diferencias significativas entre los conglomerados son **Adopción Homoparental**, **Aborto**, **Capitalización Individual de Pensiones**, **Educación Sexual (Padres)** y **Gasto Social Focalizado**. Estas variables parecen jugar un papel clave en la diferenciación de los perfiles ideológicos dentro de la muestra. En cambio, las variables **Rol del Estado en Educación**, **Restricciones Migratorias**, y **Restricción a Empresas Contaminantes** no presentan diferencias significativas entre los conglomerados, lo que sugiere que estas opiniones no contribuyen de manera relevante a la definición de los grupos ideológicos identificados.
 
 ## 8. Visualización de Conglomerados
 

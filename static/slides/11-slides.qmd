@@ -8,12 +8,11 @@ format:
     slide-number: true
     auto-fit: true
     logo: images/logo.png
-editor: visual
 ---
 
 # Técnicas de interdependencia
 
-## Tipos de técncias multivariadas {.smaller background-color="white"}
+## Tipos de técnicas multivariadas {.smaller background-color="white"}
 
 En el análisis multivariable, las técnicas se pueden clasificar en **técnicas de dependencia** y **técnicas de interdependencia**. La selección de la técnica adecuada depende de la naturaleza de la pregunta de investigación y la relación entre las variables.
 
@@ -91,12 +90,12 @@ En la ejecución de un análisis de conglomerados se siguen una serie de fases q
 3.  **Elección de Medidas de Distancia y Proximidad**:
     -   Elegir las medidas de distancia y proximidad para proceder a la formación de los conglomerados. Esta elección depende en gran medida de la naturaleza de las variables incluidas en el análisis. Para variables métricas, hay más opciones disponibles, mientras que para variables no métricas (nominales u ordinales), se utilizan medidas de co-ocurrencia.
 4.  **Decisión sobre el Número de Conglomerados**:
-    -   Determinar el número de conglomerados que se constituirán, basado en criterios estadísticos, visualizaciones (como dendogramas) o criterios teóricos.
+    -   Determinar el número de conglomerados que se constituirán, basado en criterios estadísticos, visualizaciones (como dendrogramas) o criterios teóricos.
 
 ## Pasos Principales en el Análisis de Conglomerados {.smaller background-color="white"}
 
 5.  **Presentación e Interpretación de Resultados**:
-    -   Presentar e interpretar los resultados obtenidos, tanto en su forma numérica (tablas de aglomeración) como gráfica (dendogramas y gráficos de témpanos).
+    -   Presentar e interpretar los resultados obtenidos, tanto en su forma numérica (tablas de aglomeración) como gráfica (dendrogramas y gráficos de témpanos).
 6.  **Validación de Resultados**:
     -   Validar los resultados del análisis. Si los resultados no alcanzan la calificación de válidos, se deben introducir modificaciones para mejorar la solución, lo cual implica repetir el proceso desde el principio, revisando las decisiones previas.
 
@@ -140,17 +139,17 @@ Los **métodos no jerárquicos** no siguen un proceso jerárquico de agrupamient
 
 ## Métodos Jerárquicos vs No Jerárquicos {.smaller background-color="white"}
 
-| **MÉTODOS JERÁRQUICOS**                                                                                                                             | **MÉTODOS NO JERÁRQUICOS**                                                                                                                                |
+| **MÉTODOS JERÁRQUICOS** | **MÉTODOS NO JERÁRQUICOS** |
 |-----------------------------------|-------------------------------------|
-| Dificultad para determinar el mejor algoritmo de clasificación a priori.                                                                            | Dificultad para conocer el número "real" de conglomerados a priori. Esto puede influir en la calidad del análisis.                                        |
+| Dificultad para determinar el mejor algoritmo de clasificación a priori. | Dificultad para conocer el número "real" de conglomerados a priori. Esto puede influir en la calidad del análisis. |
 | Operar con muestras grandes (\>200) es complicado debido al tamaño de la matriz de similitud. La lectura de dendogramas y gráficos se hace difícil. | Formar todas las particiones posibles para encontrar la óptima supone realizar cálculos iterativos muy complejos, lo cual es difícil en muestras grandes. |
 
 ## Métodos Jerárquicos vs No Jerárquicos {.smaller background-color="white"}
 
-| **MÉTODOS JERÁRQUICOS**                                                                                        | **MÉTODOS NO JERÁRQUICOS**                                                                                                                       |
+| **MÉTODOS JERÁRQUICOS** | **MÉTODOS NO JERÁRQUICOS** |
 |-----------------------------------|-------------------------------------|
-| Una mala partición inicial no puede modificarse en etapas posteriores, afectando la calidad del resultado.     | Una decisión inicial incorrecta sobre el número de conglomerados puede llevar a clasificaciones erróneas que perjudiquen los resultados finales. |
-| Mayor predisposición a detectar "atípicos" (outliers), lo cual puede distorsionar los conglomerados generados. | La complejidad de los cálculos hace que el proceso sea muy dependiente de la capacidad del ordenador, afectando la eficiencia del análisis.      |
+| Una mala partición inicial no puede modificarse en etapas posteriores, afectando la calidad del resultado. | Una decisión inicial incorrecta sobre el número de conglomerados puede llevar a clasificaciones erróneas que perjudiquen los resultados finales. |
+| Mayor predisposición a detectar "atípicos" (outliers), lo cual puede distorsionar los conglomerados generados. | La complejidad de los cálculos hace que el proceso sea muy dependiente de la capacidad del ordenador, afectando la eficiencia del análisis. |
 
 ## Distancia en el Análisis de Conglomerados {.smaller background-color="white"}
 
@@ -171,7 +170,7 @@ Los **métodos no jerárquicos** no siguen un proceso jerárquico de agrupamient
 
 ## Distancia Euclidiana {.smaller background-color="white"}
 
--   La **distancia euclidiana** es la distancia "en línea recta" entre dos puntos en un espacio multidimensional, calculada según el Teorema de Pitágoras. Se utiliza mayormente para variables continuas.
+-   La **distancia euclidiana** es la distancia "en línea recta" entre dos puntos en un espacio multidimensional, calculada como la generalización del Teorema de Pitágoras a n dimensiones. Se utiliza mayormente para variables continuas.
 
 -   **Fórmula Matemática**: La distancia euclidiana entre dos objetos (i, j) se calcula como: $$ d_{ij} = \sqrt{\sum_{k=1}^{p} (x_{ik} - x_{jk})^2} $$
 

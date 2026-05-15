@@ -57,7 +57,7 @@ resultados <- data.frame(
 kable(resultados, caption = "Medias de Opiniones en Encuesta ELSOC", format = "html", align = "l", col.names = c("Descripción", "Media"))
 ```
 
-Las variables corresponden a escalas de acuerdo (¿Cuán de acuerdo o en desacuerdo está usted con cada una de las siguientes afirmaciones?) donde 1 inidca menor acuerdo y 5 mayor acuerdo. 
+Las variables corresponden a escalas de acuerdo (¿Cuán de acuerdo o en desacuerdo está usted con cada una de las siguientes afirmaciones?) donde 1 indica menor acuerdo y 5 mayor acuerdo. 
 
 ##  2. Análisis de Correlación entre Variables
 
@@ -104,7 +104,7 @@ El siguiente paso consiste en realizar el análisis de conglomerados utilizando 
 ```{r k-means-clustering}
 set.seed(123)  # Para reproducibilidad
 
-# Aplicar k-medias con 3 conglomerados
+# Aplicar k-medias con 4 conglomerados
 kmeans_result <- kmeans(elsoc_vars, centers = 4, nstart = 25)
 
 # Agregar los conglomerados al dataframe original
@@ -149,7 +149,7 @@ caracterizacion_tidy %>%
 ```
 
 **Conglomerado 1**: 
-Este grupo tiene un perfil ideológico más conservador en aspectos como la **adopción homoparental** (promedio bajo de 3.37) y el **aborto** (2.00), lo cual sugiere una postura más tradicional en temas sociales. De igual forma, muestran un apoyo alto a la **capitalización individual de pensiones** (4.00). Este grupo está compuesto por **421 individuos**.
+Este grupo tiene un perfil ideológico más conservador en aspectos como la **adopción homoparental** (promedio moderado de 3.37) y el **aborto** (2.00), lo cual sugiere una postura más tradicional en temas sociales. De igual forma, muestran un apoyo alto a la **capitalización individual de pensiones** (4.00). Este grupo está compuesto por **421 individuos**.
 
 **Conglomerado 2**:
 Este conglomerado se caracteriza por posturas moderadamente favorables hacia la **adopción homoparental** (3.89) y el **aborto** (2.91). Tienen un perfil más intervencionista en temas del **rol del Estado en la educación** (4.07) y **restricciones migratorias** (4.28). Este grupo incluye **441 individuos**, lo cual sugiere que representa un perfil relativamente común en la muestra.
@@ -168,39 +168,39 @@ El análisis se realizó individualmente para cada una de las ocho variables, y 
 
 ```{r}
 # ANOVA para la variable Adopción Homoparental
-anova_adopcion <- aov(c37_01 ~ conglomerado, data = elsoc)
+anova_adopcion <- aov(c37_01 ~ factor(conglomerado), data = elsoc)
 summary(anova_adopcion)
 
 # ANOVA para la variable Aborto
-anova_aborto <- aov(c37_02 ~ conglomerado, data = elsoc)
+anova_aborto <- aov(c37_02 ~ factor(conglomerado), data = elsoc)
 summary(anova_aborto)
 
 # ANOVA para la variable Rol del Estado en Educación
-anova_educacion <- aov(c37_03 ~ conglomerado, data = elsoc)
+anova_educacion <- aov(c37_03 ~ factor(conglomerado), data = elsoc)
 summary(anova_educacion)
 
 # ANOVA para la variable Capitalización Individual Pensiones
-anova_pensiones <- aov(c37_04 ~ conglomerado, data = elsoc)
+anova_pensiones <- aov(c37_04 ~ factor(conglomerado), data = elsoc)
 summary(anova_pensiones)
 
 # ANOVA para la variable Restricciones Migratorias
-anova_migrantes <- aov(c37_05 ~ conglomerado, data = elsoc)
+anova_migrantes <- aov(c37_05 ~ factor(conglomerado), data = elsoc)
 summary(anova_migrantes)
 
 # ANOVA para la variable Educación Sexual (Padres)
-anova_sexual <- aov(c37_06 ~ conglomerado, data = elsoc)
+anova_sexual <- aov(c37_06 ~ factor(conglomerado), data = elsoc)
 summary(anova_sexual)
 
 # ANOVA para la variable Restricción a Empresas Contaminantes
-anova_contaminacion <- aov(c37_07 ~ conglomerado, data = elsoc)
+anova_contaminacion <- aov(c37_07 ~ factor(conglomerado), data = elsoc)
 summary(anova_contaminacion)
 
 # ANOVA para la variable Gasto Social Focalizado
-anova_gasto <- aov(c37_08 ~ conglomerado, data = elsoc)
+anova_gasto <- aov(c37_08 ~ factor(conglomerado), data = elsoc)
 summary(anova_gasto)
 ```
 
-e acuerdo con los resultados del ANOVA, las variables que muestran diferencias significativas entre los conglomerados son **Adopción Homoparental**, **Aborto**, **Capitalización Individual de Pensiones**, **Educación Sexual (Padres)** y **Gasto Social Focalizado**. Estas variables parecen jugar un papel clave en la diferenciación de los perfiles ideológicos dentro de la muestra. En cambio, las variables **Rol del Estado en Educación**, **Restricciones Migratorias**, y **Restricción a Empresas Contaminantes** no presentan diferencias significativas entre los conglomerados, lo que sugiere que estas opiniones no contribuyen de manera relevante a la definición de los grupos ideológicos identificados.
+De acuerdo con los resultados del ANOVA, las variables que muestran diferencias significativas entre los conglomerados son **Adopción Homoparental**, **Aborto**, **Capitalización Individual de Pensiones**, **Educación Sexual (Padres)** y **Gasto Social Focalizado**. Estas variables parecen jugar un papel clave en la diferenciación de los perfiles ideológicos dentro de la muestra. En cambio, las variables **Rol del Estado en Educación**, **Restricciones Migratorias**, y **Restricción a Empresas Contaminantes** no presentan diferencias significativas entre los conglomerados, lo que sugiere que estas opiniones no contribuyen de manera relevante a la definición de los grupos ideológicos identificados.
 
 ## 8. Visualización de Conglomerados
 

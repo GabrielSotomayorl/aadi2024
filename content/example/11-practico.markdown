@@ -23,7 +23,7 @@ El objetivo de este práctico es realizar un análisis de conglomerados jerárqu
 En este primer paso, vamos a cargar los datos y limpiarlos. Utilizaremos la base de datos **World Development Indicators (WDI)** del Banco Mundial, que contiene datos sobre varios indicadores socioeconómicos a nivel mundial.
 
 
-```r
+``` r
 if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
 pacman::p_load(dplyr, cluster, factoextra, WDI, knitr, kableExtra)
 
@@ -51,13 +51,20 @@ head(indicadores_clean)
 ```
 
 ```
-##      country gdp_per_capita education_exp life_expectancy secondary_enrollment
-## 2  Argentina       8500.838       5.27690          75.892            112.41668
-## 5   Barbados      17028.414       4.16860          77.393            104.71501
-## 6     Belize       5185.158       5.21632          72.854             85.94648
-## 7    Bolivia       3068.813       8.43711          64.467             90.00483
-## 8     Brazil       6923.700       5.77150          74.009            104.12600
-## 11     Chile      13162.591       5.62993          79.377            103.69169
+##           country gdp_per_capita education_exp life_expectancy
+## 2       Argentina       8535.599       5.27690          75.878
+## 5        Barbados      19194.492       3.86530          76.647
+## 6          Belize       5238.541       5.21302          71.580
+## 7         Bolivia       3580.968       8.43711          62.906
+## 8          Brazil       7074.194       5.77149          74.506
+## 10 Cayman Islands      82338.798       1.45542          79.230
+##    secondary_enrollment
+## 2             112.37673
+## 5             104.31899
+## 6              86.18866
+## 7              88.86724
+## 8             103.88266
+## 10             84.09091
 ```
 
 Hemos descargado datos socioeconómicos que incluyen el PIB per cápita, el gasto en educación, la esperanza de vida y la tasa de matrícula en educación secundaria para los países de América Latina en el año 2020. Luego limpiamos el dataset eliminando observaciones con valores faltantes.
@@ -67,15 +74,15 @@ Hemos descargado datos socioeconómicos que incluyen el PIB per cápita, el gast
 Antes de proceder al análisis de conglomerados, es importante entender las relaciones entre nuestras variables mediante un análisis de correlación. Esto nos permite identificar si algunas variables están altamente correlacionadas.
 
 
-```r
+``` r
 library(corrplot)
 ```
 
 ```
-## corrplot 0.92 loaded
+## corrplot 0.95 loaded
 ```
 
-```r
+``` r
 # Calcular la matriz de correlación
 corr_matrix <- cor(indicadores_clean %>% select(-country))
 # Visualizar la matriz de correlación con números y colores
@@ -92,7 +99,7 @@ La matriz de correlación nos ayuda a visualizar la relación entre las diferent
 Antes de proceder al análisis de conglomerados, es fundamental estandarizar las variables. Esto se debe a que las variables tienen diferentes unidades y escalas, lo que podría sesgar el cálculo de las distancias.
 
 
-```r
+``` r
 # Estandarizar las variables
 indicadores_scaled <- indicadores_clean %>%
   select(gdp_per_capita, education_exp, life_expectancy, secondary_enrollment) %>%
@@ -104,12 +111,12 @@ head(indicadores_scaled)
 
 ```
 ##    gdp_per_capita education_exp life_expectancy secondary_enrollment
-## 2       0.1100182     0.3447971       0.7278399            0.9495850
-## 5       2.0443900    -0.5301115       1.1816593            0.5767303
-## 6      -0.6421015     0.2969745      -0.1906833           -0.3318956
-## 7      -1.1221675     2.8395147      -2.7264482           -0.1354220
-## 8      -0.2477355     0.7352420       0.1585248            0.5482149
-## 11      1.1674775     0.6234845       1.7815111            0.5271890
+## 2      -0.2118599     0.1552978       0.6154511            0.8295064
+## 5       0.4976986    -0.5713154       0.8167398            0.4302505
+## 6      -0.4313439     0.1224160      -0.5095668           -0.4680960
+## 7      -0.5416879     1.7819984      -2.7800194           -0.3353742
+## 8      -0.3091451     0.4098854       0.2563248            0.4086305
+## 10      4.7011913    -1.8117876       1.4928499           -0.5720380
 ```
 
 Hemos estandarizado las variables para que tengan media cero y desviación estándar uno. Esto asegura que cada variable contribuya de igual manera al análisis de distancia y no domine debido a su escala.
@@ -121,7 +128,7 @@ Hemos estandarizado las variables para que tengan media cero y desviación está
 El siguiente paso consiste en calcular la matriz de distancias, que será utilizada para formar los conglomerados. Utilizaremos la distancia euclidiana, la cual es adecuada para datos métricos.
 
 
-```r
+``` r
 # Calcular la matriz de distancias
 set.seed(123)  # Para reproducibilidad
 distancia <- dist(indicadores_scaled, method = "euclidean")
@@ -134,7 +141,7 @@ Utilizamos la distancia euclidiana porque nos interesa medir la cercanía entre 
 Procedemos ahora a realizar el análisis de conglomerados jerárquico, utilizando el método de enlace completo (*complete linkage*). Este método busca maximizar la distancia entre conglomerados, lo cual resulta en grupos compactos.
 
 
-```r
+``` r
 # Realizar el análisis de conglomerados jerárquico (método de enlace completo)
 hc <- hclust(distancia, method = "complete")
 
@@ -151,14 +158,44 @@ El dendrograma muestra cómo los países se agrupan de manera jerárquica. La al
 Para determinar el número óptimo de conglomerados, podemos observar el dendrograma y usar métodos cuantitativos, como el método de la altura del dendrograma (codo o silueta).
 
 
-```r
+``` r
 # Método del codo para determinar el número óptimo de conglomerados
 fviz_nbclust(indicadores_scaled, FUN = hcut, method = "wss")
 ```
 
+```
+## Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## ℹ The deprecated feature was likely used in the ggpubr package.
+##   Please report the issue at <https://github.com/kassambara/ggpubr/issues>.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```
+## Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## ℹ The deprecated feature was likely used in the ggpubr package.
+##   Please report the issue at <https://github.com/kassambara/ggpubr/issues>.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## ℹ The deprecated feature was likely used in the ggpubr package.
+##   Please report the issue at <https://github.com/kassambara/ggpubr/issues>.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
 <img src="/example/11-practico_files/figure-html/optimal-clusters-1.png" width="672" />
 
-```r
+``` r
 # Índice de silueta para determinar el número óptimo de conglomerados
 fviz_nbclust(indicadores_scaled, FUN = hcut, method = "silhouette")
 ```
@@ -171,10 +208,10 @@ El gráfico del **índice de silueta** nos ayuda a evaluar la cohesión y separa
 
 ## 7. Visualización y Corte del Dendrograma
 
-Con base en el análisis anterior, procedemos a cortar el dendrograma para obtener los conglomerados. Podemos pobrar con distintas cantidades de conglomerados, a fin de observar cual es la mejor agrupación.
+Con base en el análisis anterior, procedemos a cortar el dendrograma para obtener los conglomerados. Podemos probar con distintas cantidades de conglomerados, a fin de observar cual es la mejor agrupación.
 
 
-```r
+``` r
 # Cortar el dendrograma para obtener 3 conglomerados
 plot(hc, labels = indicadores_clean$country, main = "Dendrograma de Clustering Jerárquico", xlab = "País", sub = "", cex = 0.6)
 rect.hclust(hc, k = 2, border = "green")
@@ -184,7 +221,7 @@ rect.hclust(hc, k = 4, border = "red")
 
 <img src="/example/11-practico_files/figure-html/cut-tree-1.png" width="672" />
 
-```r
+``` r
 grupos <- cutree(hc, k = 3)
 
 # Agregar los conglomerados al dataframe original
@@ -198,7 +235,7 @@ Hemos decidido cortar el dendrograma para obtener **3 conglomerados**, represent
 A continuación, caracterizamos los conglomerados obtenidos, calculando los promedios de cada variable por conglomerado.
 
 
-```r
+``` r
 # Caracterización de los conglomerados
 caracterizacion <- indicadores_clean %>%
   group_by(conglomerado) %>%
@@ -216,7 +253,7 @@ caracterizacion %>%
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width = F)
 ```
 
-<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table table-striped table-hover table-condensed table-responsive" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption><span id="tab:characterize-clusters"></span>Table 1: Caracterización de los Conglomerados</caption>
  <thead>
   <tr>
@@ -231,26 +268,26 @@ caracterizacion %>%
 <tbody>
   <tr>
    <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 12406.023 </td>
-   <td style="text-align:right;"> 4.987917 </td>
-   <td style="text-align:right;"> 76.43812 </td>
-   <td style="text-align:right;"> 112.00500 </td>
-   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 12277.545 </td>
+   <td style="text-align:right;"> 5.401196 </td>
+   <td style="text-align:right;"> 75.22529 </td>
+   <td style="text-align:right;"> 110.31345 </td>
+   <td style="text-align:right;"> 14 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 5694.710 </td>
-   <td style="text-align:right;"> 4.472484 </td>
-   <td style="text-align:right;"> 72.36085 </td>
-   <td style="text-align:right;"> 81.20010 </td>
-   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 5180.426 </td>
+   <td style="text-align:right;"> 4.771522 </td>
+   <td style="text-align:right;"> 71.06983 </td>
+   <td style="text-align:right;"> 79.47378 </td>
+   <td style="text-align:right;"> 12 </td>
   </tr>
   <tr>
    <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 3068.813 </td>
-   <td style="text-align:right;"> 8.437110 </td>
-   <td style="text-align:right;"> 64.46700 </td>
-   <td style="text-align:right;"> 90.00483 </td>
+   <td style="text-align:right;"> 82338.798 </td>
+   <td style="text-align:right;"> 1.455420 </td>
+   <td style="text-align:right;"> 79.23000 </td>
+   <td style="text-align:right;"> 84.09091 </td>
    <td style="text-align:right;"> 1 </td>
   </tr>
 </tbody>
@@ -271,7 +308,7 @@ Esta caracterización nos permite entender mejor las diferencias en el desarroll
 Finalmente, visualizamos los conglomerados en un gráfico de dispersión para entender mejor la formación de los grupos.
 
 
-```r
+``` r
 # Visualización de los grupos en un gráfico de dispersión
 fviz_cluster(list(data = indicadores_scaled, cluster = grupos),
              geom = "point", labelsize = 10, main = "Visualización de Conglomerados por País")

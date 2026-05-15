@@ -8,15 +8,13 @@ format:
     slide-number: true
     auto-fit: true
     logo: images/logo.png
-editor: visual
 ---
 
-# Recordatorio de la clase anterior 
+# Recordatorio de la clase anterior
 
-## Tipos de técncias multivariadas {.smaller background-color="white"}
+## Tipos de técnicas multivariadas {.smaller background-color="white"}
 
 En el análisis multivariable, las técnicas se pueden clasificar en **técnicas de dependencia** y **técnicas de interdependencia**. La selección de la técnica adecuada depende de la naturaleza de la pregunta de investigación y la relación entre las variables.
-
 
 Las **técnicas de dependencia** se utilizan cuando existe una clara distinción entre variables dependientes (o respuesta) y variables independientes (o predictoras). Es decir, hay una relación de dependencia que se quiere modelar y analizar. El objetivo principal de estas técnicas es estimar el efecto de las variables independientes sobre las dependientes.
 
@@ -55,12 +53,12 @@ En la ejecución de un análisis de conglomerados se siguen una serie de fases q
 3.  **Elección de Medidas de Distancia y Proximidad**:
     -   Elegir las medidas de distancia y proximidad para proceder a la formación de los conglomerados. Esta elección depende en gran medida de la naturaleza de las variables incluidas en el análisis. Para variables métricas, hay más opciones disponibles, mientras que para variables no métricas (nominales u ordinales), se utilizan medidas de co-ocurrencia.
 4.  **Decisión sobre el Número de Conglomerados**:
-    -   Determinar el número de conglomerados que se constituirán, basado en criterios estadísticos, visualizaciones (como dendogramas) o criterios teóricos.
+    -   Determinar el número de conglomerados que se constituirán, basado en criterios estadísticos, visualizaciones (como dendrogramas) o criterios teóricos.
 
 ## Pasos Principales en el Análisis de Conglomerados {.smaller background-color="white"}
 
 5.  **Presentación e Interpretación de Resultados**:
-    -   Presentar e interpretar los resultados obtenidos, tanto en su forma numérica (tablas de aglomeración) como gráfica (dendogramas y gráficos de témpanos).
+    -   Presentar e interpretar los resultados obtenidos, tanto en su forma numérica (tablas de aglomeración) como gráfica (dendrogramas y gráficos de témpanos).
 6.  **Validación de Resultados**:
     -   Validar los resultados del análisis. Si los resultados no alcanzan la calificación de válidos, se deben introducir modificaciones para mejorar la solución, lo cual implica repetir el proceso desde el principio, revisando las decisiones previas.
 
@@ -102,7 +100,6 @@ Los **métodos no jerárquicos** no siguen un proceso jerárquico de agrupamient
     -   **Ventaja**: Es eficiente en grandes conjuntos de datos.
     -   **Desventaja**: Es sensible a los valores iniciales y puede converger a soluciones subóptimas si no se eligen buenos centroides.
 
-
 ## Distancia en el Análisis de Conglomerados {.smaller background-color="white"}
 
 -   Las decisiones sobre cuáles objetos combinar para formar un conglomerado se basan en estas matrices.
@@ -116,7 +113,7 @@ Los **métodos no jerárquicos** no siguen un proceso jerárquico de agrupamient
 
 ## Distancia Euclidiana {.smaller background-color="white"}
 
--   La **distancia euclidiana** es la distancia "en línea recta" entre dos puntos en un espacio multidimensional, calculada según el Teorema de Pitágoras. Se utiliza mayormente para variables continuas.
+-   La **distancia euclidiana** es la distancia "en línea recta" entre dos puntos en un espacio multidimensional, calculada como la generalización del Teorema de Pitágoras a n dimensiones. Se utiliza mayormente para variables continuas.
 
 -   **Fórmula Matemática**: La distancia euclidiana entre dos objetos (i, j) se calcula como: $$ d_{ij} = \sqrt{\sum_{k=1}^{p} (x_{ik} - x_{jk})^2} $$
 
@@ -141,8 +138,8 @@ Los **métodos no jerárquicos** no siguen un proceso jerárquico de agrupamient
 
     -   **Reducción de Influencia Desigual**: La estandarización reduce la influencia de variables con grandes valores numéricos, asegurando que todas las variables contribuyan de manera equitativa al cálculo de la distancia.
     -   **Posibles Desventajas**: La estandarización puede minimizar diferencias que podrían ser relevantes en el contexto del análisis. Esto es especialmente cierto cuando la variabilidad en una variable tiene un significado sustancial importante.
-    
-## Obtrención de conglomerados  {.smaller background-color="white"}
+
+## Obtención de conglomerados {.smaller background-color="white"}
 
 A la elección de la medida de similaridad o de distancia le sigue la obtención de la solución de conglomerados, en conformidad con las diversas decisiones adoptadas. Es decir, el método de conglomeración, el algoritmo de clasificación y la medida de similaridad o distancia. Antes de proceder a la interpretación de los resultados, se debe dirimir una cuestión crucial: la referente al número de conglomerados a retener entre las distintas alternativas posibles de clasificación de los objetos de interés.
 
@@ -154,9 +151,9 @@ La finalidad de todo análisis de conglomerados es la clasificación de una seri
 
 No existe una respuesta única para esta cuestión, pero existen varios procedimientos alternativos que se pueden aplicar para determinar el número idóneo de conglomerados:
 
-- **Criterios Teóricos**: Seguir algún criterio teórico que fundamente la elección de un número de conglomerados específico. Es recomendable probar diferentes soluciones de clasificación y luego elegir aquella que tenga mayor significado teórico y estadístico.
-- **Coeficientes de Conglomeración**: En la conglomeración jerárquica, se pueden observar los coeficientes de conglomeración, también llamados "coeficientes de fusión" o "coeficientes de aglomeración". Estos coeficientes indican el valor numérico (medida de distancia o similitud) que propicia la unión de objetos para formar conglomerados. La solución idónea corresponde al número de conglomerados previo al "salto" apreciable en el valor del coeficiente de conglomeración.
-- **Dendograma**: Además, la información proporcionada por el dendograma es uno de los gráficos más característicos en la conglomeración y puede ser útil para la determinación del número de conglomerados 
+-   **Criterios Teóricos**: Seguir algún criterio teórico que fundamente la elección de un número de conglomerados específico. Es recomendable probar diferentes soluciones de clasificación y luego elegir aquella que tenga mayor significado teórico y estadístico.
+-   **Coeficientes de Conglomeración**: En la conglomeración jerárquica, se pueden observar los coeficientes de conglomeración, también llamados "coeficientes de fusión" o "coeficientes de aglomeración". Estos coeficientes indican el valor numérico (medida de distancia o similitud) que propicia la unión de objetos para formar conglomerados. La solución idónea corresponde al número de conglomerados previo al "salto" apreciable en el valor del coeficiente de conglomeración.
+-   **Dendrograma**: Además, la información proporcionada por el dendrograma es uno de los gráficos más característicos en la conglomeración y puede ser útil para la determinación del número de conglomerados
 
 Cuando se observan varias variaciones o "saltos" en los coeficientes, puede resultar difícil decidir cuál es relevante. Esta subjetividad es una crítica frecuente a los métodos de conglomeración jerárquica.
 
@@ -164,7 +161,7 @@ Cuando se observan varias variaciones o "saltos" en los coeficientes, puede resu
 
 ## Análisis de conglomerados Jerárquico {.smaller background-color="white"}
 
-### Historial de Conglomeración 
+### Historial de Conglomeración
 
 ```{r}
 if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
@@ -198,36 +195,36 @@ distancia <- dist(indicadores_scaled, method = "euclidean")
 hc <- hclust(distancia, method = "complete")
 ```
 
+-   El historial de conglomeración es una tabla que resume el proceso de constitución de los conglomerados.
+-   Incluye las siguientes columnas:
+    -   **Etapa**: número de la etapa del análisis.
+    -   **Objetos combinados**: los dos objetos o conglomerados que se combinan en cada etapa.
+    -   **Coeficiente**: valor de la medida de distancia o similitud utilizada.
+-   **Interpretación del Historial**:
+    -   Ayuda a determinar el número óptimo de conglomerados observando los saltos grandes en los coeficientes.
+    -   Útil para identificar conglomerados atípicos que se unen en etapas tardías.
 
-- El historial de conglomeración es una tabla que resume el proceso de constitución de los conglomerados.
-- Incluye las siguientes columnas:
-  - **Etapa**: número de la etapa del análisis.
-  - **Objetos combinados**: los dos objetos o conglomerados que se combinan en cada etapa.
-  - **Coeficiente**: valor de la medida de distancia o similitud utilizada.
-  
-- **Interpretación del Historial**:
-  - Ayuda a determinar el número óptimo de conglomerados observando los saltos grandes en los coeficientes.
-  - Útil para identificar conglomerados atípicos que se unen en etapas tardías.
-  
 ## Análisis de conglomerados Jerárquico {.smaller background-color="white"}
 
-### Historial de Conglomeración 
+### Historial de Conglomeración
+
 ```{r}
 hist<-data.frame(1: length(hc$merge[,1]),hc$merge[,1],hc$merge[,2], hc$height)
 colnames(hist) <- c("Paso", "Cluster1", "Cluster2", "Altura")
 head(hist,20)
 ```
 
+## Análisis de conglomerados Jerárquico {.smaller background-color="white"}
+
+### Conglomerado de Pertenencia
+
+-   Tabla que muestra la asignación de objetos a conglomerados.
+-   Puede obtenerse para una única solución o un rango de soluciones definido previamente.
+-   **Utilidad**: Permite conocer a qué conglomerado pertenece cada objeto, facilitando la interpretación del análisis.
 
 ## Análisis de conglomerados Jerárquico {.smaller background-color="white"}
-### Conglomerado de Pertenencia 
 
-- Tabla que muestra la asignación de objetos a conglomerados.
-- Puede obtenerse para una única solución o un rango de soluciones definido previamente.
-- **Utilidad**: Permite conocer a qué conglomerado pertenece cada objeto, facilitando la interpretación del análisis.
-
-## Análisis de conglomerados Jerárquico {.smaller background-color="white"}
-### Conglomerado de Pertenencia 
+### Conglomerado de Pertenencia
 
 ```{r}
 grupos <- cutree(hc, k = 3)
@@ -237,13 +234,12 @@ indicadores_clean$conglomerado <- grupos
 head(indicadores_clean[,c(-2,-3,-4,-5)], 20)
 ```
 
-
 ## Dendograma {.smaller background-color="white"}
 
-- Muestra el proceso de aglomeración en un formato jerárquico.
-- Ayuda a identificar el número de conglomerados adecuados.
-- **Interpretación**:
-  - Las ramas más largas indican conglomerados que se formaron más tarde en el proceso, lo que puede ser un indicador de conglomerados menos homogéneos.
+-   Muestra el proceso de aglomeración en un formato jerárquico.
+-   Ayuda a identificar el número de conglomerados adecuados.
+-   **Interpretación**:
+    -   Las ramas más largas indican conglomerados que se formaron más tarde en el proceso, lo que puede ser un indicador de conglomerados menos homogéneos.
 
 ## Dendograma {.smaller background-color="white"}
 
@@ -252,25 +248,23 @@ plot(hc, labels = indicadores_clean$country, main = "Dendrograma de Clustering J
 rect.hclust(hc, k = 3, border = "blue")
 ```
 
-
 # Análisis de Conglomerados No Jerárquico
 
 ## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
 
 ### Centros de los Conglomerados
 
-- Los **centroides** de cada conglomerado se calculan iterativamente.
-- Se presenta información de los centros **iniciales** y **finales**.
-- La medida de distancia utilizada para reasignar los objetos es la **distancia euclídea**.
-- **Iteraciones**:
-  - Los centroides iniciales y finales normalmente no coinciden, reflejando la evolución de la composición de los conglomerados durante el proceso.
-  - Cada iteración busca minimizar la distancia total dentro de los conglomerados.
-
+-   Los **centroides** de cada conglomerado se calculan iterativamente.
+-   Se presenta información de los centros **iniciales** y **finales**.
+-   La medida de distancia utilizada para reasignar los objetos es la **distancia euclídea**.
+-   **Iteraciones**:
+    -   Los centroides iniciales y finales normalmente no coinciden, reflejando la evolución de la composición de los conglomerados durante el proceso.
+    -   Cada iteración busca minimizar la distancia total dentro de los conglomerados.
 
 ## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
 
 ### Centros de los Conglomerados
-  
+
 ```{r, results='asis'}
 if (!requireNamespace("pacman", quietly = TRUE)) install.packages("pacman")
 pacman::p_load(dplyr,factoextra , corrplot, knitr, kableExtra)
@@ -325,49 +319,46 @@ caracterizacion_tidy %>%
 
 ```
 
+## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
+
+### Tabla ANOVA
+
+-   Evalúa la contribución de cada variable a la diferenciación entre los conglomerados.
+-   La tabla ANOVA incluye:
+    -   **Medias Cuadráticas entre conglomerados** y **dentro de conglomerado**.
+    -   **Estadístico F**: indica qué variables diferencian mejor entre los conglomerados.
+-   **Interpretación**:
+    -   Un **valor F** alto sugiere que la variable tiene un papel importante en la diferenciación de los conglomerados.
+    -   **Significancia estadística**: Se utiliza para identificar qué variables deben ser consideradas al interpretar las características distintivas de los conglomerados.
 
 ## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
 
-### Tabla ANOVA 
-
-- Evalúa la contribución de cada variable a la diferenciación entre los conglomerados.
-- La tabla ANOVA incluye:
-  - **Medias Cuadráticas entre conglomerados** y **dentro de conglomerado**.
-  - **Estadístico F**: indica qué variables diferencian mejor entre los conglomerados.
-- **Interpretación**:
-  - Un **valor F** alto sugiere que la variable tiene un papel importante en la diferenciación de los conglomerados.
-  - **Significancia estadística**: Se utiliza para identificar qué variables deben ser consideradas al interpretar las características distintivas de los conglomerados.
-  
-## Tablas de Resultados No Jerárquico {.smaller background-color="white"}
-
-### Tabla ANOVA 
+### Tabla ANOVA
 
 ```{r, echo=TRUE}
 # ANOVA para la variable Aborto
-anova_aborto <- aov(c37_02 ~ conglomerado, data = elsoc)
+anova_aborto <- aov(c37_02 ~ factor(conglomerado), data = elsoc)
 summary(anova_aborto)
 
 # ANOVA para la variable Rol del Estado en Educación
-anova_educacion <- aov(c37_03 ~ conglomerado, data = elsoc)
+anova_educacion <- aov(c37_03 ~ factor(conglomerado), data = elsoc)
 summary(anova_educacion)
 ```
 
+## Gráficos No Jerárquicos {.smaller background-color="white"}
+
+### Ubicación de Conglomerados y Centros
+
+-   Representación de la ubicación de cada conglomerado y sus centros.
+-   Muestra claramente la distribución espacial de los conglomerados.
+-   **Utilidad**:
+    -   Facilita la identificación de conglomerados bien separados, indicando una buena partición de los datos.
+    -   Permite identificar conglomerados solapados que podrían requerir un ajuste del número de conglomerados.
 
 ## Gráficos No Jerárquicos {.smaller background-color="white"}
 
-### Ubicación de Conglomerados y Centros 
-
-- Representación de la ubicación de cada conglomerado y sus centros.
-- Muestra claramente la distribución espacial de los conglomerados.
-- **Utilidad**:
-  - Facilita la identificación de conglomerados bien separados, indicando una buena partición de los datos.
-  - Permite identificar conglomerados solapados que podrían requerir un ajuste del número de conglomerados.
-
-## Gráficos No Jerárquicos {.smaller background-color="white"}
-
-### Ubicación de Conglomerados y Centros 
+### Ubicación de Conglomerados y Centros
 
 ```{r}
 fviz_cluster(kmeans_result, data = elsoc_vars, geom = "point", main = "Visualización de Conglomerados - K-Means")
 ```
-
